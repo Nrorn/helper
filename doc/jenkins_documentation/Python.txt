@@ -1,0 +1,43 @@
+str.startswith(prefix[, start[, end]])
+Параметры:
+prefix - объект поддерживающий итерацию (кортеж, символ или подстрока).
+start - int, индекс начала поиска, по умолчанию 0, необязательно.
+end - int, индекс конца поиска, по умолчанию len(str), необязательно.
+
+Возвращаемое значение:
+bool, True, если префикс prefix совпал.
+
+
+
+if osname not in distributions.keys():
+
+
+Эта запись на языке Python проверяет, присутствует ли значение osname в ключах словаря distributions или нет.
+
+Описание работы этой записи:
+- osname - это переменная, содержащая значение, которое нужно проверить.
+- distributions - это словарь, в котором ключи и их значения используются для хранения информации о различных дистрибутивах операционной системы.
+
+Выражение osname not in distributions.keys() означает следующее:
+- distributions.keys() - это метод словаря distributions, который возвращает представление ключей словаря в виде итерируемого объекта.
+- osname not in distributions.keys() - это условное выражение, проверяющее, отсутствует ли значение osname в итерируемом объекте, возвращаемом методом keys(). Если значение osname не присутствует в ключах словаря distributions, условие будет истинным, и выполнится соответствующий блок кода.
+
+Пример использования этой записи:
+osname = "ubuntu"
+distributions = {"centos": "7", "debian": "10"}
+
+if osname not in distributions.keys():
+    print(f"{osname} is not in distributions keys.")
+else:
+    print(f"{osname} is in distributions keys.")
+
+
+Результат выполнения:
+ubuntu is not in distributions keys.
+
+
+В этом примере, поскольку "ubuntu" не является ключом в словаре distributions, условие osname not in distributions.keys() является истиной, и результат выводится на экран.
+
+
+
+

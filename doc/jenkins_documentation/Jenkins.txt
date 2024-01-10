@@ -1,0 +1,510 @@
+запуск сборки через консоль
+curl "http://192.168.55.242:8880/job/ntdevel/buildWithParameters?token=build-123&ACTION=build&BRANCH=master"
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+домашняя дериктория jenkins old
+/home/jenkins
+домашняя дериктория new jenkins
+/var/Jenkins_home
+
+при проблема доступа к новому хосту , нужно на сервере где находиться jenkins под sudo su - зайти на уз jenkins и добавить значение knownhost 
+так же при добавлени енового сервера нужно создать папку для доступа к jenkins ln -s /home/g10/jenkins /var/lib/jenkins  в домашней папке пользоватлея g10
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+   steps {
+                withCredentials([usernamePassword(credentialsId: 'e38bcd1d-1b49-456a-8cd5-24f7031bf546', usernameVariable: 'APTLY_USERNAME', passwordVariable: 'APTLY_PASSWORD')]){
+                    sh """ rsync -avz -e "ssh -p 22" /var/lib/jenkins/workspace/ntlog_new_jenkins/repo-candidate/ ${APTLY_USERNAME}@192.168.55.245:/REPO/aptly/repo-candidate """               
+//                      sh " scp -P 22 /var/lib/jenkins/workspace/ntlog_new_jenkins/repo-candidate/ntdevel2_2.3.2-1693811636_bionic_amd64.tar.gz ${APTLY_USERNAME}@192.168.55.245:/REPO/aptly/repo-candidate"
+
+
+
+
+
+
+
+
+рабочий вариант для рабоыт с rsync
+                 steps{
+                     script {
+                            sshagent(['86a8c575-fcbc-4c72-bcd5-5d145576ae73']) {
+                            sh '''
+                            rsync -avz -e "ssh -vv" /var/lib/jenkins/workspace/ntlog_new_jenkins/repo-candidate/* aptly@192.168.55.245:/REPO/aptly/repo-candidate
+                            '''
+                        }
+                    }    
+                }
+-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=       
+
+          gitParameter ( branch: '',
+                     branchFilter: '.*',
+                     defaultValue: 'master',
+                     description: '',
+                     name: 'TAG',
+                     quickFilterEnabled: true,
+                     selectedValue: 'NONE',
+                     sortMode: 'NONE',
+                     tagFilter: '*',
+                     type: 'PT_TAG',
+                     useRepository: '192.168.55.245:/GIT/components/ntdevel')
+
+ branch: Значение по умолчанию для параметра ветки (branch).
+- branchFilter: Регулярное выражение, используемое для фильтрации веток. Только ветки, соответствующие этому выражению, будут отображаться для выбора.
+- defaultValue: Значение, которое будет использоваться по умолчанию, если не выбрано другое значение пользователем.
+- description: Описание параметра, которое будет отображаться для пользователя.
+- name: Имя параметра, которое будет использоваться для ссылки на выбранное значение.
+- quickFilterEnabled: Позволяет включить быстрый фильтр для поиска веток или тегов.
+- selectedValue: Значение по умолчанию, которое будет выбрано при отображении списка веток или тегов.
+- sortMode: Режим сортировки для отображения веток или тегов. Допустимые значения: 'NONE', 'DESCENDING', 'ASCENDING'.
+- tagFilter: Регулярное выражение, используемое для фильтрации тегов. Только теги, соответствующие этому выражению, будут отображаться для выбора.
+- type: Тип параметра. В данном случае, тип параметра - 'PT_TAG', что означает, что выбираться будут только теги из репозитория Git.
+- useRepository: URL репозитория, из которого будут получены ветки или теги для отображения.
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+cleanWs disableDeferredWipeout: true
+checkout([$class: 'GitSCM',
+    branches: [[name: '${CURRENT_GIT_COMMIT}']],
+    extensions: []
+])
+
+1. cleanWs disableDeferredWipeout: true: Эта строка указывает на необходимость очистки рабочего пространства (workspace) перед выполнением шага checkout. disableDeferredWipeout: true отключает отложенную очистку рабочего пространства.
+
+2. checkout([$class: 'GitSCM', branches: [[name: '${CURRENT_GIT_COMMIT}']], extensions: []]): Это сам шаг checkout в Jenkins pipeline. Он выполняет операцию git checkout для клонирования или обновления Git-репозитория.
+
+   - $class: 'GitSCM' указывает на использование GitSCM в качестве класса SCM (Source Code Management) для выполнения операций Git.
+   - branches: [[name: '${CURRENT_GIT_COMMIT}']] определяет список веток, которые нужно проверить или клонировать. name: '${CURRENT_GIT_COMMIT}' указывает на использование переменной CURRENT_GIT_COMMIT, которая, вероятно, содержит имя ветки или коммита Git.
+   - extensions: [] определяет дополнительные расширения GitSCM. В данном случае, пустой массив означает отсутствие дополнительных расширений.
+
+Общий смысл этой записи заключается в выполнении операции git checkout с использованием заданных настроек, чтобы склонировать или обновить Git-репозиторий в рабочем пространстве Jenkins.
+
+
+
+                
+                
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+прмер масива 
+В этом примере stepsToRun = [:] –  синтаксис Groovy
+для объявления массива.
+
+node ('worker_node1') {
+ stage("Parallel Demo") {
+ // Параллельный запуск шагов;
+ // Массив, в котором мы будем хранить шаги;
+ def stepsToRun = [:]
+ for (int i = 1; i < 5; i++) {
+ stepsToRun["Step${i}"] = { node {
+ echo "start"
+ sleep 5
+ echo "done"
+ }}
+ }
+ // Фактически выполняет параллельный запуск шагов;
+ // Шаг parallel принимает массив в качестве аргумента;
+ parallel stepsToRun
+ }
+}                
+
+
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+вызов файла в piline 
+пример
+def code 
+pipline {
+agent any
+stages {
+stage('stage 1'){
+steps {
+sh 'echo "stage 1"'
+script {
+code = load 'scripts/hello.groovy'
+code.example1()
+}
+}
+}
+stage ('stage 2'){
+steps {
+sh 'echo "stage 2"'
+script {
+code.exemple2 ()
+}
+}
+}
+}
+}
+
+файл hello.groovy
+def exemple1() {
+'printin 'Hello form example1'
+}
+def example2 (){
+'printin 'Hello form example2'
+}
+
+return this
+
+
+
+
+
+
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+В Groovy, комментарии однострочные и многострочные:
+
+Однострочный комментарий начинается с двойной косой черты (//) и продолжается до конца строки. Все, что находится после //, будет интерпретироваться как комментарий и будет проигнорировано при выполнении программы.
+
+// Это однострочный комментарий
+println("Привет, мир!") // Этот комментарий проигнорируется
+
+Многострочные комментарии заключаются между /* и */. Все, что находится внутри этих символов, будет интерпретироваться как комментарий и проигнорировано.
+
+/*
+Это
+многострочный
+комментарий
+*/
+println("Привет, мир!") // Эта строка не будет затронута
+
+Это примеры самых распространенных способов комментирования строк в Groovy. Комментарии полезны для описания кода, указания даты, автора и объяснения сложных участков программы.
+
+Надеюсь, это поможет! Если у вас возникнут дополнительные вопросы, пожалуйста, сообщите мне.
+privateKeyCredentials-испльзвем для раблоыт с приватным ключом
+
+
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+как из консоли где находиться docker с jenkins выполнить првоерку каких то показетейле jenkins
+
+java -jar ~/serm/jenkins-cli.jar -auth e.sermyagin:119935c41723692602b18586a7ee6e5be5 -s http://localhost:8880/ -webSocket version
+
+http://jenkins.nn.int.norsi-trans.ru/user/e.sermyagin/configure
+
+Токен API
+Current token(s)
+119935c41723692602b18586a7ee6e5be5
+
+так  же можно настроить перменные среды 
+export JENKINS_USER_ID=e.sermyagin
+export JENKINS_API_TOKEN=119935c41723692602b18586a7ee6e5be5
+java -jar jenkins-cli.jar [-s JENKINS_URL] command ..
+
+
+установка плагинов из консоли где находиться docker с jenkins 
+java -jar ~/serm/jenkins-cli.jar -auth e.sermyagin:119935c41723692602b18586a7ee6e5be5 -s http://localhost:8880 install-plugin pipeline-utility
+
+
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+
+араметры запуска Docker image в Jenkins могут быть определены внутри блока docker, например так:
+
+agent {
+    docker {
+        image '192.168.55.245:5000/20.04_amd64'
+        args '-v /path/to/host/dir:/path/to/container/dir'
+        // Дополнительные параметры Docker-контейнера
+    }
+}
+
+В данном примере, image указывает название Docker image, которое будет загружено и использовано для задачи.
+
+args определяет дополнительные параметры запуска Docker-контейнера, такие как примонтированные директории или переменные окружения.
+
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+можно выполнить рестарт jenkins с остановкой pipline  
+http://jenkins.nn.int.norsi-trans.ru/safeRestart
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+как посмотреть забытые пароли от credentials
+
+необходимо зайти в домашнюю папку jenkins(/var/jenkins_home) там будет файл credentials.xml 
+делаем cat ./credentials.xml
+
+находим поле password
+          <password>{AQAAABAAAAAQ/yjM1LVRI0x0va7GBvvvP4qLeo7nHGS1aKdilPiLGYU=}</password>
+          
+заходим в http://jenkins.nn.int.norsi-trans.ru/script(можно выполнять groovy скрипты)
+
+ println(hudson.util.Secret.decrypt("{AQAAABAAAAAQ/yjM1LVRI0x0va7GBvvvP4qLeo7nHGS1aKdilPiLGYU=}"))
+
+
+
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+пример Declarativa Pipeline, !!!! обязательно должен быть шаг steps иначе будет краш pipeline, у каждого stage должно быть свое название !!!!
+
+Declarativa Pipeline (обязатлеьная структура)
+
+pipeline {
+	agent 
+           {
+           label 'my_pc_test_55.99'
+           }
+          stages {
+           stage ('test') {
+            steps {
+             echo 'Hello, Slurm'
+             }
+            }
+           }
+          }
+
+
+
+используем Snippet Generator для генерации кусков pipline
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+в Visual Studio Code(VSC) поставил несколько плагинов (Jenkins Jack, Jenkins Doc, Jenkins Runner)
+
+Jenkins Jack- удобный инстумент котрый дает возможно через VSC взаимойдествовать с своим проектом Jenkins (смотреть пайплайны, логи job, какие доступны ноды)
+!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!
+отдельно создаем job.Jenkinsfile (что бы его запустить нажимаем сочетание ctrl+shift+p) и выбираем Jenkins Runner: Run Pipeline On Default Job
+пример 
+pipeline {
+     agent any
+    stages{
+        stage ('test') {
+            steps {
+                echo "test"
+                sleep 30
+            }
+        }
+    }
+!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!
+ подробнее о заполнение найтроек Jenkins Jack для доступа смотреть( нажать на бабочку и выбрать меню jenkins connections(нажать на шестеренку))
+ 
+ 
+ =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ В этом примере мы объявляем переменную output и затем используем функцию sh с параметром returnStdout: true, чтобы вернуть результат выполнения команды в виде вывода команды. Метод trim() используется для удаления лишних пробельных символов вокруг значения переменной.
+ 
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Jenkins как и Docker создает jenkinsfile его как и докер файл можно положить внуторь проекта Jenkins Git
+
+Pipline -> Node -> Stage -Step
+agent any в Pipeline имеет в виду что будет выбран любой свободны агент
+в качестве агента можно указывать докер контейнер для каждого стейджа можно выбирать различных докер агентов 
+
+
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+http://192.168.55.242
+g10
+Admin12345admin
+
+
+для обналения cmacke
+https://askubuntu.com/questions/355565/how-do-i-install-the-latest-version-of-cmake-from-the-command-line/865294#865294
+
+### NOTE: set DNS servers BEFORE!!!!
+readonly ubuntu_current_version=$(lsb_release -r -s)
+readonly ubuntu_current_name=$(lsb_release -c -s)
+
+readonly proxy_address="192.168.55.253:3128"  #If route created
+#readonly proxy_address="127.0.0.1:3128"       #If 192.168.55.X available
+
+#readonly use_proxy=""   #Not use
+readonly use_proxy="-E" #Use
+
+readonly proxy_http_address="http://${proxy_address}"
+readonly proxy_https_address="https://${proxy_address}"
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+alias ntinfo-build-depends-install=$'deps=$(grep BUILD_DEPENDS INFO 2>/dev/null | cut -d\'=\' -f2 | tr -d \'",\'); [ -z "$deps" ] && echo "INFO:BUILD_DEPENDS are empty" || sudo apt install ${deps}'
+
+Этот скрипт создает алиас с именем "ntinfo-install-build-depends", который устанавливает зависимости сборки для проекта "ntinfo". 
+
+Алиас начинается с ключевого слова "alias", за которым следует имя алиаса "ntinfo-install-build-depends". Затем используется строка в формате $'...', которая позволяет включать внутрь строки символы, такие как одинарные кавычки и обратный слеш. 
+
+Внутри строки выполняется следующее действие: 
+
+- Команда "grep BUILD_DEPENDS INFO" ищет в файле "INFO" строку, содержащую "BUILD_DEPENDS". 
+- Команда "cut -d'=' -f2" разбивает строку на две части, используя знак "=" в качестве разделителя, и выбирает вторую часть, содержащую список зависимостей. 
+- Команда "tr -d '\'",,"'" удаляет из списка зависимостей символы одинарных и двойных кавычек и запятых. 
+- Команда "[ -z "$deps" ]" проверяет, пуст ли список зависимостей. Если список пуст, выводится сообщение "INFO:BUILD_DEPENDS are empty". 
+- Команда "sudo apt install ${deps}" устанавливает все найденные зависимости с помощью команды "sudo apt install". 
+
+Таким образом, при вызове алиаса "ntinfo-install-build-depends" выполняются указанные команды, которые устанавливают зависимости сборки для проекта "ntinfo"
+
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+Еще один ~/.bash_aliases для автоматической сборки и установки deb, забирайте кому надо (может только стоит поправить -jN, актуальный для свой системы)
+alias ntdev-deb-build-and-install=$'test -f ${PWD}/INFO && rm -rf ${PWD}/.build/cpack_root && make -j4 ntpackage && sudo apt install ${PWD}/.build/cpack_root/*.deb'
+
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+Вот пример использования учетных данных для клонирования закрытого репозитория в Jenkins Pipeline:
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'my_credentials', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+                    // Здесь используем переменные GIT_USERNAME и GIT_PASSWORD для авторизации
+                    // на основе заданных учетных данных (credentials)
+                    git branch: 'master',
+                        credentialsId: 'my_credentials',  // Используем идентификатор учетных данных
+                        url: 'https://github.com/myorganization/my-private-repo.git'
+                }
+            }
+        }
+        // Другие этапы пайплайна
+    }
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+как в дженкинсе посмотреть на каком docker запускается билд на примере ntlog
+
+переходим 
+http://192.168.55.242:8080/job/ntlog/
+
+далее слева в разделе build history выбираем build master
+
+откроется 
+http://192.168.55.242:8080/job/ntlog/263/
+далее выбираем console Output
+слева от времяни пишется в каком докере выпонялся тест 
+пример
+[ubuntu 20.04 amd64 generic]
+
+ docker images
+REPOSITORY                           TAG       IMAGE ID       CREATED         SIZE
+192.168.55.242:443/18.04_arm64       latest    bde294ac3cb8   11 days ago     1.43GB
+192.168.55.242:443/20.04_arm64       latest    421dc6b21862   11 days ago     1.47GB
+192.168.55.242:443/18.04_amd64       latest    5597607ef0f0   11 days ago     1.6GB
+192.168.55.242:443/20.04_amd64_git   latest    040e74dacb1b   11 days ago     1.71GB
+192.168.55.242:443/20.04_amd64       latest    6cb02acee5c3   11 days ago     1.66GB = [ubuntu 20.04 amd64 generic]
+192.168.55.242:443/20.04_armhf       latest    f78847d6a322   6 weeks ago     1.19GB
+192.168.55.242:443/18.04_armhf       latest    b382a350b934   5 months ago    1.1GB
+hello-world                          latest    feb5d9fea6a5   18 months ago   13.3kB
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+Для релиза октеонов нужно также собирать драйвера и паковать вместе с бинарниками:
+
+make drivers oct=1
+
+после сборки они будут в .drivers
+А также копировать скрипты из feeder2/target-oct/start.scripts
+
+
+как это сделать в Jenkins
+Для выполнения этих действий в Jenkins можно использовать Pipeline, который позволяет описать последовательность шагов для сборки и упаковки драйверов и бинарников.
+
+Пример Pipeline может выглядеть следующим образом:
+
+pipeline {
+    agent any
+    stages {
+        stage('Build drivers and binaries') {
+            steps {
+                sh 'make drivers oct=1'
+                sh 'mkdir -p .drivers'
+                sh 'cp -r feeder2/target-oct/start.scripts .'
+            }
+        }
+        stage('Package drivers and binaries') {
+            steps {
+                sh 'tar -czvf drivers_and_binaries.tar.gz .drivers start.scripts'
+            }
+        }
+    }
+}
+
+
+В этом примере Pipeline выполняет следующие действия:
+
+1. Запускает сборку драйверов и бинарников с помощью команды "make drivers oct=1".
+2. Создает директорию ".drivers" для хранения собранных драйверов.
+3. Копирует скрипты из директории "feeder2/target-oct/start.scripts" в текущую директорию.
+4. Упаковывает драйверы и бинарники в архив "drivers_and_binaries.tar.gz" с помощью команды "tar -czvf drivers_and_binaries.tar.gz .drivers start.scripts".
+
+Вы можете настроить этот Pipeline в Jenkins, добавив его в файл Jenkinsfile в вашем репозитории и настроив его для автоматической сборки при изменении кода.
+
+
+agent any в Pipeline имеет в виду что будет выбран любой свободны агент
+
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+#!/bin/bash
+
+if [[ "${NEED_TO_RELEASE}" == 'true'  ]]; then
+
+# содержит первые 8 символов значения переменной $G100_COMMIT_INITATOR. 
+    hash_commit=$(echo $G100_COMMIT_INITATOR | cut -c1-8)
+# переменная с текущей датой   
+    data_release=$(date +"%y%m%d")
+# переменная с целевой директории
+    target_dir=/release/g100
+
+
+# если значение переменной ${release_opts} соответствует одному из следующих условий:    
+    case ${release_opts} in
+      "en538=1 en374=1 ipv6=1 hskw=1 arch=core-avx-i"|"en538=1 en374=1 ipv6=1 hskw=1 arch=corei7") target="" ;;
+      "silicom=1 en538=1 en374=1 ipv6=1 hskw=1 arch=core-avx-i"|"silicom=1 en538=1 en374=1 ipv6=1 hskw=1 arch=corei7") target="silicom" ;;
+      "oct=1 en538=1 ipv6=1 arch=core-avx-i"|"oct=1 en538=1 ipv6=1 arch=corei7") target="oct" ;;
+    esac
+# то переменная target устанавливается в соответствующее значение: пустую строку "", "silicom" или "oct". Если значение переменной ${release_opts} не соответствует ни одному из этих условий, то никакой блок кода не выполняется и значение переменной target не изменяется.
+
+    core=`echo "${release_opts}" | sed -e "s|\(.*arch=\)\(.*\)|\2|g"`
+# g100_oct_corei7_last.tar.gz    
+
+
+release_opts=${octionsfdsf=1 en538=1 ipv6=1}
+    core=`echo "${release_opts}" | sed -e "s|\(.*arch=\)\(.*\)|\2|g"`
+   
+    case $target in
+    "") release_prefix=g100_${core} ;;
+    *)  release_prefix=g100_${target}_${core} ;;
+    esac
+    
+    release_name=${release_prefix}"_${hash_commit}_${data_release}"
+
+    # удаляем артефакт из папки /release/g100/old
+    echo "==> ssh tests@192.168.55.245 'cd ${target_dir}; if [ ! -d ${target_dir}/old ]; then mkdir -p ${target_dir}/old; else rm -f ${target_dir}/old/${release_prefix}_*.tar.gz;fi'  <=="
+    ssh tests@192.168.55.245 "cd ${target_dir}; if [ ! -d ${target_dir}/old ]; then mkdir -p ${target_dir}/old; else rm -f ${target_dir}/old/${release_prefix}_*.tar.gz;fi"
+    
+    # переносим в /release/g100/old архив, который в настоящий момент является last.tar.gz
+    prev_artifact=$(ssh tests@192.168.55.245 "readlink ${target_dir}/${release_prefix}_last.tar.gz")                                                              
+    if [ ! -z "${prev_artifact}" ]; then
+        echo "==> ssh tests@192.168.55.245 'mv ${prev_artifact} ${target_dir}/old/' <=="
+        ssh tests@192.168.55.245 "mv ${prev_artifact} ${target_dir}/old/"
+    fi
+    echo "==> ssh tests@192.168.55.245 'unlink ${target_dir}/${release_prefix}_last.tar.gz'  <=="
+    ssh tests@192.168.55.245 "unlink ${target_dir}/${release_prefix}_last.tar.gz" 
+    
+    
+    # переименовываем архив и отправляем в директорию назначения
+    echo "==> mv release_debug.tar.gz ${release_name}.tar.gz <=="
+    mv release_debug.tar.gz ${release_name}.tar.gz
+    echo "==> scp ${release_name}.tar.gz tests@192.168.55.245:/${target_dir} || exit 1 <=="
+    scp ${release_name}.tar.gz tests@192.168.55.245:/${target_dir} || exit 1
+    
+    echo "==> ssh tests@192.168.55.245 'ln -s ${target_dir}/${release_name}.tar.gz ${target_dir}/${release_prefix}_last.tar.gz' <=="
+    ssh tests@192.168.55.245 "ln -s ${target_dir}/${release_name}.tar.gz ${target_dir}/${release_prefix}_last.tar.gz"   
+fi
