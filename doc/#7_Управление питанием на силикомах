@@ -1,0 +1,77 @@
+Управление питанием на силикомах
+
+ipmitool lan print  - инфо о ipmi хоста
+
+ipmitool -I lanplus -H <ip> -A NONE -C 0 chassis power status
+
+ipmitool -I lanplus -H <ip> -A NONE -C 0 chassis power on
+ipmitool -I lanplus -H <ip> -A NONE -C 0 chassis power reset
+ipmitool -I lanplus -H <ip> -A NONE -C 0 chassis power cycle
+ipmitool -I lanplus -H <ip> -A NONE -C 0 sol activate -консоль
+
+
+(использовать для проверки хостов, не карт)
+
+ADMIN
+Administrator/admin12345admin
+Admin12345admin*
+Admin12345admin
+admin12345admin*
+ADMIN
+admin
+
+ipmitool -I lanplus -U Administrator  -H 192.168.160.25 chassis power status 
+
+ipmitool -I lanplus -U Administrator  -H 10.10.10.104 chassis power on
+
+ipmitool -I lanplus -U Administrator  -H 172.52.23.11 chassis power off
+
+ipmitool -I lanplus -U Administrator  -H 11.124.6.7 chassis power reset
+
+
+ipmitool -I lanplus -U Administrator  -H 172.52.23.11 chassis power off  
+
+
+Сбросить питание на Supermicro
+
+reset /system1/pwrmgtsvc1
+
+ipmitool -I lanplus -H 192.168.140.118 -A NONE -C 0 chassis power status
+
+ipmitool -I lanplus -H 192.168.140.80 -A NONE -C 0 chassis power on
+
+ipmitool -I lanplus -H 192.168.140.111 -A NONE -C 0 chassis power off
+
+ipmitool -I lanplus -H 192.168.140.96 -A NONE -C 0 chassis power reset
+
+
+!!!!! screen -R psi !!!!!!
+ipmitool -I lanplus -H 192.168.140.96 -A NONE -C 0 sol activate
+
+
+
+
+серийник материнской платы сервера
+ ipmitool fru
+FRU Device Description : Builtin FRU Device (ID 0)
+ Chassis Type          : Other
+ Chassis Part Number   : CSE-118GHTS-R1K66BP2
+ Chassis Serial        : C1180AI12C20024
+ Board Mfg Date        : Mon Jan  1 03:00:00 1996
+ Board Mfg             : Supermicro
+ Board Serial          : VM189S017748
+ Board Part Number     : X11DPG-SN
+ Product Manufacturer  : Supermicro
+ Product Part Number   : SYS-1029GP-TR
+ Product Serial        : A298396X9501834
+
+
+!!!если не понятно какой ilo на карте можно посмотреть через  arp !!!! мак адрес какрты и ilo будет отиличаться на 1 порядок!!!!!!
+
+
+ipmitool -I lanplus -H 192.168.160.105 -U Administrator -P admin12345admin* chassis  power off;sleep 300;ipmitool -I lanplus -H 192.168.160.105 -U Administrator -P admin12345admin* chassis  power on; 
+
+~. -что бы выйти 
+
+
+Administrator@10.233.253.220

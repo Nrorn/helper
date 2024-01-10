@@ -1,0 +1,1870 @@
+а что такое сырцы ?
+
+Наверное имелось в виду исходники от source - src - сырцы
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+git clone e.sermyagin@192.168.55.245:/git/G100_tests
+
+примеры дампов 
+/home/esermyagin/G100_tests/system_tests/feeder2-storage
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+создаем проброс для просмотра графиков 
+http://172.23.1.231:8079/graf/d/5PlMQTSiz/postuplenie-dannykh-us-gprs?orgId=1
+http://172.23.1.231:8079/graf/d/PmRfyiLnz/postuplenie-dannykh-s-us-shpd?orgId=1
+
+http://192.168.55.99:8079/graf/d/5PlMQTSiz/postuplenie-dannykh-us-gprs?orgId=1
+http://192.168.55.99:8079/graf/d/PmRfyiLnz/postuplenie-dannykh-s-us-shpd?orgId=1
+
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+карты intel=dpdk
+
+make dpdk=1 rt=1 en538=1 ipv6=1 hskw=1 en374=1 -j20 (где -j количество ядер)
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+sudo perf top --pid=5888
+
+
+
+hugetlbfs already mounted at /dev/hugepages
+modinfo: ERROR: Module igb_uio not found.
+## ERROR: Not found DPDK UIO Kernel Module in modules list.O
+          To fix, please try to reinstall DPDK environment.
+# Please load the 'igb_uio' kernel module before querying or 
+# adjusting NIC device bindings
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+все запущеные сервисы
+systemctl list-units --type service --state running
+ 
+полный список всех запущенных процессов
+pstree
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+посмотреть какие порты открыты
+
+sudo netstat -ntulp
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+RX bytes полученные, приняты 
+
+TX bytes отправленые, предано
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+ldd /home/g10/feeder2
+показывает зависимости по компанентам если что то не встало
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+pass
+
+rjulfct,tzdcnfdk.cbcmrb
+[eqdjqyt
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!если при запуске ./.G10.start, появляется ошибка на последнию строку g10.conf, проверить ntio.conf и отсутсвие скобок!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+ssh -t (-t) заставляет ssh вводить команду в терминал 
+
+ssh -t g10@192.168.180.117 'sudo reboot -f'
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+cat /etc/hostid;\
+echo 123456nt | sudo -S cat /etc/hostid;\
+
+альтернатива ssh -S 
+ sshpass -p 'qwerty' sftp -P 2222 username@server.com
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  1.  Нода кластера - любая система (сервер или карта) на которую установлена отдельная ОС, и можно зайти по ssh
+  2.  МС - модуль связи (то где запускается control)
+  3.  УС - устройство съема, любая нода не являющаяся МС, но ведущая съем и анализ трафика
+  4. На каждой ноде - выполняется на всех картах и серверах на которых стоит отдельная система     		(можно подключиться по ssh)
+  5.  Только на МС - выполняется только на МС
+  
+  
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+ в dpdk: надо указать карты с которых будет собираться трафик 
+ 
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= 
+ 
+ ipmitool lan print 
+ - показывает информацию о ipmi(железка которая дает доступ к подвисшему серверу)
+ 
+ 
+ 
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+проверка кол-ва ядер 
+	
+	watch grep \"cpu MHz\" /proc/cpuinfo
+
+	sudo mpstatf
+
+	lscpu-покажет нформацию по cpu 
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+ netstat -napt | grep 53555 показывает кто подключен к порту 53555
+
+ps aux | grep 13304 - поиск задейстованных на этот порт служб
+
+ps aux |grep ssh| grep 9[[:digit:]][[:digit:]][[:digit:]]*
+
+поиск проброшеных портов 
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+озу
+lspci | grep -i net - показывает какие сетевые карты есть на серваке  
+
+	sudo lshw | grep \*
+
+	sudo lshw -C net -businfo
+
+	 sudo lshw -class network
+	 
+	 отоброзит если что-то не так с оперативкой 
+	 sudo lshw -short | grep memory
+	sudo dmidecode --type memory
+	показывает разьем на матплате 
+	это проблеманя во 2 съемнике Locator: P2-DIMMB1
+
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+смена версии gcc
+    sudo update-alternatives --config gcc
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=    
+
+  
+  Alt+b -показывает где 2 скобка {	
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ 
+ sudo lsof -i :55556
+
+ 
+  sudo mcedit /opt/nt/etc/ntio.conf
+    если используется несколько портов на катре то их нужно указывать так  board_name = "3b:00.0|3b:00.1";
+    
+    карты с селикомом обязательно оставлять tx_ports= 4-5 (по этим портам идет съем на сервер ) 
+    
+   
+   при настроке psi (поля control_port, data_port должны отчитатся от других psi) 
+   
+   пример: 
+   psi0: 
+        id = "psi_pu";
+        control_port = 55555;
+        data_port   = 55556;
+
+   
+    psi1: 
+        id = "psi_pu";
+        control_port = 45555;
+        data_port   = 45556;192.168.150.250
+
+    
+    psi2: 
+        id = "psi_pu";
+        control_port = 35555;
+        data_port   = 35556;
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=    
+    
+    где посмотреть ошибки !!!!!
+    
+    /LOGS/RAM/ntio-balanser_13 - смотреть ходящий трафик 
+    
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=	
+	
+	удаление старого dpdk(собранного в ручную)
+	sudo rm -rf /usr/lib/librte_* /usr/share/dpdk/ /usr/include/dpdk/ 
+	sudo -E apt-get -y purge dpdk-20-*; sudo rm -rf /usr/lib/librte_* /usr/share/dpdk/ /usr/include/dpdk/;
+
+	удаляет dpdk (собранный автомачтически http://192.168.55.245/redmine/projects/support/wiki/G100_13983538 3 пункт)
+	sudo apt-get purge dpdk-19-corei7
+      
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= 
+  
+  sudo systemctl daemon-reload -перестраивает дерево зависимостей
+  
+  sudo ldconfig 
+    
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    
+   arch="T=x86_64-core-avx-i-linuxapp-gcc"; \
+flags=$(cat /proc/cpuinfo | grep flags | tail -n1|sed "s|^flags\t*: ||"); \
+for instruction in 'mmx' 'sse' 'sse2' 'sse3' 'ssse3' 'sse4_1' 'sse4_2' 'avx' 'aes' 'pclmul' 'fsgsbase' 'rdrand' 'f16c'; \
+do [ -z "$(echo $flags | grep $instruction)" ] && arch="T=x86_64-corei7-linuxapp-gcc"; \
+done; \
+echo $arch
+
+ archio="core-avx-i";flags=$(cat /proc/cpuinfo | grep flags | tail -n1|sed "s|^flags\t*: ||");for instruction in 'mmx' 'sse' 'sse2' 'sse3' 'ssse3' 'sse4_1' 'sse4_2' 'avx' 'aes' 'pclmul' 'fsgsbase' 'rdrand' 'f16c';do [ -z "$(echo $flags | grep $instruction)" ] && archio="corei7"; done; echo $archio
+ показывает какая карта 
+ 
+ 
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= 
+А это для G100
+
+for cards in `grep link_ssh g10.conf |sed 's|.*link_ssh = "||'|sed 's|";.*||'`; do ssh-copy-id -o StrictHostKeyChecking=accept-new -i /home/g10/.ssh/id_rsa g10@$cards; \
+sudo -Hu administrator ssh-copy-id -o StrictHostKeyChecking=accept-new -i /home/administrator/.ssh/id_rsa administrator@$cards; \
+ssh-copy-id -o StrictHostKeyChecking=accept-new -i /home/g10/.ssh/id_rsa administrator@$cards;done;
+
+Беспарольный по сути копирование хеша в специальное место
+
+ssh-copy-id  -копирует
+
+-i /home/g10/.ssh/id_rsa - что копируем, то есть для какого пользователя
+
+ administrator@IP - под каким пользователем не придётся вводить пароль
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+как узнать на каких портах происходит дроп трафика 
+
+
+для начала надо зайти ntio.conf, и посмотреть в разделе interfaces какие порты указаны(если указанны(port3 port4 port5), значит по ним мы не смотрим трафик) так же в ntio смотрим какие порты вообще выделены, обычно 0-5, отсаются свободными port0 port1 port2,
+ по ним и смотрим 
+ ./.G10.exec 'cat /LOGS/RAM/ntio-balancer_*.stats  | egrep -A10 "I/O RX:|ring_drops" '
+cat /LOGS/RAM/ntio-balancer_*.stats  | egrep -A10 "I/O RX:|ring_drops" 
+
+
+cat /LOGS/RAM/ntio-balancer_*.stats |grep -A10 'port [2 3]'
+
+tail -F /LOGS/RAM/ntio-balancer_*.stats |grep -A10 'port [0 1]'
+
+
+
+ ./.G10.exec ntio show port 0-3 iss
+ для dpdk 
+  ./.G10.exec 'grep -A3 "I/O RX:" /LOGS/RAM/dpdk_balancer_*.stats'
+ 
+смотрим на mempool сколько свободно 
+так же на drop_packets -сколько потерено пакетов
+и на read_bytes -прочитаные байты, если на все порты сумаарно получается большое количество то это похоже на утечку трафика 
+
+  =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ 
+  dpdk-devbind -s -отоброжат какие карты идут под съем(только интоловские(dpdk))
+  
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  
+  f --version 
+ 
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+сенсоры 
+
+порты в сенсорах ntio interfaces
+
+code = 125; inst = "1-3"  ntio show port 1-3 iss -n
+
+в inst и в  ntio show port указываем только те порты которые идут под сьем в ntio.conf (под съем идут все порты кроме кольца и 4,5 порта )
+
+в данном случае под съем идут 1-3, следовательно 0 порт идет под кольцо
+
+//ntio interfaces, можно изменить "0-3", на 1-3 - если 0 порт например кольцо, тогда данные по нему отправляться не будут
+в ntio указываем все хост id кроме кольцевого 
+
+//CPUs
+ с 0-15 это для селикомов, но 
+  с 16-19 -это для мс и других ус не являющикся селикомаими и у которых больше 16 ядер 
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=sudo ./.G10.stop: sudo rm -rf /LO-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+grep -n 'www-data' /etc/passwd
+ параметр -n  выводит номер строк в файле, в которых было найдено включение
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+ arrange_ring = 1 (в g10 этот раздел отвечает за кольцо) 1-включено кольцо 0-выключено 
+ 
+		-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+кольцо на 3 порту 
+ 
+ rx_arrange_ports = "dpdk:3";                  
+ tx_arrange_ports = "dpdk:3";
+ 
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ control_hostid = 26;
+  хост мс с которого снимается трафик
+ 
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ uni_share - вместо кластера  
+ 
+ uni_share_hostid = 27; (27 хост является юнишарой)
+ 
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+ ntio.conf 
+ 
+   rx_pool_size =
+   tx_pool_size = 
+
+ устанавливаем значения кратное 65536 , 458752 = 65536/7 и.д.
+ 
+ 
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ сетевые карты 538 и 573 на портах cуммарно могу иметь трафика:
+	
+	538 20 гигов на 1 карту 
+
+	573 14 гигов на 1 карту 
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+ 82599ES карты это интелы
+ 
+ snf -мирикомы
+ 
+ 
+ =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+порты в идеале должны быть настроенны по парно пример:
+
+1карта 2 порта
+2карта 2 порта 
+  
+  когда                 ierrors(*): 0(0 pps)
+sudo ./.G10.stop: sudo rm -rf /LO
+  
+  1 карта 1 порт 
+  2 карта 3 порта плохо	
+	
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ debug - отключать !!!
+ 
+ 
+если в таком виде то норм
+ 
+debug_mask = "control:1 + fiber_oct:3"
+192.168.150.3
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+если на сервере core-i7, а на карте core-avx-i, то везде ставим core-i7
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Саров
+Если вы хотите вывести только информацию про реальные файловые системы на жестком диске можно использовать опцию -x чтобы отфильтровать все tmpfs:
+
+df -hx tmpfs
+
+5 файлов которые занимают больше всего места в деректори 192.168.150.17
+du -hs * | sort -rh | head -5  
+
+выведет количсесвто сободных инодов
+df -ih
+
+покажет размер папки
+du -sh (имя дериктории )
+
+отоброжает все примонтрованые области 
+findmnt 
+
+
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+распределение ядер происходит различно, для мс обычно под шаблоном (silicom_host), для карты под шаблоном (silicom)
+sudo ./.G10.stop: sudo rm -rf /LO
+в ntio.conf ядра не должно пересекаться, для мс  с ядрами указаннами в шаблоне (silicom_host)
+
+					  для карты с ядрами указаннами в шаблоне (silicom)
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+нет трафика по пси, что бы проверить его   grep "PSI data channel" ~/rundir/control-system-stats
+
+так же смотрим его в ~/rundir/control-system-stats
+
+
+
+если в g10.log ошибка такого типа host2core0stat: fiber_stat: cant grep 'PSI data channel # 3' in sensors, ignoring. надо в g10.conf в секции controlo добавить PSI3
+
+                ierrors(*): 0(0 pps)
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+d
+если не видим трафика входящего, все проверили по сенсорам, то нужно воспользоваться psi
+
+что бы подключится по пси на свой пк ~/psi_shell 127.0.0.1 45555 45556 
+(где 45555 45556 свободные порты)
+
+затем когда подключились выполняем команду test 
+
+создастся файлик psi_interruptions.log
+
+делfем gо нему греп 
+
+cat ~/serm/psi_interruptions.log  | grep "parametr = 23" (где parametr = 23 равен (name = "netrxbs"; type = 23) в g10.conf в разделе ntio)
+
+если после грепа вывод будет 
+	 item = { value = 0; block = 2; sub_block = 0; sensor = 3; type = notify; time = Wed Oct 20 20:52:58 2021; parametr = 23; comment = ; }
+	 item = { value = 0; block = 2; sub_block = 1; sensor = 0; type = notify; time = Wed Oct 20 20:54:28 2021; parametr = 23; comment = ; }
+	 item = { value = 0; block = 2; sub_block = 1; sensor = 1; type = notify; time = Wed Oct 20 20:54:28 2021; parametr = 23; comment = ; }
+	 item = { value = 0; block = 2; sub_block = 1; sensor = 2; type = notify; time = Wed Oct 20 20:54:28 2021; parametr = 23; comment = ; }
+	 item = { value = 0; block = 2; sub_block = 1; sensor = 3; type = notify; time = Wed Oct 20 20:54:28 2021; parametr = 23; comment = ; }
+где value = 0 то сенсоры настроены не правильно fsudo ./.G10.stop: sudo rm -rf /LO
+ 	 
+если после грепа вывод будет 
+	 item = { value = 2.34484e+15; block = 2; sub_block = 1; sensor = 0; type = notify; time = Wed Oct 20 21:23:33 2021; parametr = 23; comment = ; }
+	 item = { value = 1.72081e+17; block = 2; sub_block = 1; sensor = 1; type = notify; time = Wed Oct 20 21:23:33 2021; parametr = 23; comment = ; }
+	 item = { value = 2.39556e+17; block = 2; sub_block = 1; sensor = 2; type = notify; time = Wed Oct 20 21:23:33 2021; parametr = 23; comment = ; } }ре
+	 item = { value = 0; block = 2; sub_block = 1; sensor = 3; type = notify; time = Wed Oct 20 21:23:33 2021; parametr = 23; comment = ; }
+	 
+то сенсор насроен правильно 
+	 
+
+
+"netrxbs"; type = 23;   - байт в секунду для дпдк
+
+~/psi_shell 127.0.0.1 45555 45556 -o out 
+>test
+
+
+grep "parametr = 23" psi_interruptions.log 
+psi_interruptions.log:	 item = { value = 4.7210476e+08; block = 5; sub_block = 2; sensor = 2; type = notify; time = Fri Feb 21 20:44:38 2020; parametr = 23; comment = ; }
+4.70476e+08  - 4.70476 умножить на 10 в 8(100000000) степени - получится скорость на одном порте.
+Затем сложить с и посмотреть на трафик в 10.log - должен быть похож 
+
+https://allcalc.ru/node/549
+https://www.unitjuggler.com/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4-bandwidth-%D0%B8%D0%B7-Bps-%D0%B2-Mbps.html?val=137468000
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-sudo ./.G10.stop: sudo rm -rf /LO=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+когда проблема с пробросм 
+
+IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
+Someone could be eavesdropping on you right now (man-in-the-middle attack)!
+It is also possible that a host key has just been changed.
+The fingerprint for the RSA key sent by the remote host is
+SHA256:uCSwR1nmYgyUBJG+ncgw251kL9vAc/jpa/jhqOgwPr4.
+Please contact your system administrator.
+Add correct host key in /root/.ssh/known_192.168.150.3hosts to get rid of this message.
+Offending RSA key in /root/.ssh/known_hosts:17
+  remove with:
+  ssh-keygen -f "/root/.ssh/known_hosts" -R "[127.0.0.1]:9111"
+RSA host key for [127.0.0.1]:9111 has changed and you have requested strict checking.
+Host key verification failed.                ierrors(*): 0(0 pps)
+
+
+
+sudo ssh-keygen -f "/root/.ssh/known_hosts" -R "[127.0.0.1]:9007"
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+как узнать на каком порту кольцо в дпдк
+
+dpdk:
+{
+    enabled = 1;                // DPDK используется для чтения на этом сервере (Intel или Silicom)
+    print_stats = 2;            // 0 - не печатаем ничего, 1 - печатаем основную статистику, 2 - печатаем расширенную статистику
+    board_num = 0;              // first board to capture
+    boards_count = 4;           // count of boards for rx
+    board_name = "X710";        // Платы для приёма трафика при помощи DPDK. Конфиг везде одинаков, поэтому на хосте с силикомами может быть dpdk.enabled = 1, но там не найдём board_name в lspci.
+    plugins = "librte_pmd_i40e.so librte_pmd_ixgbe.so librte_pmd_e1000.so";
+    from_inject_board_num = 3;  // board connected to other node for arranged case or =-1 for standalone
+    to_inject_board_num = 3;    // board connected to other node for arranged case or =-1 for standalone
+    
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+alt + l переходит на нужною стоку в файле, работает только в режиме редактирования 
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+в хтопе на мс в зависимосит от того сколько карт подключенно столько и будет fiber_aaa если две карты то два fiber_aaa
+так же и с feeder_silicom 
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+для 573 приказа надо включать шмемы, секци192.168.150.3я перед clusterami
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+hugepages_0(1) это физические процессоры, которые выделяют память на использование приложений
+
+hugepages_0 - на карте обычно используется 0
+hugepages_1 - может использоваться в зависиомти от того ядра на котором запущен балансер если запущен до 16 ядра то используем 0 хугапейдж если начиная с 17 то надо уже использовать 1 хугопейдж
+
+
+lscpu
+
+CPU(s):              32   - ядер всего
+On-line CPU(s) list: 0-31
+Thread(s) per core:  1 - потоко на одном ядре(если гипертейдинг врублен,то будет 2)
+Core(s) per socket:  16 - ядер на одном процессоре
+Socket(s):           2  - кол-во процессоров 
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+алгоритм следующий для начала нужо увеличить hugepages затем когда мы его увеличели , смотрим какой из портов не используется и от него ощипываем кусочек 
+rx_pool_size = 8000; //32768;
+tx_pool_size = 8000; //32768;tar
+ у нас в сумме выделялось 65 от этих 65к вычетаем 16к которые выделили получается прмерно 48к эти 48 к мы можем использовать на 
+  base_virtaddr = 0x600000000000L; // стартовый адрес для memory map $
+            rx_pool_size = 550000; //505752; //458752;
+            tx_pool_size = 0;
+            rx_burst_size = 32;
+и затем пробовать подбирать эти значения что бы бефер перестал утекать 
+sudo ./.G10.stop: sudo rm -rf /LO
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+fiber_control по нему отдаем декадирвоный трафик на пу
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+Увеличение CRC сигнализирует о наличие проблем в физике (обычно связанно либо с кабелем оптики возможно проблемы с sfp), CRC - уже "битый" пакет,при значительном приросте crc можем детектировать потери при тестах с ТК.
+
+crc  алгоритм нахождения контрольной суммы
+скорее всего из-за физики
+
+если оператор нам не подает crc RX CRC (0) а на усе копятся crc то скорее всего проблема в физике между усом и нсом
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+ierrors сумируются с каждой карты и попадают в g10.log  в виде crc
+
+ierrors это crc
+
+hw bad - CRC                ierrors(*): 0(0 pps)
+
+
+hw dropped - дропы(не должны расти)
+
+Если там прям жесктий перелив - то могут биться пакеты
+hw bad - CRC по идее
+Но если смотреть количество
+То у тебя 1кк пакетов прилетело и это 6Гб
+И 500к пакетов битые - считай +-3Гб
+Попробуй убрать оттуда пару линков?
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+/usr/lib/systemd/system/ – юниты из установленных пакетов RPM — всякие nginx, apache, mysql и прочее
+/run/systemd/system/ — юниты, созданные в рантайме — тоже, наверное, нужная штука
+/etc/systemd/system/ — юниты, созданные системным администратором — а вот сюда мы и положим свой юнит.
+
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+Команду на отдачу контента умеешь смотреть? Идёт или нет отдача умеешь смотреть?
+
+grep start_sending_data ~/rundir/control_*.log
+
+Тут можно смотреть на конец
+
+lost
+
+0
+
+Ну и остальное - не 0
+
+То есть читает, пишет и нет потерь
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+если нет одной карты но могу попасть на неее через ssh то дело в вфизике возможно проблемы с питанием
+            usleep_delay = 100;//300;
+
+g10@g10:~$ sudo lshw -C net -businfo                ierrors(*): 0(0 pps)
+
+[sudo] password for g10:  смотрим  drop bytes
+Bus info          Device     Class          Description
+=======================================================
+pci@0000:18:00.0  net0       network        I350 Gigabit Network Connection
+pci@0000:18:00.1  net1       network        I350 Gigabit Network Connection
+pci@0000:18:00.2  net2       network        I350 Gigabit Network Connection
+pci@0000:18:00.3  net3       network        I350 Gigabit Network Connection
+pci@0000:5e:00.0             network        Ethernet Controller XL710 for 40GbE backplane
+pci@0000:5e:00.1             network        Ethernet Controller XL710 for 40GbE backplane
+pci@0000:86:00.0             network        Ethernet Controller XL710 for 40GbE backplane
+pci@0000:86:00.1             network        Ethernet Controller XL710 for 40GbE backplane
+pci@0000:af:00.0  net4       network        MT27800 Family [ConnectX-5]
+pci@0000:af:00.1  net5       network        MT27800 Family [ConnectX-5]
+
+
+	-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+g10@g10:~$ lshw -C net -businfo
+WARNING: you should run this program as super-user.
+Bus info          Device  Class          Description
+====================================================
+как обычный ethernet
+pci@0000:18:00.0  net0    network        I350 Gigabit Network Connection
+pci@0000:18:00.1  net1    network        I350 Gigabit Network Connection
+										медный интерфейс
+pci@0000:18:00.2  net2    network        I350 Gigabit Network Connection
+pci@0000:18:00.3  net3    network        I350 Gigabit Network Connection
+
+pci@0000:5e:00.0          network        Ethernet Controller XL710 for 40GbE backplane
+pci@0000:5e:00.1          network        Ethernet Controller XL710 for 40GbE backplane
+												виртуальный интерфейс
+pci@0000:86:00.0          network        Ethernet Controller XL710 for 40GbE backplane
+pci@0000:86:00.1          network        Ethernet Controller XL710 for 40GbE backplane
+
+pci@0000:af:00.0  net4    network        MT27800 Family [ConnectX-5]
+pci@0000:af:00.1  net5    network        MT27800 Family [ConnectX-5]
+
+
+каждой карте отводится по 2 виртуальных  интерфейса
+Ethernet Controller XL710 for 40GbE backplane
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+вывод на карте 
+                ierrors(*): 0(0 pps)
+
+g10@g10:~$ lshw -C net -businfo
+WARNING: you should run this program as super-user.
+Bus info          Device  Class      Description
+================================================
+pci@0000:01:00.0          network    Ethernet Controller X710 for 10GbE SFP+
+pci@0000:01:00.1          network    Ethernet Controller X710 for 10GbE SFP+
+pci@0000:01:00.2          network    Ethernet Controller X710 for 10GbE SFP+
+pci@0000:01:00.3          network    Ethernet Controller X710 for 10GbE SFP+
+pci@0000:03:00.0          network    Ethernet Connection X552 10 GbE Backplane
+pci@0000:03:00.1          network    Ethernet Connection X552 10 GbE Backplane
+pci@0000:05:00.0  net0    network    I210 Gigabit Network Connection
+
+
+pci@0000:05:00.0  net0    network    I210 Gigabit Network Connection				 это медь
+
+
+pci@0000:03:00.0          network    Ethernet Connection X552 10 GbE Backplane
+											это виртуальные интерфейсы 
+pci@0000:03:00.1          network    Ethernet Connection X552 10 GbE Backplane
+
+
+pci@0000:01:00.0          network    Ethernet Controller X710 for 10GbE SFP+
+pci@0000:01:00.1          network    Ethernet Controller X710 for 10GbE SFP+
+												это оптика
+pci@0000:01:00.2          network    Ethernet Controller X710 for 10GbE SFP+
+pci@0000:01:00.3          network    Ethernet Controller X710 for 10GbE SFP+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ такое происходит когда нет g100 бинарей 
+ 
+stopping 192.168.150.90
+sudo: no tty present and no askpass program specified
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+првоерить все ли карты на месте 
+Проверь что ринг порт указан одинаковый в g10.conf и у ntio
++ проверить что загружен модуль ядра
+не страттует нтио возможно нужно выделить больше памяти 
+
+lshw -C net -businfo
+
+
+08.02 17:58:37: ERROR!: host3core0feeder: Can't start ntio strerror: Invalid argument, 22
+08.02 17:58:37: ERROR!: host3core0feeder: init_io() failed
+ в ntio.log 
+DPDK: INFO: Opening ring port 4 (eth_port: 4): rx_workers: 15; rx_queues: 1; tx_workers: 0; tx_queues: 0
+DPDK: ERROR: Ring port 4: underlying eth port 4 is not valid
+BALANCER: ERROR: open_ring(4) failed: 22(Invalid argument)
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+Флапает линк
+Проверить физику и подающее устройство
+на Катаева перевожу задачу ? 
+Да пока так делаем, можешь попробовать перезагрузить систему, но маловероятно что поможет
+
+DPDK: INFO: Port 3 link UP - speed 1000 Mbps - full-duplex
+DPDK: INFO: Port 3 link DOWN
+DPDK: INFO: Port 3 link UP - speed 1000 Mbps - full-duplex
+DPDK: INFO: Port 3 link DOWN
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+Что порт уже занят
+
+Или интерфейс не поднят соответствующий
+
+Например у тебя контрол заявлен как 160.62
+
+А адрес только 150.62 ест
+
+17.02 13:28:52: ERROR!: PSI_ERROR: failed with error: Invalid argument(22) [./modules/nt/psi_server.cc:5197]
+17.02 13:28:52: ERROR!: PSI_ERROR: PU[0] cant accept PSI socket
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+скорее всего проблема с настройкой кольца 
+
+
+21.02 09:56:49: SYSTEM: got double init from 0x000103 proc0host3core1 (feeder) from 192.168.180.35:58444
+21.02 09:56:49: SYSTEM: got double init from 0x000203 proc0host3core2 (feeder) from 192.168.180.35:58446
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+/var/log/syslog.1
+
+Feb 12 02:04:30 g10 ntpipe-broker[4650]:   ERROR: ntpipe.broker  [public.p2a.aaa_events] burst(len:542) validate failed in [LOCAL][7][0] pipe
+Feb 12 02:04:30 g10 ntpipe-broker[4650]:   ERROR: ntpipe.broker  [public.p2a.aaa_events] burst(len:252) validate failed in [LOCAL][7][0] pipe
+Feb 12 02:04:30 g10 ntpipe-broker[4650]:   ERROR: ntpipe.broker  [public.p2a.aaa_events] burst(len:252) validate failed in [LOCAL][7][0] pipe
+Feb 12 02:04:30 g10 ntpipe-broker[4650]:   ERROR: ntpipe.broker  [public.p2a.aaa_events] burst(len:1008) validate failed in [LOCAL][7][0] pipe
+Feb 12 02:04:30 g10 ntpipe-broker[4650]:   ERROR: ntpipe.broker  [public.p2a.aaa_events] burst(len:252) validate failed in [LOCAL][7][0] pipe
+Feb 12 02:04:30 g10 ntpipe-broker[4650]:   ERROR: ntpipe.broker  [public.p2a.aaa_events] burst(len:1046) validate failed in [LOCAL][7][0] pipe
+
+
+            -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+sudo systemctl restart nt-shring-transfer.service
+
+Должно помочь с контентом
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+смотрим идет ли трафик по 374 приказу 
+374_speed: 404.586 Mbit/s - 99.21%;
+
+на 374 приказе идет запись трафика в shm он используется как буфер а уже из него идет отдача
+
+
+374 => верпроскси подключается к щеколдину и потом забирает трафик с374  от нас 
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+5.03 19:23:35: ERROR!: host1core2feeder: cant open/create(0) shmem: host1core9-feeder_stat.26.shm, strerror: No such file or directory
+25.03 19:23:35: ERROR!: host1core2feeder: cant open/create(0) shmem: host1core10-feeder_stat.26.shm, strerror: No such file or directory
+25.03 19:23:35: ERROR!: host1core2feeder: cant open/create(0) shmem: host1core11-feeder_stat.26.shm, strerror: No such file or director
+
+
+Boot попробуй сделать 
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+в g10.log, была следующая ошибка:
+
+ERROR!: stats_thread::cant grab all stats! Resource temporarily unavailable
+cant write log to stats: pipe: stats.pipe-0; size: 84 (stats_thread::cant grab all stats! Resource temporarily unavailable
+) - Resource temporarily unavailable
+
+правится отчисткой /home/g10/.ntio.history
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+клоксорс 
+если где слетает, надо пробовать прописывать опции загрузки ядра, предварительно помогает
+http://192.168.55.245/redmine/issues/11731
+
+
+https://medium.com/nuances-of-programming/углубление-в-параметры-ядра-часть-1-загрузочные-параметры-5b5958129b27
+
+Попробуй добавить tsc параметры к загрузке
+
+	 ./.G10.check_sys        
+
+GRUB_CMDLINE_LINUX=" clocksource=tsc tsc=reliable intel_idle.max_cstate=0 processor.max_cstate=0 idle=poll net.ifnames=0 ixgbe.allow_unsupported_sfp=1"
+	 
+clocksource=tsc tsc=reliable
+Вот такое в 
+sudo mcedit /etc/default/grub
+
+
+Потом
+ sudo update-grub
+
+
+
+clocksource
+
+https://0xax.gitbooks.io/linux-insides/content/Timers/linux-timers-6.html
+
+
+
+cat /sys/devices/system/clocksource/clocksource0/current_clocksource 
+
+We can see that there are three registered clock sources in my system:
+
+tsc - Time Stamp Counter; +
+hpet - High Precision Event Timer;
+acpi_pm - ACPI Power Management Timer.
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+С переходом на версию ntio 2.0.0 счетчик ring_drops должен учитываться в g10.log в распечатке storage_lost
+
+http://192.168.55.245/redmine/issues/9804
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+Надо попробовать обновить прошивку на карте
+
+Firmware recovery mode detected. Limiting functionality.
+Refer to the Intel(R) Ethernet Adapters and Devices User Guide for details on firmware recovery mode.
+
+
+		-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+DPDK-LIB: INFO: i40e_dev_alarm_handler(): ICR0: unrecoverable ECC error
+DPDK-LIB: INFO: i40e_dev_alarm_handler(): ICR0: malicious programming detected
+DPDK-LIB: INFO: i40e_handle_mdd_event(): Malicious Driver Detection event 0x1f on TX queue 4095 PF number 0x0f VF number 0x1ff device 0000:81:00.0
+
+DPDK-LIB: INFO: i40e_handle_mdd_event(): Malicious Driver Detection event 0xff on RX queue 16383 of function 0xff device 0000:81:00.0
+
+DPDK-LIB: INFO: i40e_handle_mdd_event(): TX driver issue detected on PF
+
+DPDK-LIB: INFO: i40e_handle_mdd_event(): RX driver issue detected on PF
+
+DPDK-LIB: INFO: i40e_dev_alarm_handler(): ICR0: HMC error
+DPDK-LIB: INFO: i40e_dev_alarm_handler(): ICR0: protocol engine critical error
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+oom на картах 
+
+Уменьшил лимит по памяти у fiber_aaa(с 30гб до 25гб), отъедал озу,просыпался оом
+
+проверяем  проверить на рабочем съемнкике какие значения стоят 
+
+allocator_shared:
+
+
+проверить на нс не выставлен ли режим rr  в балансировке 
+
+control:
+{
+    fiber_port = 32000;
+    stats_port = 32001; // multi-control: запускаем на настоящем hostid
+    static_uni_max_fd = 1000; смотрим  drop bytes
+    nofile_rlimit = 10000; // Ограничение на кол-во открытых дескрипторов;
+    
+    =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    
+если падают feeder 
+oom
+
+Попробуй выделять меньше памяти и
+
+было 
+ ipv4_flows_memory = 268435456; 
+стало 
+ ipv4_flows_memory =  150994944;
+ 
+ 
+надо уменьшить таймауты на потоки
+
+было 
+        fin_timeout = 1000;Милисекунды.
+        intercept_pkt_cache_limit = 5;   // Кешируем первые пакеты каждого потока для перехвата по ОН7
+        
+стало         
+
+    fin_timeout = 100 ;Милисекунды.
+        intercept_pkt_cache_limit = 1;   // Кешируем первые пакеты каждого потока для перехвата по ОН7
+
+
+
+
+привет
+может там сразу фидеры по памяти подрезать?
+
+e.sermyagin
+Сермягин Егор @e.sermyagin
+11:30
+привет, где 7
+
+
+Талалушкин Алексей @alexey.talalushkin
+11:30
+уфа, где OOM
+
+e.sermyagin
+Сермягин Егор @e.sermyagin
+11:31
+не видно что ты прочитла в скайпе, по этому и не понял про что ты
+тут вроде не часто
+
+
+Талалушкин Алексей @alexey.talalushkin
+11:32
+так вообще не надо, ни часто, ни редко
+это силикомы?
+
+да
+
+
+Талалушкин Алексей @alexey.talalushkin
+11:33
+ну убавляй сразу ipv4_flows_mem
+
+e.sermyagin
+Сермягин Егор @e.sermyagin
+11:34
+а на какое значение ?
+
+
+Талалушкин Алексей @alexey.talalushkin
+11:35
+а как мы везде делали
+ipv4_flows_memory = 150994944;
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+пошли файлы?
+
+11:33 AM
+да но только 2 из 10
+
+Mikhail 11:34 AM
+Дальше уже ковыряй таймауты и прочие мелочи
+
+На будущее - если что-то не пашет - нови
+
+первым шагом
+
+Чтобы два раза не разбираться с одинаковыми багами
+
+11:35 AM
+
+Дальше уже ковыряй таймауты и прочие мелочи
+Mikhail Agrba, Пятница в 11:34 AM
+а можно по подробнее что именно ковырять ? 
+
+Mikhail 11:36 AM
+tcp часть
+
+tcp_stream:
+        {
+            read_buffer_size = 10240;
+            max_write_buffers_count = 10;
+            write_buffer_size = 102400;
+            flush_size = 10240;
+            flush_buffers_per_call = 2;
+        };
+
+ tcp:
+        {
+            pkt_timeout = 5000; // время жизни пакета в кеше сборщика, милисекунды
+            window_size = 2560; //1280; // размер tcp-окна, Кб
+            cache_limit = 35000; //21800; // макс. число пакетов в кеше TCP, шт. (window_size/600, 600 - средний размер пакета)
+        };
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ из-за того что падаю линки трафик еще идет буфер переполняется и не успевает отправить эти пакеты 
+
+
+[Wed Apr 20 14:56:39 2022] igb 0000:05:00.0 net0: igb: net0 NIC Link is Down
+[Wed Apr 20 14:57:22 2022] igb 0000:05:00.0 net0: igb: net0 NIC Link is Up 1000 Mbps Full Duplex, Flow Control: RX
+[Wed Apr 20 14:57:43 2022] igb 0000:05:00.0 net0: igb: net0 NIC Link is Down
+[Wed Apr 20 14:58:38 2022] igb 0000:05:00.0 net0: igb: net0 NIC Link is Up 1000 Mbps Full Duplex, Flow Control: RX
+
+
+20.04 14:53:06: SYSTEM: host3core1acco: fiber_control: system buffer is full, proc_id: 3, skipping properties delivery
+20.04 14:53:06: SYSTEM: host3core1acco: fiber_control: system buffer is full, skipping properties delivery
+20.04 14:53:06: SYSTEM: host3core1acco: fiber_control: system buffer is full, skipping properties delivery
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+если ядра загружаются под 100% 
+
+ls /etc/init.d
+
+
+sudo systemctl restart nt-shringTransfer
+
+
+на старых серверах
+sudo systemctl restart service_shring_tr
+
+sudo systemctl restart nt-shring-transfer.service
+
+Должно помочь с контентом
+
+если ядра в 100 процентов чистим /dev/shm/
+предварительно выключив брокер
+и сделать старт стоп уса
+
+
+проверяем сколько памяти если около 64, 128 то норм если 109 то не норм и пишем Диме что бы проверил 
+
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+ERROR!: host3core0acco: cant open/c смотрим  drop bytesreate(0) shmem: host3core0-feeder_stat.1.shm, strerror: No such file or directory
+
+Boot попробуй сделать
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+18.05 10:11:21: SYSTEM: host7core2acco: fiber_control: system buffer is full, skipping ip_packet delivery
+
+fiber_aaa отдает информацию а fiber_control ее не упивает принять и отбрасывает 
+
+
+Mikhail 11:40 AM
+Попробовать дать больше потоков контролу
+
+Но не факт что поможет,
+
+   fiber_threads_count = 6; //3; //1;  было 3
+
+
+
+Нет дропов и потерь
+Проверяем НС счётчики CRC и дропов
+Дальше проверяем nt-io (Физика карт на УС) дропы и ЦРЦ
+Дальше проверяем что фидеры всё успевают, нет дропов
+
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+нет im 
+
+првоерить все skip 
+
+как настроена секция fiber_im
+
+@Марат можешь проверить что у тебя  im не свалился в шифрованы режим ?  
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+на 64 порту только AAA
+
+o
+возможно идет пересечение 
+ядра фидера пересекались с балансером
+
+
+
+ERROR!: host3core11feeder: Can't init ntio strerror: Resource temporarily unavailable, 11
+ERROR!: host3core11feeder: can't init network ports
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+ dpdk:
+        {
+            base_virtaddr = 0x600000000000L; // стартовый адрес для memory map $
+            rx_pool_size = 458752;
+            tx_pool_size = 0;
+            rx_burst_size = 32;
+            // Настройка размеров пулов и rx_burst_size для отдельных портов
+            port3: //arrange
+            {
+                rx_pool_size = 65536;
+                tx_pool_size = 65536;
+            };
+            port1://not use можно спуститься до  32000
+            {
+            rx_pool_size = 188752;
+            tx_pool_size = 0;
+            rx_burst_size = 32;
+            };
+            port0:
+            {
+            rx_pool_size = 710000;
+            tx_pool_size = 0;
+            rx_burst_size = 32;
+            };
+
+            port4: //backplane
+            {
+                rx_pool_size = 65536;
+                tx_pool_size = 32768;
+            };
+            port5: //backplane
+            {
+                rx_pool_size = 65536;
+                tx_pool_size = 32768;
+            };нич
+            //pmd_list = "intel, mlx5";
+        };
+    };
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+Привет, можешь немного подсказать, проблема co съемником с 1 картой, не стартует ntio . В ntio.conf сыпет
+DPDK: INFO: Opening ring port 0 (eth_port: 0): rx_workers: 1; rx_queues: 1; tx_workers: 0; tx_queues: 0
+DPDK: ERROR: Ring port 0: underlying eth port 0 is not valid
+BALANCER: ERROR: open_ring(0) failed: 22(Invalid argument)
+
+Alexander 10:55 AM
+Привет
+
+Значит физический порт не настроили или он не инициализировался по каким-то причинам
+             =--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+смотрю что просиходит сдрайвермо устройства 
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+если на двух портах карты дропает 
+нужно посмотреть (выведет ядра как распределены физ ) 
+cat /sys/devices/system/cpu/cpu*/topology/thread_siblings_list
+что бы не было 
+Вот теперь смотри, надо назначать балансеры так чтобы они не ложились на одно физическое ядро
+И ещё необходимо чтобы фидеры не были на одном физическом ядре с балансерами
+
+нужно поставить порты так что бы с fideerom не пересекались !!!!
+
+
+cat /sys/devices/system/cpu/cpu*/topology/thread_siblings_list        
+        ierrors(*): 0(0 pps)
+
+0-1
+5,10
+11-12
+11-12
+9,13
+14-15
+14-15
+0-1
+2,6
+3,7
+4,8
+5,10
+2,6
+3,7
+4,8
+9,13
+
+   balancer:
+        {
+            core11:  { rx_ports = "0,4"; };
+            core12:  { rx_ports = "1,5"; };
+            core14:  { rx_ports = "2"; };
+            core15:  { rx_ports = "3"; };
+            usleep_delay = 300;
+        };
+        
+        
+        так кажется нашел причину, были дропы 7046434
+
+
+Агрба Михаил @agrbamd
+15:09
+Где были дропы и почему?
+
+e.sermyagin
+Сермягин Егор @e.sermyagin
+15:11
+в g10.log были,пока не понятно почему, обнули счетчики ntio, жду повторных дропов
+пока нет дропов, может попробовтаь еще раз скачать файл ?
+
+
+Агрба Михаил @agrbamd
+15:19
+Да, пробуй, на НС тоже бы зафиксировать статистику и смотреть
+
+e.sermyagin
+Сермягин Егор @e.sermyagin
+15:26
+в задаче отписаться что были битые файл, по причине дропов, ?
+и что нужен перетест , в отслеиванием по какой причиние произашел дроп ?
+
+
+Агрба Михаил @agrbamd
+15:27
+Сначала надо понять по какой причине были дропы
+Что-то там на счётчиках - никому не объяснишь
+
+e.sermyagin
+Сермягин Егор @e.sermyagin
+15:28
+Clipboard - 8 декабря 2022 г., 15:28.png
+(77.25 kB)
+
+
+
+
+Агрба Михаил @agrbamd
+15:28
+Типа "ну так звёзды сошлись"
+А вот тут интереснее
+Карты дропают
+Почему?
+
+e.sermyagin
+Сермягин Егор @e.sermyagin
+15:28
+пошел разбираться
+на 180.102 в dmesg oom от 12 часов сегодня
+репортов нет
+
+
+Агрба Михаил @agrbamd
+15:30
+Если это влияет - тогда так и запишем
+
+e.sermyagin
+15:30
+на 180.102 в dmesg oom от 12 часов сегодня
+Но мне что-то кажется что там пересечение ядер
+
+e.sermyagin
+Сермягин Егор @e.sermyagin
+15:30
+пока не знаю
+физических имеешь в виду ?
+
+
+Агрба Михаил @agrbamd
+15:31
+Не торопись, они там в чате каждый раз дёргали кучу раз, а смысла - 0
+Ну да
+
+e.sermyagin
+15:31
+физических имеешь в виду ?
+Потому что по факту поддержка 0-3 летела на нас
+
+agrbamd
+15:31
+Не торопись, они там в чате каждый раз дёргали кучу раз, а смысла - 0
+
+e.sermyagin
+Сермягин Егор @e.sermyagin
+15:32
+0-3 линии поддержки ?
+
+
+Агрба Михаил @agrbamd
+15:32
+Ну да
+Ермолаев получил заявку, написал в чат
+Ты побежал сделал
+Он отписаться даже забыл
+К моменту когда сдавать - опять упало
+Потому что ты бегал по задачам по кругу, разобраться времени нет
+
+e.sermyagin
+Сермягин Егор @e.sermyagin
+15:37
+в ntio 12-15 стандарт,
+12,15
+11,13
+9,14
+вешаю балансер на 2 ядра 13и15?
+
+
+Агрба Михаил @agrbamd
+15:40
+Да
+И проверяй что ушли дропы HW
+
+e.sermyagin
+Сермягин Егор @e.sermyagin
+15:40
+только на этой ?
+или на всех меняем что бы не было в будущем пересечений?
+
+
+Агрба Михаил @agrbamd
+16:19
+Аккуратненько везде где дропы
+
+e.sermyagin
+15:41
+или на всех меняем что бы не было в будущем пересечений?
+И сначала проверь тут
+Ушли ли дропы когда поправил
+
+e.sermyagin
+Сермягин Егор @e.sermyagin
+16:26
+дропы были на 2 картах, на 2 поправил на 1 вроде ушли, минут 10 нет , на 1 все еще есть , бробовать другия ядра назначать или 14 фидеров делать ?
+
+agrbamd
+16:19
+И сначала проверь тут
+
+e.sermyagin
+Сермягин Егор @e.sermyagin
+16:33
+а та что дропает с оом
+может попробовать ее ребутнуть посмотреть повлияет на что то или нет
+
+
+Агрба Михаил @agrbamd
+16:36
+Пробуй
+И ужимай место под потоки, уточни у Лёши что можно ужать
+Не сделать его попроси, а резберись
+Надо попробовать уйти от ООМ на картах
+Перед этим проверьте что без дропов все файлы будут целые
+
+e.sermyagin
+Сермягин Егор @e.sermyagin
+16:41
+хорошо, сейчас пробую, ребут смотрю как карта живет, если все норм , то прошу перетест если все норм,то затем спрашиваю у Леши что можно ужимать
+
+agrbamd
+16:36
+И ужимай место под потоки, уточни у Лёши что можно ужать
+
+
+Агрба Михаил @agrbamd
+16:42
+Да, и не забудь после ребута перепроверить ядра
+
+e.sermyagin
+16:41
+хорошо, сейчас пробую, ребут смотрю как карта живет, если все норм , то прошу перетест если все норм,то затем спрашиваю у Леши что можно ужимать
+
+agrbamd
+16:36
+И ужимай место под потоки, уточни у Лёши что можно ужать
+
+e.sermyagin
+Сермягин Егор @e.sermyagin
+16:43
+проверю еще что на других регонах уменьшали при оом на картах
+
+agrbamd
+16:36
+Надо попробовать уйти от ООМ на картах
+
+
+Агрба Михаил @agrbamd
+16:44
+Можно, но лучше понять ещё что Лёша скажет
+
+e.sermyagin
+16:43
+проверю еще что на других регонах уменьшали при оом на картах
+
+agrbamd
+16:36
+Надо попробовать уйти от ООМ на картах
+И выводим правило и делаем везде
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+данный звонок stun он совершен  с тестового пк  через зойпер
+
+но у нас он пришел как 5060
+
+
+проверить секцию send_stun_stat_msg должно быть = 1
+
+send_stun_stat_msg = 1; //отправка стат. сообщений STUN
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+корка на карте по feeder (в htop ядра падают ) ядра в 100% улетаю затем падают 
+
+           И так нашёл, линки переключали с 1-2 на 13-14
+
+(Выходные
+В итоге непонятно что шло сейчас на одну карту
+Katayev 9:43 PM
+Проверю по таблице
+Не должно было такого быть
+А выходы 13-14
+Ну и балансировка была 1-14
+Ушла нагрузка 100%, Егор проверяй потом
+Если завтра всё ок - задачу в Настроено не забудь)
+
+
+
+попробовать урезать в половину
+
+ flow_timeouts: //таймауты неактивности потоков для каждой группы декодеров
+        {
+            acco = 270; //300; //600;
+            mail = 270; //300; //600;
+            msgs = 270; //300; //600;
+            ftp = 300;//600;//270; // 300; //600;
+            http = 30; //60;
+            voip = 270; //900;
+            bgp = 270; //300; //600;
+            rtp = 30;
+            uncaught = 10;
+            just_got_syn = 30; // syn был, но данных tcp не было
+            isis = 100; //900;
+            isakmp = 180;
+            snmp = 30;
+            pptp = 180;
+            vpn_other = 60;
+            tzsp = 60;
+            gre = 180;
+        };
+        
+           fin_timeout = 1000; //100;  // Милисекунды.
+           
+           
+           
+
+
+           
+     =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=      
+           
+не стартует ntio падают фаберы 
+в логе нтио ошибка 
+DPDK-LIB: INFO: USER1: rte_ip_frag_table_create: allocation of 25165952 bytes at socket 0 failed do
+BALANCER: ERROR: Can't init ip defrag table
+BALANCER: ERROR: Can't init: 2(No such file or directory)
+running 'ntio-balancer /home/g10/g10.conf' in '/LOGS/rundir'...
+в reports/host0.feeder2.8.out
+NTIO.DPDK-LIB: EAL: failed to send to (/run/nt/dpdk/rte/mp_socket) due to Connection refused
+NTIO.DPDK-LIB: EAL: Fail to send request /run/nt/dpdk/rte/mp_socket:bus_vdev_mp
+NTIO.DPDK-LIB: vdev_scan(): Failed to request vdev from primary  
+
+меняем в opt/nt/etc/ntio.conf 
+эти два значения 
+hugepages_0 = 3072; //2048;  
+            rx_pool_size = 500000; //458752;
+{
+    RUNPATH = "/tmp"
+    boot:
+    {
+        user = "g10";                  // Пользователь, который сможет запускать ntio без привилегий суперпользователя, например, g10
+        dpdk:
+        {
+            hugepage_size = 2048;      // размер hugepage в килобайтах, используемый в системе, обычно 2048kB на процессорах Intel.
+            hugepages_0 = 3072; //2048;        // количество hugepages для сокета 0 - node0 (по умолчанию 2048), не путать с hugepage_size..
+            hugepages_1 = 0;           // количество hugepages для сокета 1 - node1 (по умолчанию 0)
+            board_name = "X710|X552";
+        };
+    };
+    interfaces:
+    {
+        dpdk:
+        {
+            base_virtaddr = 0x600000000000L; // стартовый адрес для memory map $
+            rx_pool_size = 500000; //458752;
+            tx_pool_size = 0;
+            rx_burst_size = 32;
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=      
+
+
+у нас ведь был режим запуска УС с логированием расхода памяти. он еще существует?
+
+Поищи что-то типа mem_usage
+
+
+
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=      
+
+
+поправил конфиг:
+
+        skip_not_assembled_second_frags = true; // Отбрасывать вторые фрагменты, если не смогли дефрагментировать. При этом в статистике bytes/packets они не сосчитаются; true для 573
+        decode_gquic = 0; // talal 03.10.22
+        flow_stat_interval = 1000; // talal 03.10.22 500;  // Милисекунды, период отправки flow_stat по потоку
+        ipv4_flows_memory = 150994944; // talal 03.10.22 268435456; // в байтах; по умолчанию 640Мб на snf и 96Мб на октеонах
+
+Один из силикомов стоит без нагрузки совсем, а другие два на пределе, на них oom.
+Так же был oom на хосте, при 64Гб памяти и двух работающих fiber_aaa зачем-то в конфиге были прописаны два коннекта для 139 приказа ГПУ и ДПУ, требующих суммарно 8Гб памяти!!! Удалил.
+На втором хосте fiber_aaa работает комфортно.
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=      
+
+
+
+Обновлено Талалушкин Алексей 6 дня назад
+сЖалоба на проседание ААА относительно лругих городов. fiber_aaa не справляется.
+Обновил на BF
+
+commit 02e63e9dd89d83abe49c87046a64ca3eac9d554b (HEAD -> bugfix_2020.12.04, origin/bugfix_2020.12.04)
+Author: Alexey.Talalushkin <alexey.talalushkin@norsi-trans.ru>
+Date:   Tue Sep 27 10:57:08 2022 +0300
+
+    CR #11702: fiber_aaa: обрабатывать только свои aaa_event, если share_all_updates не включен
+
+Здесь почему-то огромное кол-во потоков:
+на 18.795 Gbit/s трафика потоков tcp: 3159008 (148.821 Kfl/s) udp: 1968191
+для сравнения на одном из хостов мск:
+на 37.415 Gbit/s трафика потоков tcp: 731117 (53.107 Kfl/s) udp: 489882
+Увеличил периодичность отправки flow_stats чтобы снизить нагрузку
+        flow_stat_interval = 10000; // talalushkin 23092022 1000;  // Милисекунды, период отправки flow_stat по потоку
+
+Так же половинок на много, отчасти это может множить потоки, если разные половинки на разные силикомы приходят.
+27.09 вроде как пофиксили флапание порта на коммутаторе.
+
+
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=      
+
+
+
+если окреоны не видны при аоплненине каманды lshw -C net -businfo
+(использовать для проверки хостов, Okteon не карт)
+ ipmitool -I lanplus -H 10.10.10.115 -U Administrator -P admin12345admin chassis  power off;sleep 600;ipmitool -I lanplus -H 10.10.10.115 -U Administrator -P admin12345admin chassis  power on;
+ 
+ =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=      
+ скорее всего не стартанул нтио 
+ 
+ fiber_stat: cant grep 'port0' in sensors, ignoring..
+ 
+ 
+  =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=      
+ 
+ 
+ Egor Sermyagin, 10.11.2021
+  Out of memory: Kill process 4986 (feeder2) score 47 or sacrifice child
+  
+
+Mikhail 11:55
+
+Уменьшать количество процессов
+
+оом/падение fiber и feeder
+
+ООМ - нам скорее всего не хватает хранить все потоки
+Значит надо их ужимать если нет пакетов - закрывать
+
+
+ =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=      
+
+
+[Fri May 20 15:28:05 2022] Out of memory: Kill process 17805 (feeder2) score 66 or sacrifice child
+[Fri May 20 15:28:05 2022] Killed process 17805 (feeder2) total-vm:20847888kB, anon-rss:897184kB, file-rss:0kB, shmem-rss:222476kB
+[Fri May 20 15:28:05 2022] oom_reaper: reaped process 17805 (feeder2), now anon-rss:0kB, file-rss:0kB, shmem-rss:222476kB
+
+
+
+Mikhail 14:12
+Плохо
+
+
+Попробуй выделять меньше памяти и уменьшить таймауты
+
+
+ =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=      
+ 
+
+ стоило ещё сразу сделать tunnel_ip_in_nat = 1;
+
+
+ 
+ changed okt 26.10.22
+
+flows_size сколько на фидерах?
+
+
+Сермягин Егор @e.sermyagin
+
+ipv4_flows_size: 20173 (+-678)
+
+Талалушкин Алексей @alexey.talalushkin
+
+ipv4_flows_memory ни он чём вообще, вот поставь 150994944
+этого с лихвой хватит
+сейчас падает?
+
+
+
+
+я псмотрю как ты на брянске сделал
+
+
+Талалушкин Алексей @alexey.talalushkin
+15:06
+intercept_pkt_cache_limit и там и там отключили
+он в основном пул съедает
+на белгороде пул наполовину пустой
+
+
+и давайте пробовать включать fiber_aaa.teid_mask = true; вроде привязывается лучше
+
+
+
+   check_flows_per_call = 5; //10;
+        fin_timeout = 1000; //100;  // Милисекунды.
+        flow_stat_interval = 5000; // talal 07.10.22 //2000; //1000; //500;  // Милисекунды, период отправки flow_stat по потоку
+        object_cache_limit = 2048; // кеширование заголовков писем, напр.
+        intercept_pkt_cache_limit = 0; // talal 06.10.22 //5;//4; //5;   // Кешируем первые пакеты каждого потока для перехвата по ОН7
+        intercept_pkt_cache_timeout = 1; // Сбрасывать кеш первых пакетов после M секунд с момента открытия потока
+        ipv4_flows_memory = 150994944; // talal 28.09.22 268435456; // !234881024; //268435456;
+        ipv6_flows_memory = 64435456;//1048576;
+        //ipv4_flows_memory = 268435456; // в байтах; по умолчанию 640Мб на snf и 96Мб на октеонах
+        //ipv6_flows_memory = 1048576;
+        //ss7_flows_memory = 33554432;
+
+
+
+
+на 40 гб трафика нужен гдето 24 feeder
+
+
+
+Я обычно делаю так:
+core13: { rx_ports = "0,2,4"; };
+core15: { rx_ports = "1,3,5"; };
+nonprio 11,14
+feeder 0-10,12
+
+
+
+ defaults = "silicom";
+                     link_ssh = "192.168.150.240"; // Silicom with BMC MAC: 00:E0:ED:87:65:DA, BMC IP: 192.168.140.240
+                     cpusets =                                       // Можно добалять новые и ссылаться на них по name (должны являться подмножеством all)
+                     (
+                         { name = "all"; core_map = "0-15"; },       // Набор ядер для ВСЕХ процессов съемника. Если не указать, то будет "0-(cores-1)"
+                         { name = "non_prio"; core_map = "10,15"; }  // набор ядер для неприоритетных процессов: control, fiber_stat, fiber_wmail, uni_share, php. Если не указать, то будет совпадать с "all"
+                    );
+                   tasks =
+                    (
+                         { enabled = 1; name = "feeder2_nt";   core_map = "0-9,11,12"; },  // для процессов, использующих DPDK, ядра нужно указывать явно
+                         { enabled = 1; name = "fiber_stat";     cpuset = "non_prio"; }
+                     );
+
+
+
+а на мск устранили проблему с переполнением буфера ? может из-за этого у вас файлик побился вчера ? 
+Egor Sermyagin, Сегодня в 13:17
+На контент не влияет, только на стату
+
+
+
+23.11 14:46:54: SYSTEM: host3core2acco: fiber_control: system buffer is full, proc_id: 3, skipping properties delivery
+23.11 14:46:55: SYSTEM: host3core0acco: fiber_control: system buffer is full, proc_id: 2, skipping properties delivery
+23.11 14:46:55: SYSTEM: host3core0acco: fiber_control: system buffer is full, skipping properties delivery
+23.11 14:46:55: SYSTEM: host3core1acco: fiber_control: system buffer is full, proc_id: 2, skipping properties delivery
+23.11 14:46:55: SYSTEM: host3core1acco: fiber_control: system buffer is full, skipping properties delivery
+
+НЕ успевает отдавать данные в сонтрол, количество тредов попробуй увеличить
+увеличил до 10, не помогло(
+
+
+Агрба Михаил @agrbamd
+15:17
+6, дальше смотри кто и почему не успевает, попробуй вынести контрол на отдельное ядро и проверь отладку, не включена ли
+
+
+это debug_mask ?
+
+Агрба Михаил @agrbamd
+15:24
+Ага
+Вдруг там ААА:3
+
+debug_mask = "control:1 + fiber_oct:3
+такой вариант, но он вроде стандартный, при нем норамльно должно работать
+
+Посомтри ещё корки писать и парсить в 0 надо, удалять в 1
+cores_clear как-то так
+
+
+clear_cores = 1;
+
+agrbamd
+Вчера в 15:25
+cores_clear как-то так
+в 0 выставляю ?
+s
+Ага,
+
+e.sermyagin
+Сермягин Егор @e.sermyagin
+15:32
+Не помогло, но я контрол еще не вынес на отдельное ядро
+
+Сермягин Егор @e.sermyagin
+16:32
+вынес на одельное ядро больше не дропает
+
+
+релиз г100 вышел
+feeder2.aaa.gtp_request_timeout = 9
+по дефолту так и будет 9
+
+e.sermyagin
+Сермягин Егор @e.sermyagin
+15:57
+т.е. в кофниге ничего не правим?
+
+
+Талалушкин Алексей @alexey.talalushkin
+15:58
+лучше явно прописать, чтобы было видно что этот фикс присутствует
+
+
+
+привет а за что share_all_updates отвечает ?
+
+
+Талалушкин Алексей @alexey.talalushkin
+16:33
+привет, все AAA update раздаёт всем fiber_aaa
+для не GTP стоит включить
+
+e.sermyagin
+Сермягин Егор @e.sermyagin
+16:34
+т.e. для brbd ?
+
+
+Талалушкин Алексей @alexey.talalushkin
+16:37
+да
+
+e.sermyagin
+Сермягин Егор @e.sermyagin
+16:39
+а нагрузка на ядра не увеличится ?
+
+
+Талалушкин Алексей @alexey.talalushkin
+16:40
+на шпд не так много ААА
+в сравнении с GPRS
+
+ =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=      
+ 
+ иделаьные показалели для работы карты по  трафику
+ 
+ 
+ |      RX bps |      RX pps |
+ +-------------+-------------+
+ |     4.524 G |    595.15 K |
+ |     4.526 G |   595.374 K |
+ 
+ 
+  =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=      
+10 процессов с высокой нагрузкой памети и  цпу
+   
+ ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%mem | head -10
+  PID  PPID CMD                         %MEM %CPU
+ 7666  7657 /home/g10/feeder2 /home/g10  3.8 56.0
+ 7669  7656 /home/g10/feeder2 /home/g10  3.8 56.3
+ 7673  7660 /home/g10/feeder2 /home/g10  3.8 56.1
+ 7668  7655 /home/g10/feeder2 /home/g10  3.8 56.4
+ 7675  7664 /home/g10/feeder2 /home/g10  3.8 56.0
+ 7674  7659 /home/g10/feeder2 /home/g10  3.8 56.1
+ 7671  7665 /home/g10/feeder2 /home/g10  3.8 55.9
+ 7667  7658 /home/g10/feeder2 /home/g10  3.8 56.2
+ 7672  7662 /home/g10/feeder2 /home/g10  3.8 56.1
+g10@card2:~$ htop
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ 09.02 17:56:49: SYSTEM: host10core1feeder: Short pkt (Ethernet trailer?): len: 60; proto: 0x5555
+09.02 17:56:50: SYSTEM: host10core1feeder: Short pkt (Ethernet trailer?): len: 60; proto: 0x5555
+09.02 17:56:51: SYSTEM: host10core1feeder: Short pkt (Ethernet trailer?): len: 60; proto: 0x5555
+09.02 17:56:51: SYSTEM: host10core0feeder: Short pkt (Ethernet trailer?): len: 60; proto: 0x5555
+09.02 17:56:52: SYSTEM: host10core1feeder: Short pkt (Ethernet trailer?): len: 60; proto: 0x5555
+09.02 17:56:53: SYSTEM: host10core1feeder: Short pkt (Ethernet trailer?): len: 60; proto: 0x5555
+
+проверить правильность настройки кольца
+
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+относиться к шпд 
+
+если в логине не корретные значения нужно заменить в rad2psi
+
+значение rad_attr = 31;тут меня на 1 ?
+
+
+что бы понять на что меняем rad_attr необходимо записать дамп 
+
+выбрать запись с протаколом RADIUS 
+и в конце свойст открыть RADIUS Protocol:Attributes value pairs
+найти поле с значением User-Name(1) нас интересует значение в скобках 
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+10.04 17:49:08: ERROR!: host4core0feeder: peer keepalive loop error: ttl: 3; this host: 4
+10.04 17:49:09: ERROR!: host3core0feeder: peer keepalive loop error: ttl: 3; this host: 3
+10.04 17:49:12: ERROR!: host5core0feeder: peer keepalive loop error: ttl: 3; this host: 5
+
+
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+
+[Mon Apr 24 15:11:34 2023] ixgbe 0000:18:00.0 net0: NIC Link is Up 1 Gbps, Flow Control: None
+[Mon Apr 24 15:11:49 2023] ixgbe 0000:18:00.0 net0: initiating reset due to tx timeout
+[Mon Apr 24 15:11:49 2023] ixgbe 0000:18:00.0 net0: Reset adapter
+[Mon Apr 24 15:11:56 2023] ixgbe 0000:18:00.0 net0: NIC Link is Up 1 Gbps, Flow Control: None
+[Mon Apr 24 15:20:01 2023] ixgbe 0000:18:00.0 net0: initiating reset due to tx timeout
+[Mon Apr 24 15:20:01 2023] ixgbe 0000:18:00.0 net0: Reset adapter
+[Mon Apr 24 15:20:27 2023] ixgbe 0000:18:00.0 net0: NIC Link is Up 1 Gbps, Flow Control: None
+[Mon Apr 24 15:31:59 2023] ixgbe 0000:18:00.0 net0: initiating reset due to tx timeout
+[Mon Apr 24 15:31:59 2023] ixgbe 0000:18:00.0 net0: Reset adapter
+[Mon Apr 24 15:32:24 2023] ixgbe 0000:18:00.0 net0: NIC Link is Up 1 Gbps, Flow Control: None
+[Mon Apr 24 15:35:52 2023] ixgbe 0000:18:00.0 net0: initiating reset due to tx timeout
+[Mon Apr 24 15:35:52 2023] ixgbe 0000:18:00.0 net0: Reset adapter
+[Mon Apr 24 15:36:10 2023] ixgbe 0000:18:00.0 net0: NIC Link is Up 1 Gbps, Flow Control: None
+[Mon Apr 24 15:36:25 2023] ixgbe 0000:18:00.0 net0: initiating reset due to tx timeout
+[Mon Apr 24 15:36:25 2023] ixgbe 0000:18:00.0 net0: Reset adapter
+[Mon Apr 24 15:36:30 2023] ixgbe 0000:18:00.0 net0: NIC Link is Up 1 Gbps, Flow Control: None
+[Mon Apr 24 16:53:13 2023] ixgbe 0000:18:00.0 net0: initiating reset due to tx timeout
+[Mon Apr 24 16:53:13 2023] ixgbe 0000:18:00.0 net0: Reset adapter
+
+вот так он выглядит в dmesg
+тут силиком, и на хосте резетится адаптер - из-за высокой нагрузки от fiber_aaa
+ночью делали перебалансироваку - это мск gprs
+[Mon Apr 24 16:53:13 2023] ixgbe 0000:18:00.0 net0: initiating reset due to tx timeout
+а у тебя такого нет
+проверь нагрузку и сравни вывод в dmesg
+если не так, то это проблемы физики
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+sudo ntio-setup.sh g10.conf
+Configuring DPDK environment
+running ntio-dpdk-setup.sh -u g10 -s 2048 -m 4096 -e 4096 -p 02:00.0 -p 02:00.1 -p 81:00.0 -p 81:00.1 -p 82:00.0 -p 82:00.1
+Removing rtemaps from /dev/hugepages
+4096 hugepages of 2048kB already reserved on node0 (will not recreate)
+4096 hugepages of 2048kB already reserved on node1 (will not recreate)
+hugetlbfs already mounted at /dev/hugepages
+modinfo: ERROR: Module igb_uio not found.
+## ERROR: Not found DPDK UIO Kernel Module in modules list.
+          To fix, please try to reinstall DPDK environment.
+# Please load the 'igb_uio' kernel module before querying or
+# adjusting NIC device bindings
+SNF config is not set
+STORAGE config is not set
+PCAP config is not set
+NTPIPE config is not set
+Directory /home/g10/rundir already exist
+что-то не так с dpdk-generic-modules?

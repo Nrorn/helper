@@ -1,0 +1,496 @@
+постановка на съем 
+
+заменяет содержимое файла cmd.ini
+
+//imei=86441104088080;\
+//phone=79818602614; \
+//ip1="10.214.36.166"; \
+
+phone=79186545162; \
+ip="81.91.54.83"; \
+./.G10.exec_hosts "echo -en \"add_uni ip $ip 1 2\nadd_uni ip $ip 2 70\nadd_uni phone $phone 3 2\nadd_uni phone $phone 4 70\n\" > ~/agrbamd/cmd.ini"; bash -c "echo -en \"add_uni ip $ip 1 2\nadd_uni ip $ip 2 70\nadd_uni phone $phone 3 2\nadd_uni phone $phone 4 70\n\" > ~/agrbamd/cmd.ini"
+
+		=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+		
+
+ip="10.121.186.21"; \
+./.G10.exec_hosts "echo -en \"add_uni ip $ip 1 2\nadd_uni ip $ip 2 70\n\" > ~/serm/cmd.ini"; bash -c "echo -en \"add_uni ip $ip 1 2\nadd_uni ip $ip 2 70\n\" > ~/serm/cmd.ini"
+
+
+ip="100.125.36.209"; \
+./.G10.exec_hosts "echo -en \"add_uni ip $ip 1 2\nadd_uni ip $ip 2 70\n\" > ~/serm/cmd.ini"; bash -c "echo -en \"add_uni ip $ip 1 2\nadd_uni ip $ip 2 70\n\" > ~/serm/cmd.ini"
+		=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+add_uni login PERM_000003495 1 2
+add_uni login PERM_000003495 2 70
+
+
+ip="172.20.92.16"; \
+ip1="85.140.25.239";\
+ip2="85.140.9.237";\
+ip3="100.79.168.48";\
+ip4="10.97.45.77";\
+./.G10.exec_hosts "echo -en \"add_uni ip $ip 1 2\nadd_uni ip $ip 2 70\nadd_uni ip $ip1 3 2\nadd_uni ip $ip1 4 70\nadd_uni ip $ip2 5 2\nadd_uni ip $ip2 6 70\nadd_uni ip $ip3 7 2\nadd_uni ip $ip3 8 70\nadd_uni ip $ip4 9 2\nadd_uni ip $ip4 10 70\n\" > ~/agrbamd/cmd.ini"; bash -c "echo -en \"add_uni ip $ip 1 2\nadd_uni ip $ip 2 70\nadd_uni ip $ip1 3 2\nadd_uni ip $ip1 4 70\nadd_uni ip $ip2 5 2\nadd_uni ip $ip2 6 70\nadd_uni ip $ip3 7 2\nadd_uni ip $ip3 8 70\nadd_uni ip $ip4 9 2\nadd_uni ip $ip4 10 70\n\" > ~/agrbamd/cmd.ini"
+
+ip="10.35.5.85"; \
+ip1="10.35.5.86";\
+ip2="10.35.5.89";\
+ip3="10.147.42.153";\
+ip4="172.20.92.93";\
+./.G10.exec_hosts "echo -en \"add_uni ip $ip 1 2\nadd_uni ip $ip 2 70\nadd_uni ip $ip1 3 2\nadd_uni ip $ip1 4 70\nadd_uni ip $ip2 5 2\nadd_uni ip $ip2 6 70\nadd_uni ip $ip3 7 2\nadd_uni ip $ip3 8 70\nadd_uni ip $ip4 9 2\nadd_uni ip $ip4 10 70\n\" > ~/serm/cmd.ini"; bash -c "echo -en \"add_uni ip $ip 1 2\nadd_uni ip $ip 2 70\nadd_uni ip $ip1 3 2\nadd_uni ip $ip1 4 70\nadd_uni ip $ip2 5 2\nadd_uni ip $ip2 6 70\nadd_uni ip $ip3 7 2\nadd_uni ip $ip3 8 70\nadd_uni ip $ip4 9 2\nadd_uni ip $ip4 10 70\n\" > ~/serm/cmd.ini"
+
+		=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+		
+imsi=250016984800975; \
+./.G10.exec_hosts "echo -en \"add_uni login $imsi 1 2\nadd_uni login $imsi 2 70\n\" > ~/agrbamd/cmd.ini"; bash -c "echo -en \"add_uni login $imsi 1 2\nadd_uni login $imsi 2 70\n\" > ~/agrbamd/cmd.ini"
+
+		=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+vlan="3030"; \
+./.G10.exec_hosts "echo -en \"add_uni vlan $vlan 1 2\nadd_uni vlan $vlan 2 70\n\" > ~/agrbamd/cmd.ini"; bash -c "echo -en \"add_uni vlan $vlan 1 2\nadd_uni vlan $vlan 2 70\n\" > ~/agrbamd/cmd.ini"
+
+		=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+imsi=250012961237165;\
+phone=79112009993; \
+ip="195.191.36.170"; \
+./.G10.exec_hosts "echo -en \"add_uni ip $ip 1 2\nadd_uni ip $ip 2 70\nadd_uni login $imsi 3 2\nadd_uni login $imsi 4 70\nadd_uni phone $phone 5 6\nadd_uni phone $phone 6 70\n\" > ~/serm/cmd.ini"; bash -c "echo -en \"add_uni ip $ip 1 2\nadd_uni ip $ip 2 70\nadd_uni login $imsi 3 2\nadd_uni login $imsi 4 70\nadd_uni phone $phone 5 6\nadd_uni phone $phone 6 70\n\" > ~/serm/cmd.ini"
+
+	=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+	
+imsi=250011360466760; \
+ip="10.210.24.78"; \
+./.G10.exec_hosts "echo -en \"add_uni ip $ip 1 2\nadd_uni ip $ip 2 70\nadd_uni login $imsi 3 2\nadd_uni login $imsi 4 70\n\" > ~/serm/cmd.ini"; bash -c "echo -en \"add_uni ip $ip 1 2\nadd_uni ip $ip 2 70\nadd_uni login $imsi 3 2\nadd_uni login $imsi 4 70\n\" > ~/serm/cmd.ini"
+
+	=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=		
+
+imsi=250017149293825; \
+phone=79179584720; \
+./.G10.exec_hosts "echo -en \"add_uni login $imsi 1 2\nadd_uni login $imsi 2 70\nadd_uni phone $phone 3 2\nadd_uni phone $phone 4 70\n\" > ~/serm/cmd.ini"; bash -c "echo -en \"add_uni login $imsi 1 2\nadd_uni login $imsi 2 70\nadd_uni phone $phone 3 2\nadd_uni phone $phone 4 70\n\" > ~/serm/cmd.ini"
+	
+=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+пример файла /home/g10/agrbamd/cmd.ini  
+                                                                                                                                                     
+add_uni phone 79194307162 1 2
+add_uni phone 79194307162 2 70
+add_uni login test-pppoe 3 2
+add_uni login test-pppoe 4 70
+#add_uni ip 91.224.204.178 5 2
+#add_uni ip 91.224.204.178 6 70
+
+add_uni port  2123 1 2
+add_uni port 2123 2 70
+
+
+add_uni email nt-test123456@sorm.ga 1 2
+
+add_uni ip  192.192.192.192 5 2
+Придёт все по этому адресу что удалось декодировать
+
+add_uni ip  192.192.192.192 6 70
+Придёт всё по этому адресу и запишется в дамп
+
+add_uni port 1812 2 2
+Придет всё с таким портов и ЛЮБЫМ адресом что удалось декодировать
+
+
+http://192.168.55.245/redmine/projects/support/wiki/Анализ_дампа_на_наличие_ААА
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+выполняем G10.exec_hosts для выполнения на всех УСах
+открывает консоли на каждом УС psi
+screen -R psi
+screen -R psi;./.G10.exec_hosts 'screen -R psi'
+./.G10.exec 'screen -R psi'
+
+открывает консоли на каждом УС pts-1.g10
+screen -R pts-1.g10;./.G10.exec_hosts 'screen -R pts-1.g10'
+
+screen -ls
+
+
+затем смотим что у нас в файле cmd.ini те ли значения и проеряем hostid
+cat ~/serm/cmd.ini; cat /etc/hostid
+
+после screen -R psi;./.G10.exec_hosts 'screen -R psi'выполняешь
+
+cd ~/serm/;rm -rf out; ~/psi_shell 127.0.0.1 35555 35556 -o out -i cmd.ini
+
+
+
+ mkdir serm;cd ~/serm;mcedit cmd.ini
+
+ mkdir serm;mcedit ~/serm/1
+
+вывод на экран и в файл тейла отсартироанного грепом 
+echo > ~/serm/1;tail -F ~/rundir/g10.log | grep -E  --line-buffered 'crc|SYSTEM: -- system stats --' >> ~/serm/1 |tail -F ~/serm/1 | grep -E  --line-buffered 'crc|SYSTEM: -- system stats --'
+
+После запуска ctrl+a+d - это свернёт скрин
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+show_stats 
+-смотрит стату 
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+http://192.168.55.245/redmine/projects/support/wiki/Анализ_дампа_на_наличие_ААА
+
+Обязательно наличие полей:
+AVP: l=6 t=Acct-Status-Type(40): встречается 3 типа значений interim-Update(3),Stop(2),Start(1)
+AVP: l=13 t=User-Name(1): указан логин пользователя
+AVP: l=6 t=Framed-IP-Address(8): IP пользователя
+
+Если ничего не нашлось, то ААА нет, либо он идет на другом IP или портах.
+Если мы знаем,что радиус идет по нестандартному порту,например 1645, то в дампе можно посмотреть его так:
+tshark -r dump_1.pcap -V -2 -R 'udp.port==1645' -d udp.port==1645,radius
+
+Обязательно наличие полей в Update для синтетического старта:
+AVP: l=6 t=Acct-Status-Type(40): interim-Update(3)
+AVP: l=13 t=User-Name(1): указан логин пользователя
+AVP: l=6 t=Framed-IP-Address(8): IP пользователя
+Acct-Session-Id
+
+На счетчиках синтетический старт посчитается в got_updates и отобразится как отправленный старт в sent_stat_msgs_connect: .
+Например:
+got_starts: 61 (+0)
+got_updates: 102479 (+2)
+got_stops: 63 (+0)
+----
+sent_stat_msgs_connect: 81 (+0)
+sent_stat_msgs_loc_update: 0 (+0)
+sent_stat_msgs_disc: 63 (+0)
+
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+если просят посмотреть тафик по портам, надо сначала поставить съем по пси на ip. Когда сделали съем, перейти в папку с дампом и сделать греп(необходимо грепнуть по 1812 порту )
+
+tshark -r dump_4.pcap -Y 'udp.port==1812' -V
+
+tshark -r dump_2.pcap -V -2 -R 'radius.code == 4'
+
+
+проверяме есть ли telnet
+tshark -r dump_2.pcap -Y 'udp.port==23' -V
+
+проверяем есть ли ssh
+tshark -r dump_2.pcap -Y 'tcp.port==22' -V
+
+
+
+
+если после грепа есть какой то вывод значит съем по порту есть 
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+Так почтовые приложения, которые общаются по SMTP-протоколу, прослушивают порт 25, почта через POP3 приходит на 110-й, по HTTP принимают сообщения веб-сервера — это порт 80, 21-й зарезервирован за FTP. Порт всегда записывается после IP и отделяется от него двоеточием, выглядит это, например, так: 192.168.1.1:80.
+
+если имена файлов начинаются на 
+=-=-=-=-=-=-=-=-=--=-=--=-=-
+1  недекодированный
+18000000ab1c45e4.uni1.dir0
+=-=-=-=-=-=-=-=-=--=-=--=-=-
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-
+2  (AAA)  декодированный (старт стоп апдейт))RADIUS)
+28100000ab1c45e4.uni1.dir0
+=-=-=-=-=-=-=-=-=--=-=--=-=-
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-
+3
+382221000ab1c45e4.uni1.dir0
+=-=-=-=-=-=-=-=-=--=-=--=-=-
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-
+4 SMTP  почта
+482221000ab1c45e4.uni1.dir0
+=-=-=-=-=-=-=-=-=--=-=--=-=-
+
+grep "П\|О" 4*dir[0-1]
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-
+5 IM (Instant messaging, IM)
+582221000ab1c45e4.uni1.dir0
+=-=-=-=-=-=-=-=-=--=-=--=-=-
+
+grep -E  --line-buffered "Отправка|Прием" ~/serm/out/5*.uni1.dir* 
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-
+6 FTP
+60102006ed3b15a.uni1.dir0
+=-=-=-=-=-=-=-=-=--=-=--=-=-
+
+cat ~/serm/out/6* | grep MB.zip 
+
+ищет по имени файла
+./.G10.exec_hosts grep -irl '10M'  ~/agrbamd/out/6*.prop| xargs cat
+./.G10.exec_hosts grep -irl '100'  ~/serm/out/6*.prop| xargs cat
+./.G10.exec_hosts grep -irl 'orderst'  ~/serm/out/6*.prop| xargs cat
+
+ищет ftp файлы и сортирует их
+ls -hl ~/agrbamd/out/6*.dir0 |sort -nk5
+ 
+=-=-=-=-=-=-=-=-=--=-=--=-=- 
+7 HTTP
+70b02001581870a.uni1.dir0
+=-=-=-=-=-=-=-=-=--=-=--=-=-
+
+grep "Referer: http" ~/serm/out/7*
+./.G10.exec_hosts "grep url ~/serm/out/7*prop"
+grep url ~/serm/out/7*prop | grep "kremlin.ru"; ./.G10.exec_hosts "grep url ~/serm/out/7*prop | grep kremlin.ru"
+./.G10.exec_hosts grep -rl 'http://kremlin.ru' ~/agrbamd/out/7*prop | xargs cat
+grep 'url:' ~/serm/out/7*prop
+
+ls -ltr 7* 
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-
+8 VOIP нет голоса нет rtp
+882221000ab1c45e4.uni1.dir0
+=-=-=-=-=-=-=-=-=--=-=--=-=-
+
+find ~/serm/out/8*dir[0-1]
+ ./.G10.exec_hosts "grep -irl 'CALL_END_NORMAL' ~/serm/out/8*.prop| xargs cat | grep  'voip_id'"
+
+
+файлы с раширением 60902003c559f66.uni1.prop, хронят в себе информацию о файле, dir0 это сам файл
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ заметки
+
+e212.imsi
+
+tshark -r dump_2.pcap -V -2 -R 'smtp'
+tshark -r dump_2.pcap -Y 'e212.imsi == 250012961237165' -V 
+?????? tshark -r dump_2.pcap -Y 'gtp.imsi == 250012540361403' -V ?????
+tshark -r dump_2.pcap -Y 'tcp.port==22' -V
+tshark -r dump_2.pcap -z conv,tcp -q |grep :22
+tshark -r dump_2.pcap -z conv,tcp -q |grep :23
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+показывает есть ли старт по ааа
+
+grep -irl 'gtp'  ~/agrbamd/out/*.prop| xargs cat
+grep -i 'gtp'  ~/agrbamd/out/*.prop
+
+
+dialup_code: 1 hex:1 это старт
+dialup_code: 2 hex:2 это стоп 
+
+подставляем имси 
+grep -rli '250018820233091'  ~/agrbamd/out/*.prop | xargs cat
+
+grep ~/agrbamd/out/*.prop | xargs cat
+
+должен показать прикрепления 
+
+login: 250018820233091
+imsi: 250018820233091
+imei: 862387020594190
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+поиск в prop файлов с именами 10_1.zip и 2M_1.zip соответсветственно
+grep -rli 10M_1.zip ~/agrbamd/out/
+получаетсся он просто дропа
+grep -rli 2M_1.zip ~/agrbamd/out/
+
+grep L7_EVENT_FTP_END_FILE_DOWNLOAD *.prop
+
+поиск в дампе ftp
+tshark -r dump_2.pcap ftp 
+
+tshark -r dump_2.pcap tcp
+
+tshark -r dump_2.pcap aaa
+
+tshark -r dump_2.pcap ftp |grep 
+
+поиск в дампе smtp
+tshark -r dump_2.pcap smtp
+
+поиск в дампе http
+tshark -r dump_2.pcap http
+
+поиск в дампе im
+tshark -r dump_2.pcap icmp (im)
+
+поиск в дампе -V(не знаю что)
+tshark -r dump_2.pcap -V
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+поиск дыр в трафике 
+http://192.168.55.245/redmine/projects/support/wiki/Поиск_GAP_в_дампе
+
+tshark -r dump_2.pcap -z conv,tcp -q|grep ':23'
+
+tshark -r dump_2.pcap -z conv,tcp -q
+tshark -r dump_2.pcap -2 -Y 'tcp.port == 55684' -w 55684.pcap;
+
+tshark -r dump_6.pcap -2 -R 'tcp.port == 55684' -w 55684.pcap;
+
+
+editcap -F libpcap 55684.pcap 55684_2.pcap;
+
+~/sort_tcp 55684_2.pcap > 55684.log;
+
+ grep GAP 55684.log
+
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+при проблеме на  ШПД 500MB.zip
+
+Так,пописал по адресам и портам,что стоят на контроле. По адресу ничего не увидели
+1 RADIUS aaa: 10.0.0.17:1812; nas: 0.0.0.0; vlan: 65535; key_len: 0
+2 RADIUS aaa: 10.0.0.17:1813; nas: 0.0.0.0; vlan: 65535; key_len: 0
+
+Но вот по портам нам попались апдейты, которые пролетают между этими узлами
+Internet Protocol Version 4, Src: 193.25.121.190, Dst: 193.228.235.67
+Internet Protocol Version 4, Src: 193.228.134.204, Dst: 193.228.235.67
+
+Internet Protocol Version 4, Src: 193.228.134.204, Dst: 193.228.235.67
+RADIUS Protocol
+    Code: Accounting-Request (4)
+    Packet identifier: 0xcc (204)
+    Length: 186
+    Authenticator: e514448eb953f77bed10f8047b0d0fdd
+    Attribute Value Pairs
+        AVP: t=Acct-Status-Type(40) l=6 val=Interim-Update(3)
+            Type: 40
+            Length: 6
+            Acct-Status-Type: Interim-Update (3)
+        AVP: t=NAS-Port-Type(61) l=6 val=Wireless-802.11(19)
+            Type: 61
+ AVP: t=User-Name(1) l=8 val=007205
+            Type: 1получаетсся он просто дропа
+            Length: 8
+            User-Name: 007205
+  AVP: t=Framed-IP-Address(8) l=6 val=192.168.5.248
+            Type: 8
+            Length: 6
+            Framed-IP-Address: 192.168.5.248
+            
+
+tshark -r dump_2.pcap -V -2 -R 'radius.code == 4' 
+
+
+Нам нужно узнать у оператора актуальные адреса по которым мы должны получать наш ААА 
+
+и поставить их
+
+
+
+
+
+-d <тип уровня> == <выбор>, <протокол декодирования как>
+Как Wireshark в Decode As ... особенность, это позволяет определить , как следует расчлененный тип слоя. Если рассматриваемый тип уровня (например, tcp.port или udp.port для номера порта TCP или UDP) имеет указанное значение селектора, пакеты следует анализировать как указанный протокол.
+
+Пример: tshark -d tcp.port == 21, http будет декодировать любой трафик, проходящий через порт TCP 8888, как HTTP.
+
+Пример: tshark -d tcp.port == 8888: 3, http будет декодировать любой трафик, проходящий через порты TCP 8888, 8889 или 8890, как HTTP.
+
+Пример: tshark -d tcp.port == 8888-8890, http будет декодировать любой трафик, проходящий через порты TCP 8888, 8889 или 8890, как HTTP.
+e vtyz 
+192.168.180.43
+
+
+wget -qO - http://192.168.55.245/nt-repo/nt-repo-switch-to-mirror.sh -e use_proxy=yes | sudo -E bash; \
+wget -qO - http://192.168.55.245/nt-repo/nt-repo-init.sh -e use_proxy=yes | sudo -E bash;
+
+
+
+
+как по пропам посмотреть
+Исходящее 12:09, 12:09, 12:10
+Входящее 12:10, 12:10, 12:11
+
+на ПУ нет 1 исходящего и 1 входящего
+тут достаточно моног событий как понять какое к какому звонку относиться ?
+
+
+Фигаааа
+Не, я сходу не отвечу, там в голосе муторно всё
+Я обычно смотрю что-то типа call_end_normal
+И считаю сколько их
+
+e.sermyagin
+Сермягин Егор @e.sermyagin
+14:35
+L7_EVENT_VOIP_CALL_END_NORMAL это ?
+
+agrbamd
+9 ноября 2022 г.
+Я обычно смотрю что-то типа call_end_normal
+
+
+Агрба Михаил @agrbamd
+14:39
+Да, кажется так, а потом уже смотрю по VOIP_ID
+
+e.sermyagin
+9 ноября 2022 г.
+L7_EVENT_VOIP_CALL_END_NORMAL это ?
+
+agrbamd
+9 ноября 2022 г.ssh -f -N -L 0.0.0.0:3585:11.124.36.3:22 -p 3594 root@127.0.0.1
+Я обычно смотрю что-то типа call_end_normal
+Какие части к какому звонку относятся
+И пытаюсь что-то найти по количеству
+
+e.sermyagin
+g10@vitok-ipdr02.573.gprs.nizhniy-novgorod.mts:~/serm/out$ grep -irl "call_end" ./8*uni1.prop| xargs cat | grep "voip_id:"
+voip_id: bca95923f99f407b95fe3d3c7e2bd64e
+voip_id: 640323cac74746b586a404eedc5c5c34
+voip_id: 0908177a4691472e81a09898559f5ae5
+voip_id: 4b3e3d9a1502d67552143ffc24a34fcd@93.189.42.208:5060
+voip_id: 2b3e9cd847393c7e6597aaa5222964f4@93.189.42.208:5060
+voip_id: 4590cb755116cb562ec86ef31dfa7cfe@93.189.42.208:5060
+
+
+agrbamd
+9 ноября 2022 г.
+Да, кажется так, а потом уже смотрю по VOIP_ID
+
+e.sermyagin
+9 ноября 2022 г.
+L7_EVENT_VOIP_CALL_END_NORMAL это ?
+получается 3 выходящих 3 исходящих ?
+
+
+Агрба Михаил @agrbamd
+14:46
+Ну вроде так
+Вот навскидку, но я там чуть-чуть плаваю
+192.168.180.43
+e.sermyagin
+Сермягин Егор @e.sermyagin
+14:52
+что то ни как не сооброжу как сделать что бы перед выводом voip_id: bca959192.168.180.4323f99f407b95fe3d3c7e2bd64e
+шел его prop со временем "-rw-rw-r-- 1 g10 g10 1023 Nov 9 12:10 80805009e7c1d29.uni1.prop"
+
+agrbamd
+9 ноября 2022 г.
+Ну вроде так
+
+
+для поиска звонков
+
+ ./.G10.exec_hosts "grep -irl 'CALL_END_NORMAL' ~/serm/out/8*.prop| xargs cat | grep  'voip_id'"
+
+
+

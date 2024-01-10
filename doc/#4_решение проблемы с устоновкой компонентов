@@ -1,0 +1,249 @@
+можно посмтотреть последнию версию релизных компонентов
+192.168.55.245:/Release/components
+
+Команда aptitude show в Ubuntu отображает подробную информацию о пакете, включая его имя, версию, описание, зависимости, конфликты, размер и другую информацию. Эта команда может быть полезна, когда вы хотите получить более подробную информацию о пакете перед его установкой или удалением. Чтобы использовать эту команду, просто введите aptitude show <имя_пакета> в терминале.
+
+aptitude show
+
+
+Удаление программ без пакетного менеджера
+Если вы устанавливали программу из исходников с помощью компиляции и make install, то она разложена по всей системе. А это значит, что вы не сможете просто зайти и удалить папку с ней, как в Windows. Вам придется использовать тот же скрипт, что вы использовали для установки. Откройте терминал и выполните:
+cd /папка/с/исходниками
+ sudo make uninstall
+
+
+Если установка была прервана, то следует переустановить пакет
+sudo apt-get install --reinstall имя_пакета
+
+показывает устанволенные пакеты, и делает, поиск понпзанию пакета nt
+apt list --installed | grep "^nt"
+
+
+показывает какие пакеты можно установить 
+sudo -E apt-cache show dpdk-20
+sudo -E apt-cache show 
+sudo -E apt-cache show nanoswitch | grep Version
+
+sudo -E apt search ntmetrics2
+
+покажет какие пакеты зависят 
+apt-cache rdepends ntmetrics2
+
+покажет от каких пакетов зависит 
+apt-cache depends ntmetrics2
+
+определяет версию 
+apt-cache policy nanoswitch
+
+
+https://vds-admin.ru/linux/часто-используемые-команды-dpkg
+
+6. Dpkg, куда установлены файлы пакета
+dpkg -L  dpdk-20-4.15.0-76-generic-modules
+
+5. Dpkg, проверить, установлен пакет или нет, провека(status)
+dpkg -s dpdk-20-4.15.0-76-generic-modules
+
+
+8.Что-бы посмотреть установленные пакеты, используется ключ -l:
+dpkg -l ntlib1
+- "ii" - установлен и полностью находится в рабочем состоянии.
+- "rc" - пакет был удален, но его конфигурационные файлы остались на системе.
+- "un" - пакет был удален, но его файлы все еще находятся на системе.
+- "ii*" - пакет установлен, но его файлы были изменены с момента установки.
+- "hi" - пакет установлен, но его файлы не были найдены в системе.
+- "iF" - пакет был установлен с помощью "aptitude" и необходимо выполнить действие для завершения установки.
+- "iU" - пакет был разархивирован, но не установлен.
+
+Значение "iF" означает, что пакет был установлен с помощью менеджера пакетов "aptitude", но установка не была завершена. Это может произойти, если в процессе установки возникли какие-то проблемы или если установка была прервана пользователем.
+Для завершения установки необходимо выполнить команду "aptitude install -f".
+
+Значение "iU" означает, что пакет был разархивирован, но не установлен. Это может произойти, если установка была прервана или если пакет был загружен, но не был установлен. 
+Для установки пакета необходимо выполнить команду "dpkg -i <имя пакета>".
+
+Используется для вывода информации о пакетах, установленных в системе
+dpkg-query  ntlog
+
+3. Dpkg, удалить пакет
+dpkg -r dpdk-20-4.15.0-76-generic-modules
+
+1. Dpkg, установка пакета
+dpkg -i  dpdk-20-4.15.0-76-generic-modules
+
+10. Dpkg, обновить информации о доступности пакета
+dpkg –-update-avail  dpdk-20-4.15.0-76-generic-modules
+
+7. Mожно узнать имя содержащегося в нём пакета, например, с помощью программы dpkg-deb
+dpkg-deb -f tabby-1.0.196-linux-x64.deb
+Package: tabby-terminal
+Version: 1.0.196
+License: unknown
+Vendor: Eugene Pankov <e@ajenti.org>
+Architecture: amd64
+Maintainer: Eugene Pankov <e@ajenti.org>
+Installed-Size: 361870
+Depends: gconf2, gconf-service, gnome-keyring, libnotify4, libsecret-1-0, libxtst6, libnss3
+Replaces: terminus-terminal
+Recommends: libappindicator3-1
+Section: default
+Priority: optional
+Homepage: https://github.com/Eugeny/tabby#readme
+Description: 
+  A terminal for a modern age
+
+
+
+
+!!!!!!далее удаляем все его зависимости поставившиеся автоматически !!!!!!
+sudo apt autopurge
+
+
+перечитвыает новые компаненты 
+sudo depmod -a
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+arch="T=x86_64-core-avx-i-linuxapp-gcc"; \
+flags=$(cat /proc/cpuinfo | grep flags | tail -n1|sed "s|^flags\t*: ||"); \
+for instruction in 'mmx' 'sse' 'sse2' 'sse3' 'ssse3' 'sse4_1' 'sse4_2' 'avx' 'aes' 'pclmul' 'fsgsbase' 'rdrand' 'f16c'; \
+do [ -z "$(echo $flags | grep $instruction)" ] && arch="T=x86_64-corei7-linuxapp-gcc"; \
+done; \
+echo $arch
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+./.G10.exec 'screen -R psi'
+
+ls /run/nt
+echo 123456nt | sudo -S mkdir /run/nt
+
+export http_proxy=http://192.168.150.223:3128; \
+export https_proxy=http://192.168.150.223:3128;\
+echo 123456nt | sudo -S cat /etc/hostid;\
+sudo apt-get purge -y dpdk-20-4.15.0-76-generic-modules dpdk-20-core-avx-i nt-cmdtree libnt nt-filters nt-io-core-avx-i nt-log nt-metrics nt-pipe nt-proto snf-4.15.0-76-generic-modules;\
+sudo apt autoremove -y ;\
+sudo apt autoclean;\
+echo -en '\n' | sudo -E add-apt-repository ppa:ubuntu-toolchain-r/test; \
+wget -qO - http://192.168.55.245/nt-repo/nt-repo-init.sh -e use_proxy=yes | sudo -E bash; \
+sudo -E apt-get purge -y libconfig-dev; \
+sudo -E apt-get install --allow-downgrades  -y dpdk-20-core-avx-i=20.11.1-b12 dpdk-20-4.15.0-76-generic-modules=20.11.1-b12;\
+sudo -E apt-get install --allow-downgrades  -y nt-io-core-avx-i=2.1.5-b11 nt-pipe=1.6.8-b15 nt-filters=2.10.0-b14 nt-metrics=2.1.0-b1 nt-cmdtree=1.6.1-b7 libnt=1.3.4-b3 nt-log=1.18.2-b1 nt-proto=2.1.7-b5;\
+dpkg -l dpdk-* nt-io-* libconfig* libnt* nt-* snf-*;
+
+sudo  -E apt-get install  --allow-downgrades  libpcap-dev=1.8.1-6ubuntu1.18.04.2 libpcap0.8=1.8.1-6ubuntu1.18.04.2  libpcap0.8-dev=1.8.1-6ubuntu1.18.04.2
+
+
+
+wget -qO - http://192.168.55.245/nt-repo/nt-repo-switch-to-mirror.sh -e use_proxy=yes | sudo -E bash; \
+wget -qO - http://192.168.55.245/nt-repo/nt-repo-init.sh -e use_proxy=yes | sudo -E bash;
+
+wget -qO - http://192.168.55.245/nt-repo/nt-repo-dev/nt-repo-init.sh -e use_proxy=yes | sudo -E bash;
+ 
+
+sudo cp /etc/apt/trusted.gpg /etc/apt/trusted.gpg.back;sudo rm /etc/apt/trusted.gpg
+
+sudo apt clean
+sudo apt autoremove -y 
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+export http_proxy=http://192.168.160.202:3128; \
+export https_proxy=http://192.168.160.202:3128;\192.168.180.116
+echo -en '\n' | sudo -E add-apt-repository ppa:ubuntu-toolchain-r/test; \
+wget -qO - http://192.168.55.245/nt-repo/nt-repo-init.sh -e use_proxy=yes | sudo -E bash; \
+sudo -E apt-get purge -y libconfig-dev; \
+sudo -E apt-get install --allow-downgrades  -y dpdk-20-corei7=20.11.1-b12 dpdk-20-4.15.0-76-generic-modules=20.11.1-b12;\
+sudo -E apt-get install --allow-downgrades  -y nt-io-corei7=2.1.5-b11 nt-pipe=1.6.8-b11   nt-filters=2.10.0-b14 nt-metrics=2.1.0-b1 nt-cmdtree=1.6.1-b7 libnt=1.3.4-b3 nt-log=1.18.2-b1 nt-proto=2.1.7-b5;\
+dpkg -l dpdk-* nt-io-* libconfig* libnt* nt-* snf-*;
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+17:41:50 dpkg-query: no packages found matching nt-shmdb
+17:41:50 dpdk-20-corei7  20.11.1-b12
+17:41:50 libnt           1.3.4-b3
+17:41:50 nt-cmdtree      1.6.1-b7
+17:41:50 nt-filters      2.10.0-b14
+17:41:50 nt-io-corei7    2.1.5-b11
+17:41:50 nt-log          1.18.2-b1
+17:41:50 nt-metrics      2.1.0-b1
+17:41:50 nt-pipe         1.6.8-b11
+17:41:50 nt-proto        2.1.7-b5
+
+dpdk-20-core-avx-i
+libnt
+nt-cmdtree
+nt-filters
+nt-log
+nt-metrics
+nt-pipe
+nt-proto
+
+Version: 1.3.4-b9
+
+
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+при проблеме с устанвокой gcc	я
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 10 --slave /usr/bin/g++-R:13304:192.168.55.245:22 -R:3128:192.168.55.253:3128 -N -f;
+
+ g++ /usr/bin/g++-7; \
+>   sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 20 --slave /usr/bin/g++ g++ /usr/bin/g++-9;
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+Это предупреждение означает, что при удалении пакета nt-filters система не удалит сам пакет, а только его конфигурационные файлы. Если вы хотите удалить пакет полностью, включая его файлы конфигурации, вы можете использовать опцию --purge при удалении пакета. Например, вы можете выполнить следующую команду:
+
+sudo apt-get remove --purge nt-filters
+
+
+Это удалит пакет nt-filters и все связанные с ним конфигурационные файлы. Если вы не хотите удалять конфигурационные файлы, вы можете проигнорировать это предупреждение.
+
+
+Это сообщение об ошибке указывает на то, что произошла ошибка при обработке пакета nt-web-mngr. Чтобы решить эту проблему, вы можете попробовать выполнить следующие действия:
+
+1. Попробуйте переустановить пакет nt-web-mngr с помощью команды:
+
+sudo apt-get install --reinstall nt-web-mngr
+
+
+2. Если переустановка не помогла, попробуйте удалить пакет nt-web-mngr с помощью команды:
+
+sudo apt-get remove nt-web-mngr
+
+
+3. Если удаление пакета также вызывает ошибку, попробуйте удалить пакет с опцией --force:
+
+sudo dpkg --force-all -r nt-web-mngr
+
+
+Однако, будьте осторожны при использовании этой опции, так как она может привести к потере данных или нарушению целостности системы. После удаления пакета вы можете попробовать переустановить его с помощью команды из пункта 1.
+
+
+
+
+Это сообщение об ошибке указывает на то, что произошла ошибка при удалении пакета nt-web-mngr. Вероятно, проблема связана с пост-установочным скриптом, который не может быть выполнен при удалении пакета.
+
+Чтобы решить эту проблему, вы можете попробовать выполнить следующие действия:
+
+1. Попробуйте переустановить пакет nt-web-mngr с помощью команды:
+
+sudo apt-get install --reinstall nt-web-mngr
+
+
+2. Если переустановка не помогла, попробуйте удалить пакет nt-web-mngr с опцией --force-all:
+
+sudo dpkg --force-all -r nt-web-mngr
+
+
+Однако, будьте осторожны при использовании этой опции, так как она может привести к потере данных или нарушению целостности системы.
+
+3. Если ни один из этих методов не помог, попробуйте удалить файл пост-установочного скрипта пакета nt-web-mngr вручную с помощью команды:
+
+sudo rm /var/lib/dpkg/info/nt-web-mngr.postrm
+
+
+Затем попробуйте удалить пакет nt-web-mngr снова с помощью команды из пункта 2.
+

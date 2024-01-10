@@ -1,0 +1,957 @@
+export http_proxy=http://127.0.0.1:3128; \
+  export https_proxy=http://127.0.0.1:3128; \
+  echo -en '\n' | sudo -E add-apt-repository ppa:ubuntu-toolchain-r/test; \
+  wget -qO - http://192.168.55.245/nt-repo/nt-repo-init.sh -e use_proxy=yes | sudo -E bash; \
+  sudo -E add-apt-repository -y ppa:ondrej/php;\
+  sudo -E apt-get update; \
+  sudo -E apt-get install nanoswitch-cli4; \
+  sudo -E apt-get install nanoswitch;\
+  sudo -E apt-get install nanoswitch-web1; \
+  sudo -E apt-get install ntmetrics2;\
+  sudo -E apt-get install ntmetrics-web-docker-image;\
+  sudo -E apt-get install ntlib1;\
+  sudo -E apt-get install  ntlog1;
+  
+ 
+export http_proxy=http://127.0.0.1:3128;export https_proxy=http://127.0.0.1:3128; echo 123456nt | sudo -SE apt-get update; \
+sudo -E apt-get install docker.io; \
+sudo -E apt-get install nt-docker-keyring; \
+sudo -E apt-get install ntmetrics-web -t unstable; \
+sudo -E apt-get install php7.2 php7.2-cli php7.2-common php7.2-dev php7.2-json php7.2-opcache php7.2-pgsql php7.2-readline php7.2-xml php-yaml python3-yaml; \
+sudo update-alternatives --config php
+
+
+  
+  
+проверка прпавил на нс   
+  cat /var/lib/nt/nanoSwitch/nanoSwitch.cache
+  
+
+
+g10@g10:~$  dpkg -l ntlib* ntmetrics* ntlog* *nanoswitch* 
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                             Version               Architecture          Description
++++-================================-=====================-=====================-=====================================================================
+ii  nanoswitch                       3.8.5.4.rev6-trans-32 all                   NT: NanoSwitch Firmware
+ic  nanoswitch-cli                   3.9.26-b1             amd64                 "Universal Terminal for nanoSwitch"
+un  nanoswitch-cli1                  <none>                <none>                (no description available)
+un  nanoswitch-cli2                  <none>                <none>                (no description available)
+un  nanoswitch-cli3                  <none>                <none>                (no description available)
+ii  nanoswitch-cli4                  4.4.4-b1              amd64                 Universal Terminal for nanoSwitch
+un  nanoswitch-cli4-dbgsym           <none>                <none>                (no description available)
+ii  nanoswitch-web                   1.0.67-b1             amd64                 NanoSwitch Web Interface
+un  ntlib                            <none>                <none>                (no description available)
+ii  ntlib1                           1.9.0-b1              amd64                 Library provides common algorithms and types
+un  ntlib1-dbgsym                    <none>                <none>                (no description available)
+un  ntlog                            <none>                <none>                (no description available)
+rc  ntlog1                           1.26.2-b1             amd64                 Logging component
+un  ntlog1-dbgsym                    <none>                <none>                (no description available)
+ii  ntlog2                           2.0.6-b1              amd64                 Logging component
+un  ntlog2-dbgsym                    <none>                <none>                (no description available)
+un  ntmetrics-web                    <none>                <none>                (no description available)
+ii  ntmetrics-web-docker-image       0.0.4                 all                   Docker image needed to work nt-mterics-web
+ii  ntmetrics-web1                   1.0.15-b1             amd64                 Ntmetrics-web interface
+un  ntmetrics1                       <none>                <none>                (no description available)
+ii  ntmetrics2                       2.7.2-b1              amd64                 Metrics component
+un  ntmetrics2-dbgsym                <none>                <none>                (no description available)
+
+
+
+
+dpkg -l ntlib* ntmetrics* ntlog* *nanoswitch*  nanoswitch-cli*
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                                                Version                        Architecture                   Description
++++-===================================================-==============================-==============================-============================================================================================================
+ii  nanoswitch                                          3.8.5.5.rev6-trans-32r-64p-ppp all                            NT: NanoSwitch Firmware
+un  nanoswitch-cli                                      <none>                         <none>                         (no description available)
+un  nanoswitch-cli1                                     <none>                         <none>                         (no description available)
+un  nanoswitch-cli2                                     <none>                         <none>                         (no description available)
+un  nanoswitch-cli3                                     <none>                         <none>                         (no description available)
+ii  nanoswitch-cli4                                     4.5.0-b1                       amd64                          Universal Terminal for nanoSwitch
+un  nanoswitch-cli4-dbgsym                              <none>                         <none>                         (no description available)
+ii  nanoswitch-web                                      1.0.72-b1                      amd64                          NanoSwitch Web Interface
+ii  nanoswitch3.8                                       3.8.1-b1                       amd64                          nanoswicth control service
+un  ntlib                                               <none>                         <none>                         (no description available)
+ii  ntlib1                                              1.9.0-b1                       amd64                          Library provides common algorithms and types
+un  ntlib1-dbgsym                                       <none>                         <none>                         (no description available)
+un  ntlog1                                              <none>                         <none>                         (no description available)
+ii  ntlog2                                              2.2.0-b1                       amd64                          Logging component
+un  ntlog2-dbgsym                                       <none>                         <none>                         (no description available)
+un  ntmetrics-web                                       <none>                         <none>                         (no description available)
+ii  ntmetrics-web-docker-image                          0.0.4                          all                            Docker image needed to work nt-mterics-web
+ii  ntmetrics-web1                                      1.0.15-b1                      amd64                          Ntmetrics-web interface
+un  ntmetrics1                                          <none>                         <none>                         (no description available)
+ii  ntmetrics2                                          2.9.1-b1                       amd64                          Metrics component
+un  ntmetrics2-dbgsym                                   <none>                         <none>                         (no description available)
+
+
+
+http://192.168.55.245/redmine/projects/nanoswitch/wiki/Как_выпустить_релиз  
+
+
+
+ 
+g10@g10:~$ dn (актуально на 29 дек)  @!!!!!!
+dpkg -l ntlib* ntmetrics* ntlog* *nanoswitch*  nanoswitch-cli*
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                                                  Version                         Architecture                    Description
++++-=====================================================-===============================-===============================-================================================================================================================
+ii  nanoswitch                                            3.8.5.4.rev6-trans-32r-64p-rc0  all                             NT: NanoSwitch Firmware
+un  nanoswitch-cli                                        <none>                          <none>                          (no description available)
+ii  nanoswitch-cli3                                       3.21.3-b1                       amd64                           Universal Terminal for nanoSwitch
+un  nanoswitch-cli3-dbgsym                                <none>                          <none>                          (no description available)
+ii  nanoswitch-web                                        1.0.59-b1                       amd64                           NanoSwitch Web Interface
+ii  ntlib1                                                1.7.2-b1                        amd64                           Library provides common algorithms and types
+ii  ntlog1                                                1.26.2-b1                       amd64                           Logging component
+un  ntmetrics                                             <none>                          <none>                          (no description available)
+un  ntmetrics-web                                         <none>                          <none>                          (no description available)
+ii  ntmetrics-web-docker-image                            0.0.4                           all                             Docker image needed to work nt-mterics-web
+ii  ntmetrics-web1                                        1.0.13-b1                       amd64                           Ntmetrics-web interface
+ii  ntmetrics2                                            2.6.1-b1                        amd64                           Metrics component
+un  ntmetrics2-dbgsym                                     <none>                          <none>                          (no description available)
+                           
+
+
+sudo -E apt-get install nanoswitch=3.8.5.4.rev6-trans-32r-64p-rc0 nanoswitch-cli3=3.21.3-b1 nanoswitch-web=1.0.59-b1 ntlib1=1.7.2-b1 ntlog1=1.26.2-b1 ntmetrics-web-docker-image=0.0.4 ntmetrics-web1=1.0.13-b1 ntmetrics2=2.6.1-b1 
+
+
+nanoswitch=3.8.5.4.rev6-trans-32r-64p-rc0 
+nanoswitch-cli3=3.21.3-b1 
+nanoswitch-web=1.0.59-b1 
+ntlib1=1.7.2-b1
+ntlog1=1.26.2-b1 
+ntmetrics-web-docker-image=0.0.4
+ntmetrics-web1=1.0.13-b1
+ntmetrics2=2.6.1-b1
+   
+   dpkg -l | grep nanos
+   
+g10@ns3-01.573.brbd.nizhniy-novgorod.mts:~$ dpkg -l | grep nanos
+ii  nanoswitch                            3.8.5.r6.64p.trans.b0                                    all          NT: NanoSwitch Firmware
+ii  nanoswitch-cli3                        3.16.2-b1                                                amd64        "Universal Terminal for nanoSwitch"
+ii  nanoswitch-web                       1.0.56-b1         
+   
+   
+sudo -E apt-get install nanoswitch-cli3 nanoswitch-web nanoswitch=3.8.5.2.rev6-trans-64p-rc0 ntmetrics-web1
+
+sudo -E apt-get install nanoswitch=3.8.5.2.rev6-trans-64p-rc0
+   
+sudo -E apt search nanoswitch-cli3   
+   
+при установке    nanoswitch-cli3  ошибка 
+
+Errors were encountered while processing:
+ nanoswitch-cli3
+ 
+ надо выполнить 
+
+g10@g10:~$ sudo chmod +x /opt/nt/lib/nanoSwitch/postinst.sh
+g10@g10:~$ sudo dpkg --configure -a 
+Setting up nanoswitch-cli3 (3.18.14-b1) ...
+Postinstallation operations start:
+INFO: Starting by 'SYSTEMD'
+Created symlink /etc/systemd/system/multi-user.target.wants/nanoSwitchd.service → /lib/systemd/system/nanoSwitchd.service.
+Postinstallation operations done.
+   
+   
+   
+   
+   
+dpkg -l | grep php| grep 7.4 
+ii  php7.4                                7.4.16-1+ubuntu18.04.1+deb.sury.org+1                              all          server-side, HTML-embedded scripting language (metapackage)
+ii  php7.4-cli                            7.4.29-1+ubuntu18.04.1+deb.sury.org+1                              amd64        command-line interpreter for the PHP scripting language
+ii  php7.4-common                         7.4.29-1+ubuntu18.04.1+deb.sury.org+1                              amd64        documentation, examples and common module for PHP
+ii  php7.4-dev                            7.4.29-1+ubuntu18.04.1+deb.sury.org+1                              amd64        Files for PHP7.4 module development
+ii  php7.4-json                           7.4.29-1+ubuntu18.04.1+deb.sury.org+1                              amd64        JSON module for PHP
+ii  php7.4-mbstring                       7.4.29-1+ubuntu18.04.1+deb.sury.org+1                              amd64        MBSTRING module for PHP
+ii  php7.4-mysql                          7.4.29-1+ubuntu18.04.1+deb.sury.org+1                              amd64        MySQL module for PHP
+ii  php7.4-opcache                        7.4.29-1+ubuntu18.04.1+deb.sury.org+1                              amd64        Zend OpCache module for PHP
+ii  php7.4-pgsql                          7.4.29-1+ubuntu18.04.1+deb.sury.org+1                              amd64        PostgreSQL module for PHP
+ii  php7.4-readline                       7.4.29-1+ubuntu18.04.1+deb.sury.org+1                              amd64        readline module for PHP
+ii  php7.4-xml                            7.4.29-1+ubuntu18.04.1+deb.sury.org+1                              amd64        DOM, SimpleXML, XML, and XSL module for PHP
+ii  php7.4-yaml                           2.2.2+2.1.0+2.0.4+1.3.2-5+ubuntu18.04.1+deb.sury.org+10            amd64        YAML-1.1 parser and emitter for PHP
+
+dpkg -l | grep php| grep php7.4 | wc -l
+13
+
+
+ sudo -E apt-get install -y php7.4 php7.4-cli php7.4-common php7.4-dev php7.4-json php7.4-opcache php7.4-pgsql php7.4-readline php7.4-xml php7.4-yaml python3-yaml; 
+  
+  
+  
+  покажет все запущеные службы 
+systemctl list-units --type service --state running
+ 
+sudo systemctl status mysql.service
+sudo systemctl restart mysql.service
+ 
+sudo systemctl restart nanoSwitchd.service;
+sudo systemctl status nanoSwitchd.service;
+sudo systemctl stop nanoSwitchd.service;
+sudo systemctl start nanoSwitchd.service;
+
+
+
+
+sudo systemctl stop nanoswitch-web;\
+sudo systemctl start nanoswitch-web;\
+sudo systemctl status nanoswitch-web;
+
+
+http://192.168.55.245/redmine/projects/support/wiki/Metrics
+
+включить метрики
+
+sudo systemctl enable ntmetrics-web.service; \
+sudo systemctl stop ntmetrics-web.service; \
+sudo systemctl start ntmetrics-web.service; 
+sudo systemctl status ntmetrics-web.service; 
+
+
+sudo systemctl status  nanoswitch-web;
+
+sudo systemctl status collectd
+sudo systemctl restart collectd
+sudo systemctl stop collectd ;\
+sudo systemctl status collectd
+
+
+если не удалось включить 
+sudo docker pull 192.168.55.242:443/metrics/ubuntu1804
+
+ssh root@172.23.1.231 -p3594 -t ssh g10@11.124.1.98
+
+
+
+на всякий случай
+http://192.168.55.245/redmine/projects/support/wiki/SDH
+
+
+
+
+!!!	websoket	 !!!
+!!connecting to server... !!!
+авторизации
+проброс на 55.242
+#МТС.GPRS.Екатеринбург.573.NS3-2.websocket
+port=31432
+if [[ `pgrep -f "ssh.*L\:$port" -c` -ne 0 ]]; then
+    echo "$port already oppened"
+else
+    sshpass -p [eqdjqyt ssh root@192.168.16.96 -p3599 -L:$port:10.99.98.21:8000  -N -f || { echo "fail";  }
+fi
+
+Порт проброса вебсокета 31432 (8000)
+ "websocketServerPortForClients" => '31432',
+
+
+если не пускает на веб надо проверить 
+sudo mcedit /opt/nt/lib/nanoswitch-web/config/params.php
+
+надо обязательно проверить что проброс создался на 55.242
+
+ ps aux | grep 31278(проброса нет )
+ g10@g10:~$ ps aux| grep 31278
+g10      1898994  0.0  0.0   6484  2300 pts/4    S+   14:17   0:00 grep --color=auto 31278
+
+ 
+ 
+ g10@g10:~$ ps aux| grep 31279 (проброс есть )
+g10      1877722  0.0  0.0  14384  1536 ?        Ss   Aug20   0:00 ssh root@91.102.155.155 -p3599 -L:31279:10.249.141.195:8000 -N -f
+g10      1906978  0.2  0.0  10092  3668 ?        R    14:23   0:00 pgrep -f ssh.*L\:31279 -c
+
+
+
+если все равно не помогло то 
+Почему-то не было директории /run/nt/nanoswitch-web/
+Сделал sudo systemctl daemon-reload и перезапустил сервис nanoswitch-web.
+/run/nt/nanoswitch-web/ появилась
+
+
+
+В логах /var/log/apache2
+Что?
+sudo a2dismod (все остальные)
+sudo systemctl status apache2
+● apache2.service - The Apache HTTP Server
+   Loaded: loaded (/lib/systemd/system/apache2.service; enabled; vendor preset: enabled)
+  Drop-In: /lib/systemd/system/apache2.service.d
+           └─apache2-systemd.conf
+   Active: failed (Result: exit-code) since Tue 2022-06-07 21:16:19 MSK; 9s ago
+  Process: 7811 ExecStart=/usr/sbin/apachectl start (code=exited, status=139)
+
+Jun 07 21:16:19 ns3-01.573.gprs.arkhangelsk.komi.pskov.mts systemd[1]: Starting The Apache HTTP Server...
+Jun 07 21:16:19 ns3-01.573.gprs.arkhangelsk.komi.pskov.mts apachectl[7811]: Segmentation fault
+Jun 07 21:16:19 ns3-01.573.gprs.arkhangelsk.komi.pskov.mts apachectl[7811]: Action 'start' failed.
+Jun 07 21:16:19 ns3-01.573.gprs.arkhangelsk.komi.pskov.mts apachectl[7811192.168.180.46]: The Apache error log may have more information.
+Jun 07 21:16:19 ns3-01.573.gprs.arkhange   sudo systemctl restart mysql.servicelsk.komi.pskov.mts systemd[1]: apache2.service: Control process exited, code=exited status=139
+Jun 07 21:16:19 ns3-01.573.gprs.arkhangelsk.komi.pskov.mts systemd[1]: apache2.service: Failed with result 'exit-code'.
+Jun 07 21:16:19 ns3-01.573.gprs.arkhangelsk.komi.pskov.mts systemd[1]: Failed to start The Apache HTTP Server.
+
+а какую версию php надо выбирать ?
+
+Mikhail 1:30 PM
+NS
+?
+
+7.4
+
+Включить модуль можно командой:
+
+ sudo a2enmod php
+  имя_модуля
+
+А отключить:
+
+ sudo a2dismod php
+  имя_модуля(php8.0)
+ 
+ sudo update-alternatives --config php
+
+sudo systemctl restart apache2;\
+sudo systemctl status apache2;\
+
+
+sudo systemctl start apache2;\
+sudo a2enmod proxy proxy_wstunnel
+
+
+Дальше найди metrics.sh
+
+Кажется так
+
+На 55.242
+
+ТАм примеры пробросов
+
+Тебе надо такой-же
+
+
+
+
+
+#МТС.ШПД.Астрахань(ул.Савушкина,6).573.NS3.ssh
+port=31472
+if [[ `pgrep -f "ssh.*L\:$port" -c` -ne 0 ]]; then
+    echo "$port already oppened"
+else
+    sshpass -p [eqdjqyt ssh root@192.168.16.96 -p3594 -L:$port:10.249.138.193:22 -N -f || { echo "fail";  }
+fi
+
+    
+#МТС.ШПД.Астрахань(ул.Савушкина,6).573.NS3-2.websocket
+port=31405broadband
+
+if [[ `pgrep -f "ssh.*L\:$port" -c` -ne 0 ]]; then
+    echo "$port already oppened"
+else
+    sshpass -p [eqdjqyt ssh root@192.168.16.96 -p3594 -L:$port:10.249.138.193:8000  -N -f || { echo "fail";  }
+fi
+
+
+ssh -p31472 g10@192.168.55.242 -R:2054:127.0.0.1:2004 -N -f
+
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+http://192.168.55.245/redmine/projects/support/wiki/Metrics
+sudo hostnamectl set-hostname ns3-01.86.573.cs.brbd.saransk.mts
+
+
+sudo hostnamectl set-hostname ns3-01.573.brbd.izhevsk.mts
+Kirov192.168.150.86
+sudo hostnamectl set-hostname ns3-01.573.gprs.kaluga.kursk.lipetsk.ryazan.smolensk.tver.vladimir.voronezh.mts
+
+sudo hostnamectl set-hostname ns3-01.573.brbd.sankt-peterburg.mts
+
+sudo hostnamectl set-hostname ns0-01.573.gprs.belgorod.bryansk.kursk.mts
+hostnamectlhttp://192.168.55.99:9051/#/login
+Добавить актуальное имя в 
+sudo mcedit /etc/hosts
+Было:  ssh-keygen -f "/home/esermyagin/.ssh/known_hosts" -R "[127.0.0.1]:9129"
+
+127.0.1.1       g10
+
+Стало:
+127.0.1.1       ns3-01.573.brbd.izhevsk.mts
+
+изменение приглашения bash
+
+sudo mcedit ~/.bashrc
+
+если нет файла ~/.bashrc скопировать от сюда /etc/skel/.bashrc
+
+было 
+
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+
+unset color_prompt force_color_prompt
+
+# If this is an xterm set the title to user@host:dir
+case "$TERM" in
+xterm*|rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+
+стало
+
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@$(hostname)\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@$(hostname):\w\$ '
+fi
+unset color_prompt force_color_prompt
+
+# If this is an xterm set the title to user@host:dir
+case "$TERM" in
+xterm*|rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@$(hostname): \w\a\]$PS1"
+
+
+обратить внимание на u@$(hostname)
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+ntmetrics-carbon.py.log
+2022-06-24 16:02:30.454294 ERROR: ModuleNotFoundError: No module named 'yaml'
+2022-06-24 16:02:40.523511 ERROR: Traceback (most recent call last):
+2022-06-24 16:02:40.524177 ERROR: File "/opt/nt/lib/nt-metrics/collectors/carbon.py", line 6, in <module>
+2022-06-24 16:02:40.524203 ERROR: import yaml
+2022-06-24 16:02:40.524230 ERROR: ModuleNotFoundError: No module named 'yaml'
+
+
+
+
+
+ntmetrics-view.php.log
+2022-06-24 16:02:40.177877 ERROR: #1 {main}
+2022-06-24 16:02:40.177908 ERROR: thrown in /opt/nt/lib/nt-metrics/view/include/view-utils.php on line 40
+2022-06-24 16:03:00.177610 ERROR: PHP Fatal error: Uncaught Error: Call to undefined function yaml_parse() in /opt/nt/lib/nt-metrics/view/include/view-utils.php:40
+2022-06-24 16:03:00.178269 ERROR: Stack trace:
+2022-06-24 16:03:00.178328 ERROR: #0 /opt/nt/lib/nt-metrics/view/view.php(12): load_data()
+2022-06-24 16:03:00.178355 ERROR: #1 {main}
+2022-06-24 16:03:00.178386 ERROR: thrown in /opt/nt/lib/nt-metrics/view/include/view-utils.php on line 40
+
+нет графиков 
+надо обновить 
+sudo -E apt-get install php7.2 php7.2-cli php7.2-common php7.2-dev php7.2-json php7.2-opcache php7.2-pgsql php7.2-readline php7.2-xml php-yaml python3-yaml;
+Reading package lists... Done
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+
+
+ug 24 15:36:32 ns3-01.573.gprs.kirov.mts dockerd[2957]: time="2022-08-24T15:36:32.611026985+03:00" level=error msg="Not continuing with pull after error: context canceled"
+Aug 24 15:36:32 ns3-01.573.gprs.kirov.mts systemd[1]: nt-metrics.service: Failed with result 'timeout'.
+Aug 24 15:36:32 ns3-01.573.gprs.kirov.mts systemd[1]: Failed to start nt-metrics collect and graph container.
+-- Subject: Unit nt-metrics.service has failed
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support
+-- 
+-- Unit nt-metrics.service has failed.
+-- 
+-- The result is RESULT.
+Aug 24 15:36:32 ns3-01.573.gprs.kirov.mts sudo[4151]: pam_unix(sudo:session): session closed for user root
+Aug 24 15:36:32 ns3-01.573.gprs.kirov.mts systemd[1]: nt-metrics.service: Service hold-off time over, scheduling restart.
+Aug 24 15:36:32 ns3-01.573.gprs.kirov.mts systemd[1]: nt-metrics.service: Scheduled restart job, restart counter is at 1.
+-- Subject: Automatic restarting of a unit has been scheduled
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/support  ssh-keygen -f "/home/esermyagin/.ssh/known_hosts" -R "[127.0.0.1]:9129"
+
+192.168.150.94
+
+
+проверить коректно ли утсановлен nt-metrics-ubuntu-image надо дождаться утсановки всех комопненотов
+ затем сделать 
+ sudo systemctl restart docker
+  sudo systemctl status docker
+ssh root@172.23.1.231 -p3594 -t ssh g10@11.124.1.98
+
+и запустить метрики
+
+Скачай сам образ
+Он долго качается
+
+e.sermyagin
+Сермягин Егор @e.sermyagin
+15:43
+этот ii  nt-metrics-ubuntu-image                        0.0.1  ?
+
+
+Агрба Михаил @agrbamd
+15:47
+Да, можно его
+
+e.sermyagin
+Сермягин Егор @e.sermyagin
+15:47
+он стоит уже
+
+
+Агрба Михаил @agrbamd
+15:49
+Это не мешает кому-то удалить образ
+docker images
+
+docker images
+на обоих сделай пожалуйста
+ 	
+ можно
+g10@ns3-01.573.gprs.arkhangelsk.komi.pskov.mts:~$ docker images
+REPOSITORY                              TAG        IMAGE ID       CREATED         SIZE
+192.168.55.242:443/metrics/ubuntu2204   1.1.10-4   d6236fde91cd   5 weeks ago     1.19GB
+192.168.55.242:443/metrics/ubuntu1804   latest     b7e82467bd83   15 months ago   773MB
+
+
+
+docker ps -a
+Посмотри что стартует
+Допускаю что там где ошибка - 18ый
+
+g10@ns3-01.573.gprs.arkhangelsk.komi.pskov.mts:~$ sudo docker ps -a
+[sudo] password for g10: 
+CONTAINER ID   IMAGE                                   COMMAND                  CREATED        STATUS                  PORTS                                                                                                                                                                                                   NAMES
+2c3f5aa5ede9   192.168.55.242:443/metrics/ubuntu1804   "/bin/bash -c 'sourc…"   6 months ago   Up Less than a second   0.0.0.0:2003->2003/tcp, :::2003->2003/tcp, 0.0.0.0:2023-2024->2023-2024/tcp, :::2023-2024->2023-2024/tcp, 127.0.0.1:8081->80/tcp, 0.0.0.0:29161->161/udp, :::29161->161/udp, 127.0.0.1:8082->3000/tcp   ntmetrics
+
+Стопай сервис,
+Потом docker rm 07b37d7cfe4d
+Потом docker rmi на 18 образ
+Потом старт сервису
+
+sudo systemctl stop docker
+Warning: Stopping docker.service, but it can still be activated by:
+  docker.socket
+  Не докер, сервис метрик
+Иначе он не даст тебе удалить образ, постоянно создавая на его основе контейнеры
+ sudo systemctl status ntmetrics-web.service
+ sudo systemctl stop   ntmetrics-web.service;
+  sudo systemctl start   ntmetrics-web.service;
+ 
+ 
+ sudo docker rm 2c3f5aa5ede9
+ 
+g10@ns3-01.573.gprs.arkhangelsk.komi.pskov.mts:~$ docker images -a |  grep ubuntu1804 
+192.168.55.242:443/metrics/ubuntu1804   latest     b7e82467bd83   15 months ago   773MB
+
+docker rmi  192.168.55.242:443/metrics/ubuntu1804 
+так ?
+
+Можно хеш он в строке по docker images
+
+
+docker rmi  192.168.55.242:443/metrics/ubuntu1804 
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+
+
+
+
+если ошибка при вводе логи  и параодя место есть то скорее всего надо перезапустить веб и апач
+
+
+
+если криво графики если нет графиков температуры, пробуем удалить 
+sudo systemctl stop collectd
+sudo rm -rf /var/lib/collectd/rrd/*
+
+Oct 31 17:07:02 g10 collectd[17149]: rrdtool plugin: rrd_update_r (/var/lib/collectd/rrd/g10.g10/irq/irq-NPI.rrd) failed: /var/lib/collectd/rrd/g10.g10/irq/irq-NPI.rrd: illegal attempt to update using time 1667225222 when last update time is 1667251362 (minimum one second step)
+Oct 31 17:07:02 g10 collectd[17149]: rrdtool plugin: rrd_update_r (/var/lib/collectd/rrd/g10.g10/memory/memory-slab_unrecl.rrd) failed: /var/lib/collectd/rrd/g10.g10/memory/memory-slab_unrecl.rrd: illegal attempt to update using time 1667225222 when last update time is 1667251362 (minimum one second step)
+Oct 31 17:07:02 g10 collectd[17149]: rrdtool plugin: rrd_update_r (/var/lib/collectd/rrd/g10.g10/irq/irq-PIW.rrd) failed: /var/lib/collectd/rrd/g10.g10/irq/irq-PIW.rrd: illegal attempt to update using time 1667225222 when last update time is 1667251362 (minimum one second step)  ssh-keygen -f "/home/esermyagin/.ssh/known_hosts" -R "[127.0.0.1]:9129"
+
+Oct 31 17:07:02 g10 collectd[17149]: rrdtool plugin: rrd_update_r (/var/lib/collectd/rrd/g10.g10/processes/ps_state-running.rrd) failed: /var/lib/collectd/rrd/g10.g10/processes/ps_state-running.rrd: illegal attempt to update using time 1667225222 when last update time is 1667251362 (minimum one second step
+Oct 31 17:07:02 g10 collectd[17149]: rrdtool plugin: rrd_update_r (/var/lib/collectd/rrd/g10.g10/processes/ps_state-sleeping.rrd) failed: /var/lib/collectd/rrd/g10.g10/processes/ps_state-sleeping.rrd: illegal attempt to update using time 1667225222 when last update time is 1667251362 (minimum one second st
+Oct 31 17:07:02 g10 collectd[17149]: rrdtool plugin: rrd_update_r (/var/lib/collectd/rrd/g10.g10/processes/ps_state-zombies.rrd) failed: /var/lib/collectd/rrd/g10.g10/processes/ps_state-zombies.rrd: illegal attempt to update using time 1667225222 when last update time is 1667251362 (minimum one second step
+Oct 31 17:07:02 g10 collectd[17149]: rrdtool plugin: rrd_update_r (/var/lib/collectd/rrd/g10.g10/processes/ps_state-stopped.rrd) failed: /var/lib/collectd/rrd/g10.g10/processes/ps_state-stopped.rrd: illegal attempt to update using time 1667225222 when last update time is 1667251362 (minimum one second step
+Oct 31 17:07:02 g10 collectd[17149]: rrdtool plugin: rrd_update_r (/var/lib/collectd/rrd/g10.g10/processes/ps_state-paging.rrd) failed: /var/lib/collectd/rrd/g10.g10/processes/ps_state-paging.rrd: illegal attempt to update using time 1667225222 when last update time is 1667251362 (minimum one second step)
+Oct 31 17:07:02 g10 collectd[17149]: rrdtool plugin: rrd_update_r (/var/lib/collectd/rrd/g10.g10/processes/ps_state-blocked.rrd) failed: /var/lib/collectd/rrd/g10.g10/processes/ps_state-blocked.rrd: illegal attempt to update using time 1667225222 when last update time is 1667251362 (minimum one second step
+Oct 31 17:07:02 g10 collectd[17149]: rrdtool plugin: rrd_update_r (/var/lib/collectd/rrd/g10.g10/processes/fork_rate.rrd) failed: /var/lib/collectd/rrd/g10.g10/processes/fork_rate.rrd: illegal attempt to update using time 1667225222 when last update time is 1667251362 (minimum one second step)
+sudo mcedit /opt/nt/etc/nanoSwitch/nanoSwitchd.cfg
+
+
+
+
+
+
+
+если криво графики CR_11994.patch
+
+
+
+g10@g10:~$ sudo systemctl status apache2
+[sudo] password for g10: 
+● apache2.service - The Apache HTTP Server
+   Loaded: loaded (/lib/systemd/system/apache2.service; enabled; vendor preset: enabled)
+  Drop-In: /lib/systemd/system/apache2.service.d
+           └─apache2-systemd.conf
+   Active: failed (Result: exit-code) since Wed 2022-11-16 01:16:10 MSK; 48s ago
+  Process: 1407 ExecStart=/usr/sbin/apachectl start (code=exited, status=1/FAILURE)
+
+Nov 16 01:16:08 g10 systemd[1]: Starting The Apache HTTP Server...
+Nov 16 01:16:10 g10 apachectl[1407]: AH00526: Syntax error on line 1 of /etc/apache2/sites-enabled/ntmetrics-site.conf:
+Nov 16 01:16:10 g10 apachectl[1407]: Invalid command 'ProxyPass', perhaps misspelled or defined by a module not included in the server configuration
+Nov 16 01:16:10 g10 apachectl[1407]: Action 'start' failed.
+Nov 16 01:16:10 g10 apachectl[1407]: The Apache error log may have more information.
+Nov 16 01:16:10 g10 systemd[1]: apache2.service: Control process exited, code=card1.vitok-ipdr02.573.gprs.belgorod.mtsexited status=1
+Nov 16 01:16:10 g10 systemd[1]: apache2.service: Failed with result 'exit-code'.
+Nov 16 01:16:10 g10 systemd[1]: Failed to start The Apache HTTP Server.
+
+g10@g10:~$   sudo a2enmod proxy_wstunnel proxy
+
+
+sudo -E apt-get install libapache2-mod-authnz-external
+
+
+
+
+
+
+обновление нс поможет избавиться от дропов мелких ?
+Clipboard - 2 декабря 2022 г., 10:23.png
+(49.70 kB)
+
+           ├─25833 /bin/bash -c /usr/bin/docker container inspect ntmetrics 2> /dev/null || source /opt/nt/lib/ntmetrics-web/docker/docker-run.sh
+
+Агрба Михаил @agrbamd
+10:35
+Смотреть надо что и почему, там 1Г летит в память, это много192.168.150.94
+
+e.sermyagin
+Сермягин Егор @e.sermyagin
+10:37
+явных переливов нет, а по pps "переливы" бывают ?
+
+
+Агрба Михаил @agrbamd
+10:52
+Там скорее к выходам вопросы
+Если режим не парый, а балансировки "Длинные"
+
+e.sermyagin
+Сермягин Егор @e.sermyagin
+10:58
+5-28 достаточно длинная ?
+
+Агрба Михаил @agrbamd
+11:004
+Да, коллизий много
+Короткие 2-4-6
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+http://192.168.55.99:9855/#/login
+Nanoswitch
+
+столбцы: rx  bytes(значение в скобках не должно быть больше 9G иначе прелив), rx crc (следить за знаениями в скобках если скачут то плохо)
+
+столбцы с 2-4 относятся к входному трафику 
+Interface    		RX packets	ьс 		RX bytes 		rx crc 
+	   	 (Packets per second)	 	  (Bits per second)
+	   	 
+	   	 
+	   Tx  bytes(значение в скобках не должно быть больше 9G иначе прелив),	
+	    
+5-7 относятся к выходному трафику    	 
+	TX packets			TX bytes 		FIFO 192.168.150.17
+  (Packets per second)		   (Bits per second)
+
+
+ что бы посмотреть суммарный трафик по всем портам в низу первой таблицы есть место под галочку summary если его устанвоить он покажет суммарный трафик,
+ 
+в разделе Cache load
+
+
+
+ssh root@172.23.1.231 -p3593 -t ssh g10@10.233.253.225 -t ssh g10@192.168.16.16
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+sudo systemctl restart nanoSwitchd.service;
+sudo systemctl status nanoSwitchd.service;
+
+что бы перезапустить nanoSwitchd без перепрошивки нужно в конфиге 
+sudo mcedit /opt/nt/etc/nanoSwitch/nanoSwitchd.cfg
+строку
+#program_fpga_force          = true
+раскоментировать 
+и заменить значение на 
+program_fpga_force          = false
+
+
+
+
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+Мишины работы по обновлению, на нс 
+
+  629  ls /opt
+  630  sudo lsusb
+  631  dpkg -l nanoswitch
+  632  mount
+  633  df -h
+  634  sudo umount /opt
+  635  ls /opt
+  636  sudo mount /dev/sda6 /LOGS
+  637  sudo mc
+  638  sudo mv /opt/* /LOGS
+  639  sudo umount /LOGS
+  640  sudo sync
+  641  sudo umount /LOGS
+  642  sudo mount -a
+  643  mc
+  644  dpkg -l nanoswitch3.8
+  645  sudo apt-get purge nanoswitch nanoswitch-web
+  646  sudo mcedit /var/lib/dpkg/info/nanoswitch-web.prerm
+  647  sudo apt-get purge nanoswitch nanoswitch-web
+  648  sudo mcedit /var/lib/dpkg/info/nanoswitch-web.prerm
+  649  sudo apt-get purge nanoswitch nanoswitch-web
+  650  sudo apt-get purge nt-*ssh root@172.23.1.231 -p3594 -t ssh g10@11.124.1.98
+
+  651  sudo apt-get purge libnt*
+  652  sudo apt autoremove
+  653  sudo -E apt-get install nanoswitch=3.8.5.4.rev6-trans-32r-64p-rc0 nanoswitch3.8
+  654  docker ps -a
+  655  sudo -E apt-get install nanoswitch=3.8.5.4.rev6-trans-32r-64p-rc0 nanoswitch3.8
+  656  export http_proxy=http://127.0.0.1:3128; export https_proxy=http://127.0.0.1:3128; sudo -E apt-get update;
+  657  sudo -E apt-get install nanoswitch=3.8.5.4.rev6-trans-32r-64p-rc0 nanoswitch3.8
+  658  nanoswitch 
+  659  mcsudo systemctl restart mysql.service
+  660  sudo ntpdate 10.233.251.93
+  661  sudo mcedit /lib/systemd/system/ntp.service 
+  662  sudo mcedit /etc/ntp.conf 
+  663  sudo systemctl daemon-reload 
+  664  sudo systemctl restart ntp
+  665  ntpq -pn
+  666  sudo systemctl stop nanoSwitchd.service 
+  667  sudo rm -rf /var/log/nt/nanoSwitch*
+  668  sudo systemctl start nanoSwitchd.service 
+  669  nanoswitch 
+  670  if [ ! -d /home/g10/.ssh ]; then mkdir .ssh; fi;echo -en "Host 192.168.55.245\n  HostName 127.0.0.1\n  Port 13304\n" | tee /home/g10/.ssh/config
+  671  export http_proxy=http://127.0.0.1:3128; export https_proxy=http://127.0.0.1:3128;
+  672  sudo -E apt-get update 
+  673  export http_proxy=http://127.0.0.1:3128; export https_proxy=http://127.0.0.1:3128; sudo -E apt-get update; wget -qO - http://192.168.55.245/nt-repo/nt-repo-switch-to-mirror.sh -e use_proxy=yes | sudo -E bash; wget -qO - http://192.168.55.245/nt-repo/nt-repo-init.sh -e use_proxy=yes | sudo -E bash; 
+  674  dpkg -L nanoswitch
+  675  cd /opt/nt/lib/nanoSwitch/
+  676  sudo apt-get clean
+  677  /opt/nt/lib/nanoSwitch
+  678  cd /opt/nt/lib
+  679  mc
+  680  dpkg -l ntlib1 ntmetrics* ntlog1 *nanoswitch*
+  681  mc
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+g10@g10:~$ dpkg -l ntlib1 ntmetrics* ntlog1 *nanoswitch*
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                                                        Version                            Architecture                       Description
++++-===========================================================-==================================-==================================-============================================================================================================================
+ii  nanoswitch                                                  3.8.5.4.rev6-trans-32r-64p-rc0     all                                NT: NanoSwitch Firmware
+ic  nanoswitch-cli                                              3.15.1-b2                          amd64                              "Universal Terminal for nanoSwitch"
+un  nanoswitch-cli1                                             <none>                             <none>                             (no description available)
+un  nanoswitch-cli2                                             <none>                             <none>                             (no description available)
+un  nanoswitch-cli3                                             <none>                             <none>                             (no description available)
+ii  nanoswitch-cli4                                             4.4.0-b1                           amd64                              Universal Terminal for nanoSwitch
+un  nanoswitch-cli4-dbgsym                                      <none>                             <none>                             (no description available)
+ii  nanoswitch-web                                              1.0.56-b1                          amd64                              NanoSwitch Web Interface
+ii  nanoswitch3.8                                               3.8.1-b1                           amd64                              nanoswicth control service
+ii  ntlib1                                                      1.9.0-b1                           amd64                              Library provides common algorithms and types
+un  ntlog1                                                      <none>                             <none>                             (no description available)
+un  ntmetrics-web                                               <none>                             <none>                             (no description available)
+ii  ntmetrics-web-docker-image                                  0.0.4                              all                                Docker image needed to work nt-mterics-web
+ii  ntmetrics-web1                                              1.0.15-b1                          amd64                              Ntmetrics-web interface
+un  ntmetrics1                                                  <none>                             <none>                             (no description available)
+ii  ntmetrics2                                                  2.7.2-b1                           amd64                              Metrics component
+un  ntmetrics2-dbgsym                                           <none>                             <none>                             (no description available)
+ 
+ 
+ херня с nanoswitch3.8
+
+g10@g10:/opt/nt/bin$ ./nanoSwitch
+#> show balancing 
+#> show rules 
+1. [on]  : interface 1,2 rule all to 29
+#> show interface 1 statistics 
+Error (code: 552; pid=11687): Fatal error while sending command (id=9), check the connection (error: No such file or directory)
+#> 
+g10@g10:~$ nanoSwitch 
+#> program fpga nanoswitch3.bit
+nanoSwitch has been successfully reconfigured
+Finish of program fpga
+#> exit
+g10@g10:~$ nanoSwitch 
+#> show interface 1 statistics 
+╭─────────┬──────────────────────────────────┬─────────────────────┬───────────╮
+│Interface│                RX                │          TX         │Multiplexor│
+├─────────┼────────────┬─────────┬───────────┼────────────┬────────┼───────────┤
+│   id:   │rate (Gb/s):│ packets:│CRC errors:│rate (Gb/s):│packets:│ overflow: │
+├─────────┴────────────┴─────────┴───────────┴────────────┴────────┴───────────┤
+├─────────┬────────────┬─────────┬───────────┬────────────┬────────┬───────────┤
+│    1    │       0,187│8`126`981│          0│       0,000│       0│          0│
+╰─────────┴────────────┴─────────┴───────────┴────────────┴────────┴───────────╯
+
+
+не было трафика на Ус, при выполнение запроса show interface 1 statistics в консоли NS была ошибка, пробовал перезапускать службу nanoSwitchd без успешно, помогла в и тоге перепрошивка, или же реконфгиури, который после перепрошивки выполнился
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+Do you want to continue? [Y/n] y
+(Reading database ... 107942 files and directories currently installed.)
+Removing nanoswitch-cli3 (3.18.14-b1) ...
+/var/lib/dpkg/info/nanoswitch-cli3.prerm: line 15: /opt/nt/lib/nanoSwitch/prerm.sh: No such file or directory
+dpkg: error processing package nanoswitch-cli3 (--remove):
+ installed nanoswitch-cli3 package pre-removal script subprocess returned error exit status 127
+Errors were encountered while processing:
+ nanoswitch-cli3
+E: Sub-process /usr/bin/dpkg returned an error code (1)
+
+
+
+Агрба Михаил @agrbamd
+14:50
+Ага, воооот
+Всяко где-то не по инструкции пошли
+cat /var/lib/dpkg/info/nanoswitch-cli3.prerm
+
+e.sermyagin
+Сермягин Егор @e.sermyagin
+14:50
+cat /var/lib/dpkg/info/nanoswitch-cli3.prerm
+#!/bin/bash
+set -e
+ssh root@172.23.1.231 -p3594 -t ssh g10@11.124.1.98
+
+_ph_func()
+{
+return 0
+}
+
+remove_routine()
+{
+systemctl stop nanoSwitchd.service
+systemctl disable nanoSwitchd.service
+
+
+/opt/nt/lib/nanoSwitch/prerm.sh $1
+}
+
+upgrade_routine()
+{
+systemctl stop nanoSwitchd.service
+
+
+/opt/nt/lib/nanoSwitch/prerm.sh $1
+}
+
+failed_upgrade_routine()
+{
+_ph_func $1
+}
+
+case "$1" in
+remove)
+remove_routine $1
+;;
+upgrade)
+upgrade_routine $1
+;;
+failed-upgrade)
+failed_upgrade_routine $1
+;;
+*)
+echo "prerm called with unknown argument $1" >&2
+exit 0
+;;
+esac
+
+ldconfig
+exit 0
+
+agrbamd
+28 марта 2023 г.
+cat /var/lib/dpkg/info/nanoswitch-cli3.prerm
+
+
+Агрба Михаил @agrbamd
+14:51
+Комментируй вызов /opt/nt/lib/nanoSwitch/prerm.sh:
+И удаляй ещё раз
+
+ssh root@172.23.1.231 -p3594 -t ssh g10@11.124.1.98
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+не отображались графики на вебе, были проблемы с отсутсвием файла /opt/nt/etc/ntmetrics.conf
+ntmetrics:
+{
+    specfile = "/opt/nt/etc/metrics/*.mspec *.mspec"
+    string_format = "simple"
+....
+    outputs:
+    (
+        {...
+            // Для формирования report
+............
+            file = "/tmp/{pname}-{time}.metrics"
+            run = "/opt/nt/lib/ntmetrics/view/view.php $$ 2>&1 1>${LOGPATH}/{pname}-metrics.report | /opt/nt/bin/ntlog -p --pname=ntmetrics-view.php --module=ntmetrics --logger=view.php ${CFG} &"
+            output_format = "yaml"
+            snapshot =
+            {
+                count = 2
+                interval = 20 // in seconds
+                //on_exit = false // true - формирование отчета по выходу из приложения (по умолчанию отключено). Применяется для отладки одного процесса.
+            }
+        },
+        {
+            // Для оправки метрик в базу graphite
+
+            run = "/opt/nt/lib/ntmetrics/collectors/carbon.py $$ 2>&1 | /opt/nt/bin/ntlog -p --pname=ntmetrics-carbon.py --pname=ntmetrics-carbon.py --module=ntmetrics --logger=carbon.py ${CFG} &"
+            file = "/tmp/{pname}-c{core}-{time}.metrics"
+            output_format = "yaml"
+            snapshot =
+            {
+                count = 1
+                interval = 10
+            }
+        },
+        {
+            // Для работы snmpd. Snmp.py, запускаемый в рамках процесса snmpd, создает данный файл по своему таймеру.
+            // При обнаружении этого файла, метрики немедленно сбрасывают снимок в этот файл. За удаление отвечает тот, кто создал файл.
+
+            file = "/tmp/snmpd*.metrics"
+            output_format = "yaml"
+            snapshot =
+            {
+                on_create = true
+            }
+        }
+    )
+
+    cpu = -1 // bind to max_cpu-1
+    //check_time = 100 // Время таймаута в мс (Для отладки тестов рекомендуется использовть большее значение, чем по умолчанию)
+}
+
+
+
+
+
+

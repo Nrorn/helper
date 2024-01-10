@@ -1,0 +1,318 @@
+Кудрявцев
+Группа интеграции и ТП СОРМ
+Просьба взять в работу
+
+Света и ко
+Команда тестирования АПК Яхонт
+
+
+С. Версткина – МГТС, МТС ЮФО/СКФО/УФО; С. Анохин – МТС ПФО/ЦФО/СЗФО/ДвФО)
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+ssh root@172.23.1.231 -p3591 -t ssh Administrator@172.52.23.13
+
+
+ssh root@91.102.155.155 -p3599 -t ssh root@192.168.100.7 -t ssh g10@10.232.103.25
+
+ssh -p3593 root@91.102.155.155 -L :9007:192.168.100.7:22 -N -f
+ssh -p9007 root@127.0.0.1 -L :9199:10.233.253.199:22 -N -f
+
+ssh root@172.23.1.231 -p3593 -t ssh Administrator@11.124.6.23
+
+
+ip=10.10.10.117;sudo ssh -p3594 root@172.23.1.231  -L:443:$ip:443 -L:5900:$ip:5900 -L:623:$ip:623 -L:80:$ip:80 -N -f
+
+ps aux |grep ssh |grep 80
+
+
+https://192.168.55.99/ 
+
+
+эта ссылка работает со старой прошивкой нс 
+http://127.0.0.1:9810/nanoswitch/index.php
+а эта с новой 
+http://192.168.55.99:9037/#/login
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+ADMIN
+Administrator/admin12345admin
+Admin12345admin*
+Admin12345admin
+admin12345admin*
+ADMIN
+admin
+
+
+http://192.168.55.245/redmine/projects/support/wiki/Turbo_mode_to_get_the_maximum_Turbo_mode_speed_on_my_X11_(Supermicro)
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+#GatewayPorts no
+Во всех случаях кроме 
+GatewayPorts clientspecified
+Правим конфиг и рестартуем sshd
+sudo sed -i 's/\#*GatewayPorts.*/GatewayPorts clientspecified/' /etc/ssh/sshd_config;sudo systemctl restart ssh
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+sudo mcedit /opt/nt/etc/ntio.conf
+sudo mcedit /etc/hostid
+
+
+
+grep -A1000 cluster g10.conf|grep -E  --line-buffered 'hostid = |link_ssh'
+
+
+grep -A1000 cluster g10.conf|grep -A2 silicom_host
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=       
+
+
+arch="T=x86_64-core-avx-i-linuxapp-gcc"; \
+flags=$(cat /proc/cpuinfo | grep flags | tail -n1|sed "s|^flags\t*: ||"); \
+for instruction in 'mmx' 'sse' 'sse2' 'sse3' 'ssse3' 'sse4_1' 'sse4_2' 'avx' 'aes' 'pclmul' 'fsgsbase' 'rdrand' 'f16c'; \
+do [ -z "$(echo $flags | grep $instruction)" ] && arch="T=x86_64-corei7-linuxapp-gcc"; \
+done; \
+echo $arch
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+./.G10.exec 'screen -R psi'
+
+
+export http_proxy=http://192.168.150.184:3128; \
+export https_proxy=http://192.168.150.184:3128;\
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+dpkg -l dpdk-* nt-io-* libconfig* libnt* nt-p* nt-m*  nt-cm* snf-* nt-log;
+
+
+dpkg -l dpdk-* nt-io-* libconfig* libnt* nt-* snf-* nt-log;
+
+
+dpkg -l  ntcmdtree ntmetrics ntpipe ntlog ntlib ntio-corei7
+
+
+
+	
+
+конфиг г10
+scp
+scp -P 31962 /home/esermyagin/g101.conf g10@192.168.55.242:/home/g10
+
+dpdk-devbind -s 
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+ ./.G10.exec 'cat /LOGS/RAM/ntio-balancer_*.stats  | egrep -A10 "I/O RX:|ring_drops" '
+cat /LOGS/RAM/ntio-balancer_*.stats  | egrep -A10 "I/O RX:|ring_drops" 
+
+
+cat /LOGS/RAM/ntio-balancer_*.stats |grep -A10 'port [2 3]'
+
+tail -F /LOGS/RAM/ntio-balancer_*.stats |grep -A10 'port [0 1]'
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+синх
+./.G10.stop_cluster -j10; ./.G10.sync; ./.G10.start_cluster -j10 --nosync
+
+./.G10.sync_tool -h $host -a
+
+
+	./.G10.stop_cluster -j10; ./.G10.sync g10.conf; ./.G10.start_cluster -j10 --nosync 
+    
+./.G10.stop_cluster; ./.G10.sync .G10.start; ./.G10.start_cluster --nosync
+  
+./.G10.stop_cluster -j10; ./.G10.start_cluster -j10 --nosync
+   
+./.G10.sync g10.conf  
+   
+   
+ssh -t 192.168.150.106 'sudo ./.G10.stop;sudo ./.G10.boot'
+   
+ =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+sudo -u jenkins ls
+выполняем от другого пользвоателя    
+   
+   
+cat ./info_about_inst_comp | grep -E --line-buffered 'E: | *становлен*'
+
+   
+ grep -a "got_starts\|got_updates\|got_stops" /LOGS/RAM/fiber_aaa_*
+   
+сортирует трафик из g10 log 5  самых больших показателей 
+cat ~/rundir/g10.log|grep -v mbit|grep "feeder speed"|awk '{print $3" "$4}'|sort -n |tail -n5
+
+выводит 10 последних записей о crc из g10.log
+
+cat /home/g10/rundir/g10.log | grep "crc" |awk '{print $4" "$5}'| tail -n10
+
+мониторинг в реальном времяни сrc в g10.log net_drops
+
+tail -F ~/rundir/g10.log | grep -E 'crc|SYSTEM: -- system stats --';
+
+вывод  тейла отсартироанного грепом в файл
+tail -F ~/rundir/g10.log | grep -E  --line-buffered 'crc|SYSTEM: -- system stats --' >> ./serm/1 |tail -F ./serm/1
+
+вывод на экран и в файл тейла отсартироанного грепом 
+echo > ./serm/1;tail -F ~/rundir/g10.log | grep -E  --line-buffered 'crc|SYSTEM: -- system stats --' >> ./serm/1 |tail -F ./serm/1 | grep -E  --line
+-buffered 'crc|SYSTEM: -- system stats --'
+
+удаляет все папки с названием unstable
+ls -d /var/lib/jenkins/workspace/${JOB_NAME}/repo-candidate/*/*/* | grep unstable | xargs rm -rf
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+echo 123456nt | sudo -S cat /etc/hostid;\
+export http_proxy=http://192.168.150.58:3128; \
+export https_proxy=http://192.168.150.58:3128;\
+wget -qO - http://192.168.55.245/nt-repo/nt-repo-switch-to-mirror.sh -e use_proxy=yes | sudo -E bash; \
+wget -qO - http://192.168.55.245/nt-repo/nt-repo-init.sh -e use_proxy=yes | sudo -E bash;\
+ sudo -E apt-get install -y php7.4 php7.4-cli php7.4-common php7.4-dev php7.4-json php7.4-opcache php7.4-pgsql php7.4-readline php7.4-xml php7.4-yaml python3-yaml; 
+
+ sudo update-alternatives --config php 
+
+sudo update-alternatives --set php /usr/bin/php7.4;\
+sudo a2dismod php5.6;\
+sudo a2dismod php8.1;\
+sudo a2dismod php7.2;\
+sudo a2enmod php7.4;\
+sudo systemctl restart apache2;\
+sudo systemctl enable ntpipe-broker.service; sudo systemctl restart ntpipe-broker.service;sudo systemctl status ntpipe-broker.service;
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+выполнеение ребут карт с задержкой в 60 сек
+./.G10.exec 'hostid=`cat /etc/hostid`;if [ $hostid -lt 12 ]; then sleep 60; echo 123456nt | sudo -S reboot;fi'
+
+
+Чтобы остановить последовательность команд при сбое одной из них испоьлзуем &&
+
+|| = или 
+
+./.G10.exec 'dmesg -T|(grep -qs "Out of memory: "&&(echo "has_OOM";echo "123456nt"|sudo -S reboot)||echo "Normal")'
+   
+ 
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=   
+
+выведет в дмесге только ошибки и варнинги   
+dmesg --level=err,warn
+
+
+Отображает статистику ввода/вывода для дисков и других устройств хранения, включая пропускную способность и использование диска.
+iostat 
+
+Отображает статистику использования ЦП, памяти и операций ввода-вывода процессами.
+pidstat	
+
+
+  
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=    
+   
+sudo date --set "May 12 12:31:05 2023"   
+   
+   
+затирает содержимое файла ntp.conf
+
+sudo sh -c "echo -n ' ' > /etc/ntp.conf "
+	
+
+192.168.150.62
+cat /etc/ntp.conf
+
+server 127.127.1.1
+fudge 127.127.1.1 stratum 6
+server 10.249.142.9 prefer
+
+192.168.150.61
+cat /etc/ntp.conf
+
+server 127.127.1.1
+fudge 127.127.1.1 stratum 8
+server 192.168.150.130 prefer
+
+
+sudo apt-get remove ntp
+
+
+sudo systemctl status puppet.service
+sudo systemctl stop puppet.service;\
+puppet agent --disable
+sudo systemctl status ntp
+cat /etc/ntp.conf
+sudo systemctl stop ntp;\
+ntpdate -q 10.249.142.9;\
+sleep 20;\
+sudo ntpdate 10.249.142.9;\
+sudo systemctl start ntp
+
+systemctl list-unit-files --state enabled
+
+
+sudo sed -i "s|^Conflicts=systemd-timesyncd.service|#Conflicts=systemd-timesyncd.service|" /lib/systemd/system/ntp.service
+sudo systemctl enable ntp; sudo systemctl start ntp.service;sudo systemctl status ntp;
+ntpq -pn
+
+
+
+172.52.23.254 
+ставить на тех где не пингуется
+10.249.142.9
+10.36.10.149
+10.233.251.24
+10.99.10.17
+
+sudo systemctl status ntp
+sudo apt-get remove ntp -y
+
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Не нравится бесконечно длинный вывод команды top? Используйте опцию -i, чтобы скрыть незанятые процессы и показать только активные: $ top -i
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+елси во время поиска выполнить grep -v grep, не будет отоброжаться процес самого grep 
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+sudo ./.G10.stop;rm -rf ~/rundir/* /LOGS/RAM/*;sudo ./.G10.boot; 
+
+sudo ./.G10.stop;rm -rf ~/rundir/* /LOGS/RAM/*;sudo ./.G10.start;
+
+./.G10.stop_cluster -j10; rm -rf ~/rundir/* /LOGS/RAM/*; ./.G10.start_cluster -j10 --nosync
+
+cd;sudo ./.G10.stop;rm -rf ~/rundir/* /LOGS/RAM/*;sudo  systemctl stop ntpipe-broker;sudo  rm -rf /dev/shm/*;sudo  systemctl start ntpipe-broker.service;sudo ./.G10.start;
+
+cd;\
+sudo ./.G10.stop;\
+sudo systemctl stop ntpipe-broker.service;\
+sudo rm -rf /dev/shm/* ;\ 
+sudo systemctl start ntpipe-broker.service;\
+sudo systemctl status ntpipe-broker.service;\
+sudo ./.G10.start;
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+for ip in 192.168.140.240 192.168.140.241 192.168.140.242 192.168.140.243 192.168.140.244 192.168.140.245  ;do ssh-copy-id -i /home/g10/.ssh/id_rsa g10@$ip;sudo -u administrator ssh-copy-id -i /home/administrator/.ssh/id_rsa administrator@$ip;ssh-copy-id -i /home/g10/.ssh/id_rsa administrator@$ip; done
+
+Беспарольный по сути копирование хеша в специальное место
+
+ssh-copy-id  -копирует
+
+-i /home/g10/.ssh/id_rsa - что копируем, то есть для какого пользователя
+  ssh-keygen -f "/home/g10/.ssh/known_hosts" -R "192.168.150.88"
+
+ administrator@IP - под каким пользователем не придётся вводить пароль
+
+
+
+123456nt
+
+
+    
+    
+

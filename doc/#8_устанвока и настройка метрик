@@ -1,0 +1,256 @@
+
+как отображение метирк на нсе 
+http://192.168.55.242:31607 (порт проброса на веб)
+http://192.168.55.242:31607/nt-metrics/
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=
+
+установка и настройка метрик
+http://192.168.55.245/redmine/projects/support/wiki/Metrics
+
+sudo hostnamectl set-hostname vitok-ipdr01.573.gprs.orel.mts
+sudo hostnamectl set-hostname  card0.vitok-ipdr01.573.gprs.bryansk.mts
+sudo hostnamectl set-hostname card1.vitok-ipdr01.573.gprs.bryansk.mts
+sudo hostnamectl set-hostname card2.vitok-ipdr01.573.gprs.bryansk.mts
+
+sudo mcedit /etc/hosts
+Было:
+127.0.1.1       g10
+
+Стало:
+127.0.1.1      vitok-ipdr01.573.gprs.bryansk.mts
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=
+
+для начала нужно установить
+
+
+sudo -E apt-get install nt-docker-keyring; \
+sudo -E apt-get install nt-metrics-web -t unstable; \
+
+export http_proxy=http://127.0.0.1:3128;export https_proxy=http://127.0.0.1:3128; echo 123456nt | sudo -SE apt-get update; \
+sudo -E apt-get install docker.io; \
+sudo -E apt-get install nt-docker-keyring=1.1.0 ; \
+sudo -E apt-get install nt-metrics-web=1.0.8-b1; \
+ sudo -E apt-get install php7.4 php7.4-cli php7.4-common php7.4-dev php7.4-json php7.4-opcache php7.4-pgsql php7.4-readline php7.4-xml php7.4-yaml python3-yaml; 
+sudo update-alternatives --config php
+
+
+
+ii  ntmetrics-web-docker-image            0.0.4                                                    all          Docker image needed to work nt-mterics-web
+ii  ntmetrics-web1                        1.0.13-b1                                                amd64        Ntmetrics-web interface
+nt-metrics-web=1.0.8-b1
+nt-docker-keyring=1.1.0 
+
+
+
+ntmetrics-web1
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=
+Проверить что установлены пакеты
+export http_proxy=http://192.168.150.209:3128; \
+export https_proxy=http://192.168.150.209:3128;
+
+везде и на картах 
+
+sudo -E apt-get install -y php-yaml python3-yaml;\
+sudo -E apt-get install -y php7.4 php7.4-cli php7.4-common php7.4-dev php7.4-json php7.4-opcache php7.4-pgsql php7.4-readline php7.4-xml php7.4-yaml python3-yaml; 
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=
+запустить метрики
+sudo systemctl enable nt-metrics.service; \
+sudo systemctl start nt-metrics.service; 
+sudo systemctl status nt-metrics.service; 
+sudo systemctl restart nt-metrics.service; 
+
+
+
+
+sudo systemctl status  ntmetrics-web.service 
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=
+выбрать версию  php 7.4
+ sudo update-alternatives --config php
+
+Включить модуль можно командой:
+ sudo a2enmod имя_модуля
+ sudo a2enmod php7.4 
+А отключить модуль:
+ sudo a2dismod имя_модуля(php8.0)
+ sudo a2dismod php7.2
+ 
+затем включить модуль
+sudo systemctl restart apache2; sudo systemctl status apache2
+
+!!Failed to start The Apache HTTP Server.!!
+
+sudo a2enmod proxy_http2
+sudo a2enmod http2
+
+
+sudo systemctl restart collectd; sudo systemctl status collectd
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=
+
+скопировать файл g100.mspec в /opt/nt/etc/metrics/
+sudo cp ~/g100.mspec /opt/nt/etc/metrics/
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=
+
+добавить в g10.conf
+
+RUNPATH="/home/g10/rundir" 
+LOGPATH = "/LOGS/RAM" 
+@include "/opt/nt/etc/ntmetrics.conf" 
+
+
+192.168.150.115
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=
+
+посмотреть как настроены на липецк гпрс 10.99.98.127
+
+######
+
+!!!!!! пробел в конце обязателен !!!!!!!
+
+sudo mcedit /etc/collectd/collectd.conf.d/collectd-nt-metrics.conf
+
+карты 
+LoadPlugin write_graphite
+
+<Plugin write_graphite>
+        <Node "example">
+                Host "192.168.150.58"
+                Port "2003"
+                Protocol "tcp"
+                ReconnectInterval 0
+                LogSendErrors true
+#                Prefix "test_collect"
+#                Postfix "collectd"
+                StoreRates true
+#                AlwaysAppendDS false
+                EscapeCharacter "_"
+                SeparateInstances false
+                PreserveSeparator false
+                DropDuplicateFields false
+        </Node>
+</Plugin>
+
+
+#####
+
+sudo mcedit  /opt/nt/etc/ntmetrics.conf
+
+            // Для оправки метрик в базу graphite
+            run = "/opt/nt/lib/nt-metrics/collectors/carbon.py $$ 2>&1 | /opt/nt/bin/ntlog -p --pname={pname}_ntmetrics-carbon.py --module=ntmetrics --logger=carbon.py ${CFG} &"
+            
+            
+#####
+
+sudo mcedit  /etc/environment
+карта 
+
+
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/opt/nt/bin:/opt/nt/sbin"
+PYTHONPATH="/opt/nt/include/libnt/py/"
+
+CARBON_HOST="192.168.180.5"
+CARBON_PORT=2003
+
+
+
+
+
+перезапустить 
+
+sudo systemctl restart collectd;\sudo systemctl status collectd
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=
+
+сделать проброс 
+ ssh -p3585 root@91.102.155.155 -L :9127:10.36.11.154:80 -N -f
+
+http://192.168.55.99:9127/nt-metrics
+
+log admin	
+pass 123456
+
+
+в графане
+
+что бы посмотреть графики нужно нажать на + слева в столбце и  выбрать create => dashboard
+
+в поле series выбрать название съемника затем acco затем ааа затем из всплывабщего списка выбрать те компоненты которые необходимо вывести на график затем host с которого будет вести построение графика и звездочку(собирать со всех ядер)
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=
+
+sudo mcedit /etc/hosts
+
+sudo hostnamectl set-hostname  card0.vitok-ipdr01.573.gprs.nizhniy-novgorod.mts
+sudo hostnamectl set-hostname  card1.vitok-ipdr01.573.gprs.nizhniy-novgorod.mts
+sudo hostnamectl set-hostname  card2.vitok-ipdr01.573.gprs.nizhniy-novgorod.mts
+
+sudo hostnamectl set-hostname  card0.vitok-ipdr02.573.gprs.nizhniy-novgorod.mts
+sudo hostnamectl set-hostname  card1.vitok-ipdr02.573.gprs.nizhniy-novgorod.mts
+sudo hostnamectl set-hostname  card2.vitok-ipdr02.573.gprs.nizhniy-novgorod.mts
+
+sudo hostnamectl set-hostname  card0.vitok-ipdr03.573.gprs.nizhniy-novgorod.mts
+sudo hostnamectl set-hostname  card1.vitok-ipdr03.573.gprs.nizhniy-novgorod.mts
+sudo hostnamectl set-hostname  card2.vitok-ipdr03.573.gprs.nizhniy-novgorod.mts
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=
+
+правки на картах 
+ cat /sys/devices/system/cpu/cpu*/topology/thread_siblings_list        
+0-1
+10,13
+9,11
+2,12
+10,13
+14-15
+14-15
+0-1
+2,12
+3,6
+4,7
+5,8
+3,6
+4,7
+5,8
+9,11
+
+cat /opt/nt/etc/ntio.conf  | grep -A10 "balancer:"
+
+
+sudo mcedit /opt/nt/etc/ntio.conf
+        balancer:
+        {
+            core10:  { rx_ports = "0,2,4"; };
+            core13:  { rx_ports = "1,3,5"; };
+            usleep_delay = 300;
+
+//            core12:  { rx_ports = "0,2,4"; };
+//            core15:  { rx_ports = "1,3,5"; };
+//            core12:  { rx_ports = "0,2,4"; };
+//            core15:  { rx_ports = "1,3,5"; };
+
+//            usleep_delay = 100;
+        };
+
+
+
+mcedit g10.conf
+                     hostid = 4;
+                     defaults = "silicom";
+                     link_ssh = "192.168.150.163";
+                     //ilo_hosts = "192.168.160.13 NONE 192.168.170.13";
+                     tasks =
+                     (
+                         { enabled = 1; name = "feeder2_nt";     core_map = "0-9,11-12"; },  // для процессов, использующих DPDK, ядра нужно указывать явно
+                         { enabled = 1; name = "fiber_stat";     cpuset = "non_prio"; }
+                     );
+          
+                     pci_addrs_sorm = "01:00.0 01:00.1 01:00.2 01:00.3"; //Тут указываются адреса PCI интерфейсов для съема на карте, смотрим их на КАРТЕ
+                     pci_addrs_silicom2host = "03:00.0 03:00.1"; // Тут указываются адреса PCI с карты до хоста, смотрим их на КАРТЕ
+                     pci_addrs_host2silicom = "5e:00.0 5e:00.1"; // Тут указываются адреса PCI с хоста до карты, смотрим их на СЕРВЕРЕ
+                 },
+
+
+

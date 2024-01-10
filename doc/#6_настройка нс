@@ -1,0 +1,351 @@
+
+mode flow выщитывает хэш сумму 
+mode rr получается каша
+
+NS
+мтс -> уплотняющий(rr) ns -> разоуплотняющий(flow) ns -> карты сервера
+разоплутняющий подается трафик в нс балансируется и идет дальше
+уплатняющий объеденение нескольких каналов в 1
+
+папка нано свитча 
+
+/opt/NS2/nanoSwitch 
+
+зхаодим на нано свитч
+./nanoSwitch 
+
+смотрим правила нано свитча 
+show rules
+
+
+удаление инфтерфейсов 
+
+exit
+
+
+configure interface 1,2 rule add all to 29
+
+configure interface 9-11 rule add all to 6,8
+configure interface 1 rule del ip=10.104.200.224/27 to 25
+
+configure interface 1 rule del ip=178.217.45.0/24 to 64
+
+
+удаляет все интерфейсы
+configure rules clear
+configure rules del 1
+
+
+добавление интерфейсов
+configure interface -40 rule add all to 33-44
+
+
+configure interface 1-8 rule add rest to 9-12
+
+configure interface 1 mode 10g
+
+показывает какие настроены интерфейсы 
+show interface 1-6 rules
+
+
+
+показывает какая балансировка настроена 
+show balancing
+
+сброс настроек балансировки
+configure balancing remove 5
+
+установка новой балансировки
+configure balancing session 1 flow 9-12
+configure balancing session 1 flow 41-64
+
+configure balancing session 4 rr 25-28
+
+configure balancing session_sw 5 flow 51-56 weight 38 40 42 42 44 47
+
+configure balancing session_sw 4 flow 43-48 weight 37 37 42 42 49 49
+
+
+
+
+
+1. [on]  : interface 1-8 rule ip=178.217.44.0/24 to 63
+ configure interface 1-8 rule add ip=178.217.44.0/24 to 32
+2. [on]  : interface 1-8 rule ip=178.217.45.0/24 to 64
+ configure interface 1-8 rule add ip=178.217.45.0/24 to 30
+3. [on]  : interface 1-8 rule ip=178.217.44.0/24 to 64
+
+
+ configure interface 1-8 rule add rest to 9-12
+
+configure balancing session 1 flow 9-12
+
+#> show balancing 
+   0       rr      5-8  
+   1     flow     9-12  
+
+
+
+
+
+configure interface 9-42 rule add vlan!=91 to 45-48,9-26
+configure balancing session 0 rr 9-26
+configure balancing session 1 rr 45-48
+
+
+configure balancing session 2 rr 25-28
+configure balancing session 3 rr 12-14
+
+
+показывает трафик на в консоле
+show interface 1-33 statistics
+show interface 23-30 statistics
+
+
+показывает статистику по crc
+show interface 5-6 info
+
+
+
+reconfigure
+
+
+Описание вывода show link:
+
+ Interface:     Link:        SFP:    Light:
+         6      DOWN  plugged in        no
+         7      DOWN           -         -
+         8      DOWN           -         -
+         9      DOWN  plugged in       yes
+
+Link - есть синхронизация (UP) или нет (DOWN)
+SFP - plugged in - вставлен sfp модуль. - не вставлен
+Light - светит в него что то или нет
+Это сделано для релизов 64 10GE,для стм такого еще нет.
+
+
+
+
+
+
+
+configure interface 9-14 rule add all to 27-32
+configure interface 33-36 rule add all to 33,37
+configure interface 41,42 rule add all to 41
+
+configure balancing session 0 flow 27-32
+
+!!!!!
+burst
+
+если на нс есть мелкие дропы надо посмотреть командой show config (включен ли режим pairs(парный) если нет надо проверить на съемниках, как подается трафик на карты , если на ккарту подается трафик в два порта, то вклчюаем ражим pairs (configure balancing enable rr pair))
+show config
+interface 1-64 mode 10g
+ddr3 is enabled
+hash is ip
+sched is disabled
+rr balancing in pairs is enabled
+rr balancing in quads is disabled
+rr balancing in octos is disabled
+offload is disabled
+trim frame off
+
+pairs(парный)
+quads(четверной)
+octos(восьмерной)
+
+										!!!!
+Ну если включать парный режим, то НС считает два порта за один:
+НЕЧЕТНЫЙ и следующий за ним четный
+
+Таким образом если включить парный режим и подать трафик на порт 30, то на 29 может что-то появиться
+
+Но на 35 тоже джолжен быть трафик
+
+То есть 29-36 вот так должно былло быть и пропасть
+
+Проверить можно включив РР балансировку, чтобы избежать ошибки с отсутствием потоков
+!!!!!!
+
+
+
+если не пускает на веб надо проверить 
+/opt/nt/lib/nanoswitch-web/config/params.php
+
+
+
+
+
+правило для изменение трафика на работу с медью 
+configure interface 5-8 mode 1g
+
+на НС интерфейсы 1,2 (по правилу трафик должен с них быть)  down, входного трафика на НС нет.
+
+
+
+Katayev 16:08
+вот похоже опять говно
+
+в интерфейсах переведи входыне порты в 10ж, потом сейв, потом обратно в 1ж - и все пойдет
+
+
+Привет, http://192.168.55.245/redmine/issues/10357. на вебе стата не отображается, в терминале не могу найти как попасть в консоль ns  
+
+Mikhail 10:34 AM
+http://192.168.55.242:31481
+ssh g10@192.168.55.242 -p31482
+
+nanoswitch
+nanoSwitch
+cd /opt/NS2;./nanoSwitch;
+
+10:35 AM
+
+nanoswitch
+nanoSwitch
+cd /opt/NS2;./nanoSwitch;
+Mikhail Agrba, 4/11/2022
+g10@g10:~$ cd /opt/NS2;./nanoSwitch;
+-bash: ./nanoSwitch: No such file or directory
+
+Mikhail 10:43 AM
+ls /opt
+ls /opt/NS2
+
+10:46 AM
+g10@g10:~$ ls /opt
+lost+found  NS2  NS_install.sh  nt  post_configure.sh  Xilinx
+g10@g10:~$ ls /opt/NS2
+clear.cnt  config  interface.map.5  interface.map.6_1  log  ns3.bit  NS_STAT  shed  Statistics  statistics.csv
+
+Mikhail 10:47 AM
+ls /opt/nt/bin
+
+10:47 AM
+g10@g10:~$ ls /opt/nt/bin
+nanoSwitch
+g10@g10:~$ /opt/nt/bin/nanoSwitch 
+Connect failed. Error: Connection refused
+
+Mikhail 10:48 AM
+sudo systemctl status nanoSwitchd.service
+
+10:48 AM
+g10@g10:~$ sudo systemctl status nanoSwitch.service
+[sudo] password for g10: 
+Unit nanoSwitch.service could not be found.
+
+Mikhail 10:48 AM
+sudo systemctl status nanoSwitchd.service
+
+
+10:49 AM
+
+sudo systemctl status nanoSwitchd.service
+
+Mikhail Agrba, 4/11/2022
+g10@g10:~$ sudo systemctl status nanoSwitchd.service
+Unit nanoSwitchd.service could not be found.
+
+Mikhail 10:50 AMhttp://127.0.0.1:9014/nanoswitch/index.php
+Найди как называется через tab
+
+sudo dplkg -l nanosw*
+
+Заодно
+
+10:50 AM
+
+sudo dplkg -l nanosw*
+Mikhail Agrba, 4/11/2022
+делал, ничего не находит 
+
+Найди как называется через tab
+Mikhail Agrba, 4/11/2022
+через таб 
+g10@g10:~$  sudo  systemctl status nanoSwitchd.service 
+Unit nanoSwitchd.service could not be foun
+
+Mikhail 10:53 AM
+g10@g10:~$ sudo systemctl daemon-reload
+g10@g10:~$ sudo systemctl restart nanoSwitchd.service
+Уже сделал, жди
+
+10:54 AM
+
+g10@g10:~$ sudo systemctl daemon-reload
+g10@g10:~$ sudo systemctl restart nanoSwitchd.service
+Уже сделал, жди
+Mikhail Agrba, 4/11/2022
+а в чем причина, почему сервис не находил ? 
+
+Mikhail 10:56 AM
+Симлинк на раздел который монтируется после попытки запуска сервиса
+
+11:10 AM
+
+Не забудь что puppet может всё вернуть обратно
+Mikhail Agrba, 4/12/2022
+
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+проблема с отображенем статистики на вебе (знаячения статистики на нуле )
+
+Aug 25 13:11:35 g10 collectd[31631]: rrdtool plugin: rrd_update_r (/var/lib/collectd/rrd/g10.g10/df-root/df_complex-used.rrd) failed: /var/lib/collectd/rrd/g10.g10/df-root/df_complex-used.rrd: illegal at
+Aug 25 13:11:35 g10 collectd[31631]: rrdtool plugin: rrd_update_r (/var/lib/collectd/rrd/g10.g10/df-LOGS/df_complex-free.rrd) failed: /var/lib/collectd/rrd/g10.g10/df-LOGS/df_complex-free.rrd: illegal at
+Aug 25 13:11:35 g10 collectd[31631]: rrdtool plugin: rrd_update_r (/var/lib/collectd/rrd/g10.g10/df-LOGS/df_complex-reserved.rrd) failed: /var/lib/collectd/rrd/g10.g10/df-LOGS/df_complex-reserved.rrd: il
+Aug 25 13:11:35 g10 collectd[31631]: rrdtool plugin: rrd_update_r (/var/lib/collectd/rrd/g10.g10/processes/ps_state-running.rrd) failed: /var/lib/collectd/rrd/g10.g10/processes/ps_state-running.rrd: ille
+
+
+Проверить что бы было запущено тольлок по 1 процессу 
+g10       1326  0.0  0.1  12812  3264 pts/1    S    13:17   0:00 /bin/bash /opt/NS2/shed/.NS.fr /opt/NS2/shed/.NS_STAT.workin
+g10       3017 24.1  0.2  12240  3860 pts/1    S    13:18   1:38 /bin/bash /opt/NS2/shed/.NS_STAT.workin
+
+прибить все процессы которые найдет
+ ps aux| grep NS_STAT
+
+потом запустить 
+nohup /opt/NS2/shed/.NS.fr /opt/NS2/shed/.NS_STAT.workin &
+
+
+првоерить установленный регион
+ sudo dpkg-reconfigure locales
+
+должен быть W: Some index files failed to download. They have been ignored, or old ones used instead.
+
+ [*] en_US.UTF-8 UTF-8 n
+
+
+
+sudo mcedit /etc/default/locale
+LANGUAGE=en_US.UTF-8
+LC_ALL=en_US.UTF-8
+LANG=en_US.UTF-8
+LC_TYPE=en_US.UTF-8
+
+
+sudo locale-gen en_US.UTF-8
+sudo dpkg-reconfigure locales  ssh-keygen -f "/home/esermyagin/.ssh/known_hosts" -R "[127.0.0.1]:9022"
+
+
+g10@g10:/var/lib/collectd$ date
+Thu Aug 25 13:12:13 MSK 2022
+
+locale -a
+locale -a -v
+
+
+перезапустить все службы 
+
+
+смотреть если что на краснодарсокм нс
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+`/opt/NS2/nanoSwitch -c "show interface 11-16 statistics" | grep "Input"
+/opt/nt/bin/nanoSwitch -c "show link"
+/opt/nt/bin/nanoSwitch -c "show interface 5-6 info"
+
+show interface 11-16 statistics | grep "Input"
