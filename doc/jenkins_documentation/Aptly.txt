@@ -7,6 +7,10 @@ dpkg-deb -R nt-pipe_1.6.8-b15_focal_amd64.deb /home/e.sermyagin/nt-pipe/2/nt-pip
 directory - положить всё в директорию с названием <name>=nt-pipe_1.6.8-b11_focal_amd64
 
 
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+для просмотра команд аптли с нестондартным конфигом 
+sudo aptly -config=./etc/aptly-ntrepo.conf repo remove ubuntu-18.04-devel  "ntmetrics2 (=2.11.3-b17)"
+
 
 
 

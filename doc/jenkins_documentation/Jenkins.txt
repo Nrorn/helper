@@ -1,6 +1,79 @@
 запуск сборки через консоль
 curl "http://192.168.55.242:8880/job/ntdevel/buildWithParameters?token=build-123&ACTION=build&BRANCH=master"
 
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+В Jenkins pipeline можно объявлять переменные различными способами, в зависимости от их области видимости и жизненного цикла. Вот несколько способов объявления переменных в Jenkins pipeline:
+
+1. Глобальные переменные:
+   Объявляются в блоке environment и доступны на протяжении всего pipeline.
+
+   ```groovy
+   pipeline {
+       agent any
+       environment {
+           // Объявление глобальной переменной
+           GLOBAL_VARIABLE = 'global_value'
+       }
+       stages {
+           stage('Example') {
+               steps {
+                   script {
+                       // Использование глобальной переменной
+                       echo "Global variable value: ${env.GLOBAL_VARIABLE}"
+                   }
+               }
+           }
+       }
+   }
+   ```
+
+2. Локальные переменные:
+   Объявляются в блоке script и имеют локальную область видимости только в пределах этого блока.
+
+   ```groovy
+   pipeline {
+       agent any
+       stages {
+           stage('Example') {
+               steps {
+                   script {
+                       // Объявление и использование локальной переменной
+                       def localVariable = 'local_value'
+                       echo "Local variable value: $localVariable"
+                   }
+               }
+           }
+       }
+   }
+   ```
+
+3. Пользовательские переменные:
+   Объявляются вне блока pipeline и передаются как аргументы в функции.
+
+   ```groovy
+   def myCustomVariable = 'custom_value'
+
+   pipeline {
+       agent any
+       stages {
+           stage('Example') {
+               steps {
+                   script {
+                       // Использование пользовательской переменной
+                       echo "Custom variable value: $myCustomVariable"
+                   }
+               }
+           }
+       }
+   }
+   ```
+
+Каждый из этих способов имеет свои особенности, и выбор того, какой способ использовать, зависит от ваших конкретных требований по использованию переменных в pipeline.
+
+
 =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 домашняя дериктория jenkins old
 /home/jenkins
