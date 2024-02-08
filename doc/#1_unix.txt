@@ -114,6 +114,48 @@ other::r-x
 Чтобы установить ACL по умолчанию, вам просто нужно добавить опцию d после опции -m (порядок имеет значение!). Поэтому используйте setfacl -m d:g:sales:rx /data, если вы хотите, чтобы группа sales имела доступ на чтение и выполнение всего, что когда-либо будет создано в каталоге /data.
 
 
+удалять правило на группу 
+sudo setfacl -x g:aptly db
+
+# file: db
+# owner: kshkarin
+# group: share
+user::rwx
+group::r-x
+group:aptly:rwx			#effective:r-x  -удалит
+mask::r-x
+other::r-x
+default:user::rwx
+default:group::r-x
+default:group:aptly:rwx
+default:mask::rwx
+default:other::r-x
+
+добавляет права
+sudo setfacl -m  group:aptly:rwx db
+
+
+# file: db
+# owner: kshkarin
+# group: share
+user::rwx
+group::r-x
+group:aptly:rwx			-добавит
+mask::r-x
+other::r-x
+default:user::rwx
+default:group::r-x
+default:group:aptly:rwx
+default:mask::rwx
+default:other::r-x
+
+
+
+устанавливает права на все подпапки
+sudo setfacl -R -m g:aptly:rwx db
+
+
+
 =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 Команда which
