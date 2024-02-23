@@ -416,6 +416,7 @@ run_docker_container.sh
 
 =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 пробрасываем порт в докер 
+docker run -d -p host_port:container_port your_image_name
 docker run -d -p 8080:80 ngnix:1.13
 -d обзначает, что запускаем контейнер в бекграунд режиме (т.е в фоне)
 -p обозначает что локальный порт 8080 пробрасываем на 80 порт самого контейнера
@@ -646,4 +647,67 @@ sudo docker run --privileged --rm -it --shm-size=10g --cap-add=ALL -e gatz=$gatz
 Таким образом, весь этот код используется для создания и запуска Docker контейнера с определенными настройками и параметрами, включая монтирование директории, задание переменной окружения и выполнение команды внутри контейнера.
 
 
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+ошибка в клонирвоание докер зеркал 
+Downloading https://download.docker.com/linux/ubuntu/dists/bionic/Release...
+Success downloading https://download.docker.com/linux/ubuntu/dists/bionic/Release
+Downloading https://download.docker.com/linux/ubuntu/dists/bionic/Release.gpg...
+Success downloading https://download.docker.com/linux/ubuntu/dists/bionic/Release.gpg
+gpgv: Signature made Вт 13 июн 2023 10:55:10 MSK
+gpgv:                using RSA key 7EA0A9C3F273FCD8
+gpgv: [don't know]: invalid packet (ctb=2d)
+gpgv: keydb_search failed: Invalid packet
+gpgv: Can't check signature: No public key
+ERROR: unable to fetch mirror: verification of detached signature failed: exit status 2
+e.sermyagin@git:~/ntrepo/aptly$ aptly -config=./etc/aptly-mirror.conf mirror create  docker-1804-stable https:/
+
+
+
+Эта ошибка связана с тем, что вам не хватает открытого ключа (public key) в вашем доверенном кольце ключей для проверки подписи пакета. Для исправления этой проблемы вам необходимо импортировать отсутствующий открытый ключ в ваше доверенное кольцо ключей.
+
+Вот как вы можете импортировать открытый ключ с помощью команды gpg, как предложено в сообщении об ошибке:
+
+1. Используя ключевую команду, импортируйте отсутствующий ключ с сервера ключей Ubuntu:
+   ```bash
+   gpg --no-default-keyring --keyring trustedkeys.gpg --keyserver keyserver.ubuntu.com --recv-keys 7EA0A9C3F273FCD8
+   ```
+
+2. Если ключ сохранен в файле Release.key в корне репозитория, вы можете также импортировать его напрямую из файла:
+   ```bash
+   wget -O - https://some.repo/repository/Release.key | gpg --no-default-keyring --keyring trustedkeys.gpg --import
+   ```
+
+После того как вы импортируете отсутствующий открытый ключ, вы повторно попробуйте выполнить операцию, которая вызвала ошибку, и проверьте, что проблема с проверкой подписи решена.
+
+
+
+
+
+
+
+
+
+
+
+
+
+RUN groupadd --gid 1000 g10 && useradd --home-dir /home/g10 --create-home --uid 1000 --gid 1000 --shell /bin/bash --skel /dev/null g10
+
+
+Эта запись в Dockerfile используется для создания новой группы и пользователя в образе Docker. Давайте разберём каждую часть этой инструкции:
+
+1. RUN - это ключевое слово, которое указывает Docker на выполнение команды во время построения образа.
+   
+2. groupadd - это команда для создания новой группы. В данном случае, --gid 1000 указывает идентификатор группы, который равен 1000, и g10 является названием этой группы.
+
+3. useradd - это команда для создания нового пользователя. Здесь:
+   - --home-dir /home/g10 - устанавливает домашнюю директорию пользователя как /home/g10.
+   - --create-home - создаёт домашнюю директорию пользователя, если она не существует.
+   - --uid 1000 - устанавливает идентификатор пользователя как 1000.
+   - --gid 1000 - устанавливает идентификатор группы пользователя как 1000.
+   - --shell /bin/bash - указывает исполняемый оболочку пользователя как /bin/bash.
+   - --skel /dev/null - отключает использование шаблонной структуры домашней директории пользователя.
+
+Таким образом, данная запись в Dockerfile создаёт группу с именем g10 и идентификатором 1000, а затем создаёт пользователя с именем g10, домашней директорией /home/g10, идентификатором 1000, принадлежащего к созданной группе и использующего оболочку /bin/bash
 
