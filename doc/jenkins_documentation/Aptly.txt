@@ -36,6 +36,19 @@ ERROR: unable to publish: unable to process packages: error linking file to /REP
 для просмотра команд аптли с нестондартным конфигом 
 sudo aptly -config=./etc/aptly-ntrepo.conf repo remove ubuntu-18.04-devel  "ntmetrics2 (=2.11.3-b17)"
 
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+при использование скрипта mirror  перед скриптом выставляю DRYRUN=1  он покажет какие команды будут использованны
+DRYRUN=1 ./mirror-ubuntu.sh  create-ntupdate
+Укажите ОС: ubuntu2204    ubuntu2004    ubuntu1804
+./mirror-ubuntu.sh: line 130: OSNAME: bad array subscript
+aptly -config=./etc/aptly-mirror.conf repo create -architectures=x86 -distribution= -x86-ntupdate
+./mirror-ubuntu.sh: line 130: OSNAME: bad array subscript
+aptly -config=./etc/aptly-mirror.conf repo create -architectures=arm -distribution= -arm-ntupdate
+
+
+
 публикация смерженого снапшота в новый репо 
 
 добовляем глобалную переменную GNUPGHOME с путем до ключа 
@@ -52,8 +65,7 @@ aptly -config=./etc/aptly-mirror.conf publish list | grep 2004
 публикуем снапшот архитектура arm
 aptly -config=./etc/aptly-mirror.conf publish snapshot -gpg-key="35C973B37899FF01E608C2A23033181FBDDAED3C" -architectures=arm64,armhf -distribution=focal  ubuntu2004-arm-2024-02-08-1755 arm
 
-
-создание
+создание зеркала для докера
 aptly -config=./etc/aptly-mirror.conf mirror create -keyring=~/ntrepo/aptly/keys/docker.gpg   docker-2004-stable https://download.docker.com/linux/ubuntu focal stable
 
 про добалвнеие есть в конце файла info_docker.txt

@@ -138,6 +138,10 @@ Foreground- Это сервис, о котором пользователь ос
 Сборка образа из Dockerfile в текущей директории
 docker build -t image_name:tag .
 
+Вот как выполнить docker build из файла с нестандартным именем (например, CustomDockerfile):
+docker build -f CustomDockerfile -t your_image_name .
+
+
 Изменение имени образа или тэга
 docker tag old_image_name new_image_name
 
