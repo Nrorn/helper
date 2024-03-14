@@ -235,4 +235,28 @@ git config --global user.email "<email>"
 
 # определение комита по версии 
 # git show-ref --tags | grep \$VERSION | awk '{print \$1}' |  cut -b 1-7
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+покажет какие ветки есвть в удаленном репо 
+git ls-remote --heads e.sermyagin@192.168.55.245:/GIT/components/ntproto/tests
+4a8348e98e5bd895d493535dbe945de50c832a9f	refs/heads/12056_cr
+43e5d4d48b74a8402627de2d98d1224a7c2d53c7	refs/heads/13179_cr
+65725608a865523d063cf3a4903dad766930a000	refs/heads/13264_dev
+db56a2d500129b9f673c309160026e368988d7eb	refs/heads/14131_cr_for_new_repo
+6276c665e92897433f3064ded826f92bdd7636ba	refs/heads/CR_12513_upgrade_to_ntlog2
+417b38818409ae86acec519bdceca9bad70b2950	refs/heads/DEV_12128
+6c694a9af3acfa2dc66b0415d7fef8be1e56ae6f	refs/heads/DEV_12526
+daa1a90d677f2463bdc3e4e895f0492555adfcba	refs/heads/DEV_12527
+3e04f32cadba969d25c39e38687e4007e1aa07d0	refs/heads/master
+
+преключаемся на нужную ветку
+git checkout db56a2d500129b9f673c309160026e368988d7eb
+
+и делаем пулл 
+git pull tests refs/heads/14131_cr_for_new_repo
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+покажет head комита
+git rev-parse HEAD
+
+
 
