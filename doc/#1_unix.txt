@@ -1469,6 +1469,16 @@ https://habr.com/ru/articles/211751/
 копирование открытого ключа 
 ssh-copy-id aptly@192.168.55.245 с сервера для песорольного доступа к учетной записи aptly
 =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+как исправить ошибку 
+Err:9 https://pkg.jenkins.io/debian-stable binary/ Release.gpg       
+  The following signatures couldn't be verified because the public key is not available: NO_PUBKEY 5BA31D57EF5975CA
+ 
+ скопировать с сервера keyserver.ubuntu.com
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 5BA31D57EF5975CA
+
+
+sudo apt-key export 5BA31D57EF5975CA | sudo apt-key add -
+
 
 
 

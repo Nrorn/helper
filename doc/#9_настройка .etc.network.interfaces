@@ -1,0 +1,251 @@
+ss-мониторинг сети 
+traceroute-трасеровка 
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+#auto eth0
+#iface eth0 inet static
+#        address 192.168.55.2
+#        netmask 255.255.255.0
+#        gateway 192.168.55.254
+#        dns-nameservers 192.168.55.254
+auto net0
+ iface net0 inet static
+ address 172.52.*.*
+ netmask 16
+# gateway 172.52.*.*
+
+auto net0:1
+ iface net0:1 inet static
+ address 192.168.170.*
+ netmask 24
+
+
+auto net0:2
+ iface net0:2 inet static
+ address 192.168.180.*
+ netmask 24
+ 
+ 192.168.160.166
+
+
+
+если нет доступа по ssh к серверу првоерить Destination   
+						default   
+
+добавление временного route
+
+ip route add default via 192.168.1.1
+
+route
+
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+default         11.124.0.94     0.0.0.0         UG    0      0        0 net0
+10.10.10.0      0.0.0.0         255.255.255.0   U     0      0        0 net4
+11.124.0.80     0.0.0.0         255.255.255.240 U     0      0        0 net0
+192.168.140.0   0.0.0.0         255.255.255.0   U     0      0        0 net1
+192.168.150.0   0.0.0.0         255.255.255.0   U     0      0        0 net1
+
+
+
+
+Команда ip addr flush net0 удаляет все IP-адреса, настроенные на интерфейсе net0. Это означает, что все IP-адреса, включая виртуальные IP-адреса и адреса сетевых интерфейсов, будут удалены. 
+
+После выполнения этой команды интерфейс net0 не будет иметь никаких IP-адресов, и вы не сможете использовать его для сетевых соединений, пока не настроите новые IP-адреса на этом интерфейсе. 
+
+Обратите внимание, что выполнение этой команды может привести к потере сетевого соединения, если вы не настроили новые IP-адреса на интерфейсе net0. Поэтому, перед выполнением этой команды, убедитесь, что вы понимаете, что делает эта команда и какие последствия могут возникнуть.
+
+
+ip r
+sudo lshw -C net -businfo
+
+https://losst.ru/nastrojka-seti-netplan-v-ubuntu
+https://losst.ru/marshrutizatsiya-v-linux
+
+
+---
+network:
+  version: 2
+  ethernets:
+    net0:
+      addresses:
+      - 11.124.0.82/28
+      optional: true
+    net1:
+      addresses:
+      - 192.168.140.172/24
+      - 192.168.150.172/24
+      optional: true
+    net4:
+      addresses:
+      - 10.10.10.1/24
+      optional: true
+      
+      sudo netplan generate
+      
+      sudo netplan apply
+      
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+так же ifconfig может показать в апе link или нет 
+тут в апе!!!!RUNNING!!!!
+net0:2: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+
+тут не в апе !!!!нет RUNNING!!!!!!!
+net1:1: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+
+
+
+если не работает доступ с сервера на карты надо проверить если линк на интерфейсах(net1 net0)
+проверить это можно так 
+g10@g10:~$ sudo mii-tool -v net0
+[sudo] password for g10: 
+Sorry, try again.
+[sudo] password for g10: 
+SIOCGMIIREG on net0 failed: Invalid argument
+SIOCGMIIREG on net0 failed: Invalid argument
+SIOCGMIIREG on net0 failed: Invalid argument
+net0: 1000 Mbit, half duplex, link ok
+  product info: vendor 00:55:00, model 34 rev 1
+  basic mode:   10 Mbit, half duplex
+  basic status: link ok
+  capabilities:
+  advertising:  100baseTx-FD flow-control
+  link partner: 1000baseT-HD 1000baseT-FD 100baseTx-FD 100baseTx-HD 10baseT-FD 10baseT-HD flow-control
+  
+  !!!!!!!!!тут линка нет !!!!!!!!
+g10@g10:~$ sudo mii-tool -v net1
+SIOCGMIIREG on net1 failed: Invalid argument
+SIOCGMIIREG on net1 failed: Invalid argument
+SIOCGMIIREG on net1 failed: Invalid argument
+net1: 1000 Mbit, half duplex, no link
+  product info: vendor 00:55:00, model 34 rev 1
+  basic mode:   100 Mbit, half duplex
+  basic status: no link
+  capabilities:
+  advertising:  100baseTx-FD flow-control
+
+
+или проврить так
+
+g10@g10:~$  sudo ethtool net1
+Settings for net1:
+	Supported ports: [ TP ]
+	Supported link modes:   100baseT/Full 
+	                        1000baseT/Full 
+	                        10000baseT/Full 
+	Supported pause frame use: Symmetric
+	Supports auto-negotiation: Yes
+	Supported FEC modes: Not reported
+	Advertised link modes:  100baseT/Full 
+	                        1000baseT/Full 
+	                        10000baseT/Full 
+	Advertised pause frame use: Symmetric
+	Advertised auto-negotiation: Yes
+	Advertised FEC modes: Not reported
+	Speed: Unknown!
+	Duplex: Unknown! (255)
+	Port: Twisted Pair
+	PHYAD: 0
+	Transceiver: internal
+	Auto-negotiation: on
+	MDI-X: Unknown
+	Supports Wake-on: umbg
+	Wake-on: g
+	Current message level: 0x00000007 (7)
+			       drv probe link
+	Link detected: no
+
+
+
+ip a | grep -A 1 "enp0s3:" показывает статус интефйса up/down
+
+ip a = ifconfig -a (более подробный )4
+
+sudo ifconfig net14 down  выключить интерфейс
+
+sudo ifconfig  net0:22:(название подсети) 192.168.16.29 (ее адрсес)
+
+sudo ifconfig  net1:140: 192.168.140.11
+
+ временно создаем фиртуальную подсеть 
+
+
+ifconfig [NIC_NAME] Down/Up
+
+Как проверить драйвер сетевой карты и версию прошивки на Linux
+ ethtool -i net1
+ 
+ =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ 
+ 
+ Можно отключить в rc.local загрузку .G10.boot перезагрузить
+
+Получим нативные драйвера на интерфейсах
+
+После этого sudo ifconfig portname(net0) up 
+
+И смотрим линк
+
+
+
+
+net0: flags=4419<UP,BROADCAST,RUNNING,PROMISC,MULTICAST>  mtu 1500
+net5: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+
+У первого есть линк, у второго нет
+
+Но оба в апе должны быть
+
+
+ =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ 
+ Ubuntu 18.04 Возврат от netplan к ifupdown
+Для возврата от netplan к ifupdown необходимы следующие шаги:
+
+Редактировать эту секцию
+I. Установка пакета ifupdown:
+sudo su
+apt-get update
+apt-get install ifupdown
+
+Редактировать эту секцию
+II. Конфигурация файла /etc/network/interfaces:
+sudo nano /etc/network/interfaces
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet static
+  address 192.168.16.1
+  netmask 255.255.255.0
+  gateway 192.168.16.91
+Редактировать эту секцию
+III. Применить конфигурацию (перезагрузка не требуется):
+sudo su
+ifdown --force eth0 lo && ifup -a
+systemctl unmask networking
+systemctl enable networking
+systemctl restart networking
+
+Редактировать эту секцию
+IV. Отключение и удаление нежелательных служб:
+sudo su
+systemctl stop systemd-networkd.socket systemd-networkd \
+networkd-dispatcher systemd-networkd-wait-online
+systemctl disable systemd-networkd.socket systemd-networkd \
+networkd-dispatcher systemd-networkd-wait-online
+systemctl mask systemd-networkd.socket systemd-networkd \
+networkd-dispatcher systemd-networkd-wait-online
+apt-get --assume-yes purge nplan netplan.io
+ 
+
+
