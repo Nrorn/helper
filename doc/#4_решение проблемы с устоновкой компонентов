@@ -35,6 +35,23 @@ apt-cache depends ntmetrics2
 определяет версию 
 apt-cache policy nanoswitch
 
+- apt-cache policy: Сравнивает версии пакетов, указывая текущую конфигурацию APT.
+- apt-cache show: Показывает полные сведения о конкретном пакете.
+
+
+Проверяет пакет на сломанные зависмости 
+sudo apt-get check apache2
+
+
+как обновить конкретный пакет
+sudo apt install <package_name> --only-upgrade
+
+Как установить пакеты без обновления
+sudo apt install <package_name> --no-upgrade
+
+
+установка deb пакета силами apt
+sudo apt install ./google-chrome-stable_current_amd64.deb
 
 https://vds-admin.ru/linux/часто-используемые-команды-dpkg
 
