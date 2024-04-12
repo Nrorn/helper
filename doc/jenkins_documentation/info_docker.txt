@@ -88,10 +88,10 @@ RUN apt-get update && \
 добавляем в дерикрторию /etc/nginx/ докера, все что находиться в текущей дериктории 
 ADD . /etc/nginx/
 
-параметр EXPOSE 80 обозначет что контейнер по умолчанию будет открывать 80 порт. ENTRYPOINT запускает nginx (опция 'daemon off;' запускает nginx в форграунде, )
+параметр EXPOSE 80 обозначет что контейнер по умолчанию будет открывать 80 порт. 
 EXPOSE 80
 ENTRYPOINT nginx -g 'daemon off;'
-
+ENTRYPOINT запускает nginx (опция 'daemon off;' запускает nginx в форграунде, )
 !!!!!!!!!!!!!стало!!!!!!!!!!!!!
 
 FROM debian:jessie   
