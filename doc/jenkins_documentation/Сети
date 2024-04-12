@@ -2,13 +2,13 @@
 
 УРОВНИ				Протаколы				linux утилиты
 ___________________.________________________________________________.__________________________
-ПРИКЛАДНОЙ         |	dhcp,http,smtp,pop3,dns,ftp		| curl, wget
-ТРАНСПОРТНЫЙ	  |	tcp,udp					| ssh
-СЕТЕВОЙ		  |	IPv4,IPv6,ICMP,                    	| ping, traceroute
-КАНАЛЬНЫЙ	  |	MAC,Ethernet,Wi-fi			|
+ПРИКЛАДНОЙ         |	dhcp,http,smtp,pop3,dns,ftp,sftp		| curl, wget
+ТРАНСПОРТНЫЙ	  |	tcp,udp,tls				| ssh
+СЕТЕВОЙ		  |	IPv4,IPv6,ICMP,NAT                 	| ping, traceroute
+КАНАЛЬНЫЙ	  |	MAC,Ethernet,Wi-fi			| arp
 
 
-
+https://netacad.sadlab.su/itn-dl/3.3.4
 
 
 ПРИКЛАДНОЙ
@@ -21,6 +21,9 @@ curl (работает по FTP, FTPS, HTTP, HTTPS, TFTP, SCP, SFTP, Telnet, DIC
 https://losst.pro/kak-polzovatsya-curl
 wget (работает по HTTP, HTTPS и FTP) - онсольная программа для загрузки файлов по сети.
 https://losst.pro/komanda-wget-linux
+Ключевое отличие между этими командами заключается в том, что cURL получает код HTML и выводит его в STDOUT (т. е. в консоль), в то время как Wget скачивает HTML -файлы и сохраняет их на диск.
+
+
 
 
 
