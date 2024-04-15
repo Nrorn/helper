@@ -231,16 +231,30 @@ git config --global user.email "<email>"
 
 =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-#                git rev-list -n 1 v\$VERSION         
+git rev-list -n 1 
+приведет к выводу хеша (или идентификатора) последнего коммита в репозитории, поскольку мы просим вернуть только один коммит в обратном порядк
+
+        
 #                git rev-list origin/master
 #                git tag | grep ${VERSION} | sort 
 #                git tag --contains 0febca3
 
+git tag --list "v1.0*"
+git tag с опцией --list, позволяет фильтровать теги по шаблону
+
+
+git tag --points-at $HASH_COMMIT
+команда выводит теги, которые указывают непосредственно на указанный коммит
+
+git tag --contains $HASH_COMMIT
+выводит теги, которые содержат данный коммит в своей истории изменений.
+
 # накходит самы большое число после b
-#git tag --contains 0febca3d5845b34970681c57d3936f55fa4b428e | grep b | sort -t 'b' -nk2 | tail -1
+git tag --contains 0febca3d5845b34970681c57d3936f55fa4b428e | grep b | sort -t 'b' -nk2 | tail -1
+git tag --points-at $HASH_COMMIT --list "*-b*" --sort=-v:refname | head -n1 |  cut -d'-' -f2 | cut -d'd' -f2
 
 # определение комита по версии 
-# git show-ref --tags | grep \$VERSION | awk '{print \$1}' |  cut -b 1-7
+ git show-ref --tags | grep \$VERSION | awk '{print \$1}' |  cut -b 1-7
 =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 покажет какие ветки есвть в удаленном репо 

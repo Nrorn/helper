@@ -1,3 +1,73 @@
+Траблшутинг
+1 проверка свободного места на диске
+df -h
+df -sh 
+df -i
+1.1 проверка состояния диска 
+lsblk -покажет какие есть диски в системе
+smartctl -a /dev/sda
+1.2. проверка софтового рейд масива
+cat /proc/mdstat
+2 Нагрузка на процессор память и диски
+iostat-нагузка на диски
+iotop-покаывает кто пишет инфо на диск
+2.1 процессор 
+top/ htop 
+2.2 память
+vmstat
+free -m
+cat /proc/meminfo
+3 Процессы
+ps aux 
+показывает дерево процессов
+pstree  -g
+systemctl status git
+
+pgrep opera покажет pid 
+1242310
+ls -l /proc/1242310/fd -покажет все откртые файлы 
+
+покажет какие глобальные переменные использует процесс
+sudo cat /proc/914/environ 
+
+покажет где назодиться бинарный файл процсса 
+ls -hl /proc/1254728/exe
+lrwxrwxrwx 1 esermyagin esermyagin 0 апр 12 10:45 /proc/1254728/exe -> /home/esermyagin/Downloads/Postman/app/Postman
+
+покажет каакие устанволенны для этого рпиложения
+cat /proc/1254728/limits
+
+4 Сеть 
+arp-a используется для отображения и изменения таблиц преобразования IP-адресов в физические (MAC – адреса), используемые протоколом разрешения адресов (Address Resolution Protocol – ARP)
+netstat -napt
+ss -lntu -аналог netstat только встроенный
+ip a
+iconfig
+netstat -rn / ip r - покажет сетевые маршруты
+ping 8.8.8.8
+ping ya.ru -проверка рабоыт службы dns
+traceroute 8.8.8.8
+mtr - показывает маршутизацию в релаьном времяни
+dig - делает запрос к днс серверам
+curl -Lv https://etogeek.dev | head -50 - делает запрос на сайт https://etogeek.dev , в котором показывает по какому ip и на каком порту подключаемся
+curl -v telnet://127.0.0.1:22 проверка доступности удалнного порта 
+curl -I https://losst.pro Передача и анализ заголовков
+curl --unix-socket /run/docker.sock http://localhost/info - В этом примере curl делает HTTP GET-запрос к сокету Unix /run/docker.sock на локальном хосте, запрашивая информацию о Docker.
+https://sleeplessbeastie.eu/2021/12/13/how-to-query-docker-socket-using-curl/
+tcpdump -i any port 9100 -nn    -  i(на каких интерфейсах я хочу выполнить tcpdump) any(это все) на порту 9100 -nn(не переделывает ip в dns) 
+5-логи
+/var/log/syslog
+/var/log/auth.log
+/var/log/kern.log тот же dmesg
+journalctl -отобразит логи systemd(демонов запущеных systemctl)
+journalctl -xeu nginx
+
+
+sudo lsof /var/log/syslog покажет кто сейчас взаимодествует с этим файлом 
+https://habr.com/ru/companies/ruvds/articles/337934/
+
+
+
 =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 Регулярные выражения 
 . - любой одиночный символ
@@ -189,6 +259,13 @@ echo > ./serm/1;tail -F ~/rundir/g10.log | grep -E  --line-buffered 'crc|SYSTEM:
 
 удаляет все папки с названием unstable
 ls -d /var/lib/jenkins/workspace/${JOB_NAME}/repo-candidate/*/*/* | grep unstable | xargs rm -rf
+
+
+
+cat /home/admin/access.log | awk '{print $1}' | sort | uniq -c | sort -k1
+ uniq -c -рядом с уникальной стракой отобразит количестов повторений
+ sort -k1 -сортирует по первому столбцу
+ 
 
 
 =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=

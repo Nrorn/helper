@@ -139,6 +139,9 @@ lspci | grep -i net - показывает какие сетевые карты 
 	 
 	 отоброзит если что-то не так с оперативкой 
 	 sudo lshw -short | grep memory
+	 
+	 sudo lshw -short -C memory
+	 
 	sudo dmidecode --type memory
 	показывает разьем на матплате 
 	это проблеманя во 2 съемнике Locator: P2-DIMMB1
