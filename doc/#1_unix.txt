@@ -1433,7 +1433,7 @@ lrwxrwxrwx 1 root root 17 фев 21 22:28 jeson -> /home/user/jeson
 н
 Чтобы создать символическую ссылку в Linux, используйте команду ln. Для создания символической ссылки на каталог /home/user/jeson в каталоге /var/lib выполните следующую команду:
 ln -s /home/user/jeson /var/lib/jeson
-ln -s 
+
 
 Эта команда создаст символическую ссылку с именем jeson в каталоге /var/lib, которая будет указывать на каталог /home/user/jeson. При этом, если вы выполните команду ls -hl /var/lib/jeson, то увидите, что она указывает на /home/user/jeson.
 
