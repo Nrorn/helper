@@ -1,0 +1,51 @@
+Таблица features:
+title - наименование "преференции" (особенности)
+
+Таблица procedures:
+regNum - номер процедуры
+name - наименование процедуры
+placerId - id ОРГАНИЗАТОРА
+publicationDate - дата публикации
+active - флаг активности (1=true, 0=false)
+ 
+Таблица lot:
+number - номер лота по порядку
+procedureId - id процедуры
+name - наименование лота
+maxsum - начальная цена лота (старт с неё)
+active - флаг активности (1=true, 0=false)
+ 
+Таблица lotCustomer:
+lotId - id лота
+organizationId - id ЗАКАЗЧИКА
+active - флаг активности (1=true, 0=false)
+ 
+Таблица procedureFeature:
+procedureId - id процедуры
+featureId - id "преференции" (особенности)
+ 
+
+ 
+Таблица organization:
+name - наименование организации
+typeId - id типа организации 
+active - флаг активности (1=true, 0=false)
+ 
+Таблица organizationType:
+id
+title - наименование типа организации 
+(id=1 - заказчик,
+ id=2 - поставщик)
+ 
+Таблица request:
+lotId - id лота
+organizationId - id УЧАСТНИКА
+publicationDate - дата публикации заявки
+offer - цена
+active - флаг активности (1=true, 0=false)
+ 
+Таблица requestDocuments:
+requestId - id заявки
+name - наименование документа
+url - url файла
+

@@ -18,6 +18,7 @@ vmstat
 free -m
 cat /proc/meminfo
 3 Процессы
+ps -u $(whoami) -o pid=ID_process,user=User_Name,comm=Command
 ps aux 
 показывает дерево процессов
 pstree  -g
@@ -64,6 +65,10 @@ journalctl -xeu nginx
 
 
 sudo lsof /var/log/syslog покажет кто сейчас взаимодествует с этим файлом 
+К примеру, показать все TCP и UDP сокеты 
+lsof -i 
+Показать все TCP и UDP сокеты, связанные с адресом 192.168.1.5. 
+lsof -i@192.168.1.5 
 https://habr.com/ru/companies/ruvds/articles/337934/
 
 
