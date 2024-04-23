@@ -13,32 +13,90 @@
 1.  Список активных лотов с номерами процедур
  Номер процедуры Номер лота Наименование лота  Начальная цена
  
- Таблица procedures:
- regNum - номер процедуры
+
  
- Таблица lot:
-number - номер лота 
-name - наименование лота
-maxsum - начальная цена лота (старт с неё)
-active - флаг активности (1=true, 0=false)
- 
+SELECT
+    p.regNum AS 'Номер процедуры',
+    l.number AS 'Номер лота',
+    l.name AS 'Наименование лота',
+    l.maxsum AS 'Начальная цена'
+FROM procedures AS p JOIN lot AS l ON p.regNum = l.procedureId
+WHERE l.active = 1
+    AND p.active = 1;
+
+
 
 
 
 2. Список лотов с особенностью "Быстрая закупка"
  Номер процедуры Номер лота Наименование лота Особенность
+ 
+SELECT
+    p.regNum AS 'Номер процедуры',
+    l.number AS 'Номер лота',
+    l.name AS 'Наименование лота',
+    f.title AS 'Особенность'
+FROM procedures AS p JOIN lot AS l ON p.regNum = l.procedureId
+JOIN procedureFeature AS pf ON p.regNum = pf.procedureId
+JOIN features AS f ON pf.featureId = f.id
+WHERE f.title = 'Быстрая закупка';
+
 
 3. Список заказчиков активных процедур, созданных позднее 01.08.2021г.
  Номер процедуры  Дата публикации  Номер лота  Наименование организации
 
+SELECT
+    p.regNum AS 'Номер процедуры',
+    p.publicationDate AS 'Дата публикации',
+    l.number AS 'Номер лота',
+    o.name AS 'Наименование организации'
+FROM procedures AS p JOIN lot AS l ON p.regNum = l.procedureId
+JOIN lotCustomer AS lc ON l.number = lc.lotId
+JOIN organization AS o ON lc.organizationId = o.id
+WHERE
+    p.publicationDate > '2021-08-01'
+    AND p.active = 1
+    AND l.active = 1
+    AND lc.active = 1;
+
 4. Процедуры, в которых заказчиками выступают организации с типом "Участник"
 Номер процедуры
+
+SELECT 
+    p.regNum AS 'Номер процедуры'
+FROM procedures AS p JOIN lot AS l ON p.regNum = l.procedureId
+JOIN lotCustomer AS lc ON l.number = lc.lotId
+JOIN organization AS o ON lc.organizationId = o.id
+JOIN organizationType AS ot ON o.typeId = ot.id
+WHERE o.id=1	
+    ot.title = 'Участник';
 
 5. Все лоты с количеством заявок (сортировка по дате публикации процедуры)
  Номер процедуры Номер лота Наименование лота Количество заявок
 
+    
+SELECT p.regNum AS 'Номер процедуры', 
+       l.number AS 'Номер лота', 
+       l.name AS 'Наименование лота', 
+       COUNT(r.lotId) AS 'Количество заявок'
+FROM procedures AS p JOIN lot AS l ON p.regNum = l.procedureId
+  JOIN request AS r ON l.number = r.lotId
+ORDER BY p.publicationDate;    
+    
+
+
 6. Заявки без документов
  Номер процедуры Номер лота Номер заявки Наименование организации
+ 
+SELECT p.regNum AS 'Номер процедуры',
+       l.number AS 'Номер лота',
+       r.requestId AS 'Номер заявки',
+       o.name AS 'Наименование организации'
+FROM procedures AS p JOIN lot AS l ON p.regNum = l.procedureId
+ JOIN request AS r ON l.number = r.lotId
+ JOIN organization AS o ON r.organizationId = o.id
+ JOIN requestDocuments AS rd ON r.requestId = rd.requestId
+WHERE rd.requestId IS NULL;
  
 7. Победители по каждому лоту на текущий момент (минимальная предложенная цена)
 Номер процедуры Номер лота Наименование лота Id заявки Наименование организации Предложенная цена
