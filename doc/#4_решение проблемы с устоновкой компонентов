@@ -26,6 +26,13 @@ sudo -E apt-cache show dpdk-20
 sudo -E apt-cache show 
 sudo -E apt-cache show nanoswitch | grep Version
 
+sudo apt show ntpkt-collector1-player -a
+показывает в каких репо есть пакет
+
+
+Команда sudo apt-cache show получает информацию о пакете из локальной базы данных пакетов, которая находится в каталоге /var/lib/apt/lists.
+
+
 sudo -E apt search ntmetrics2
 
 покажет какие пакеты зависят 
