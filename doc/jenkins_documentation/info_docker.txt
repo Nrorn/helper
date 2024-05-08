@@ -265,7 +265,7 @@ https://telegra.ph/O-rabote-kontejnerov-v-celom-04-18
 				Namespace     |  	      CGroup
                                /      \	      |	     /     \
 			     /  \    /  \      | 	   /  \   /  \
-		         Pid  Net  Mnt User     |	CPU  Mem I/O Net
+		         Pid  Net  Mnt User     |	         CPU  Mem I/O Net
 		         		      |
 		         		     CoW  		
 2 ключиевые технолгие которые реализует собой контейнер это Namespace и CGroup
@@ -291,7 +291,7 @@ Namespace (NS)
     	- /tmp
     	- /sys и /proc
     * User NS - (нужно следить за правами, при создании контейнера, елси создается под руутом то и у процеса будут права рута)
-    	- Позволяет марить GiD/UiD
+    	- Позволяет шарить GiD/UiD
     	   - Можно смапить UiD 0 (root) в нерутовый UiD в хостовом NS
     	   
 CGroup 

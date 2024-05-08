@@ -34,7 +34,7 @@ FCS (Frame Check Sequences) – 4 байтное значение CRC испол
 УРОВНИ				Протаколы				linux утилиты
 ___________________.________________________________________________.__________________________
 ПРИКЛАДНОЙ        4|	dhcp,http,smtp,pop3,dns,ftp,sftp		| curl, wget,ssh
-ТРАНСПОРТНЫЙ	 3|	tcp,udp,sctp,tls,ssl				| ssh
+ТРАНСПОРТНЫЙ	 3|	tcp,udp,sctp,tls,ssl			| ssh
 СЕТЕВОЙ		 2|	IPv4,IPv6,ICMP,NAT,TTL                	| ping, traceroute
 КАНАЛЬНЫЙ	 1|	MAC,Ethernet,Wi-fi			| arp
 
