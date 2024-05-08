@@ -8,6 +8,8 @@ lsblk -покажет какие есть диски в системе
 smartctl -a /dev/sda
 1.2. проверка софтового рейд масива
 cat /proc/mdstat
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=
 2 Нагрузка на процессор память и диски
 iostat-нагузка на диски
 iotop-покаывает кто пишет инфо на диск
@@ -17,6 +19,8 @@ top/ htop
 vmstat
 free -m
 cat /proc/meminfo
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=
 3 Процессы
 ps -u $(whoami) -o pid=ID_process,user=User_Name,comm=Command
 ps aux 
@@ -38,12 +42,13 @@ lrwxrwxrwx 1 esermyagin esermyagin 0 апр 12 10:45 /proc/1254728/exe -> /home/
 покажет каакие устанволенны для этого рпиложения
 cat /proc/1254728/limits
 
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=
 4 Сеть 
 arp-a используется для отображения и изменения таблиц преобразования IP-адресов в физические (MAC – адреса), используемые протоколом разрешения адресов (Address Resolution Protocol – ARP)
 netstat -napt
 ss -lntu -аналог netstat только встроенный
 ip a
-iconfig
+ifconfig
 netstat -rn / ip r - покажет сетевые маршруты
 ping 8.8.8.8
 ping ya.ru -проверка рабоыт службы dns
@@ -56,6 +61,16 @@ curl -I https://losst.pro Передача и анализ заголовков
 curl --unix-socket /run/docker.sock http://localhost/info - В этом примере curl делает HTTP GET-запрос к сокету Unix /run/docker.sock на локальном хосте, запрашивая информацию о Docker.
 https://sleeplessbeastie.eu/2021/12/13/how-to-query-docker-socket-using-curl/
 tcpdump -i any port 9100 -nn    -  i(на каких интерфейсах я хочу выполнить tcpdump) any(это все) на порту 9100 -nn(не переделывает ip в dns) 
+
+проверка доступности порта на определенном ip 
+nc -zv 192.168.55.99 22
+Connection to 192.168.55.99 22 port [tcp/ssh] succeeded!
+
+
+host 2x2tv.ru 
+Отобразит соответствие доменному имени и ip адресу к которому он привязан
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=
 5-логи
 /var/log/syslog
 /var/log/auth.log
