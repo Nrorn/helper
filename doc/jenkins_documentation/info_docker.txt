@@ -287,6 +287,20 @@ docker inspect c7c37560fd28
 50000/tcp -> [::]:50000
 
 
+покажет выполняющиеся процессы
+docker top 70c813ce045c
+UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
+g10                 68117               68097               0                   15:43               ?                   00:00:00            /usr/bin/tini -- /usr/local/bin/jenkins.sh
+g10                 68161               68117               72                  15:43               ?                   00:00:54            java -Duser.home=/var/jenkins_home -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.lifecycle=hudson.lifecycle.ExitLifecycle -jar /usr/share/jenkins/jenkins.war
+
+Использование ресурсов
+docker stats 70c813ce045c
+
+CONTAINER ID   NAME        CPU %     MEM USAGE / LIMIT     MEM %     NET I/O           BLOCK I/O         PIDS
+70c813ce045c   ntjenkins   0.61%     1.862GiB / 15.48GiB   12.03%    3.06MB / 87.3kB   1.09MB / 6.32MB   61
+
+
+
 =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
