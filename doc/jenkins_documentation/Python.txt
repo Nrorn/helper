@@ -600,6 +600,28 @@ class Vehicle:
 pass это оператор-заглушка, равноценный отсутствию операции. Тут мы используем его потому что еще не указали атрибуты.
 !-!-!-!-!-!-!!-!-!-!-!-!-!
 
+Мы определяем классы с помощью оператора class - и все. Легко, правда?
+
+Объекты - это экземпляры класса. Мы создаем экземпляр, называя класс.
+
+car = Vehicle()
+print(car) # <__main__.Vehicle instance at 0x7fb1de6c2638>
+Здесь car - это объект (или экземпляр) класса Vehicle.
+
+
+Помните, что у нашего класса транспортных средств есть четыре атрибута: количество колес, тип бака, вместимость и максимальная скорость. Мы устанавливаем все эти атрибуты при создании объекта транспортного средства. Итак, здесь мы определяем наш класс для получения данных, когда он их инициирует:
+
+class Vehicle:
+    def __init__(self, number_of_wheels, type_of_tank, seating_capacity, maximum_velocity):
+        self.number_of_wheels = number_of_wheels
+        self.type_of_tank = type_of_tank
+        self.seating_capacity = seating_capacity
+        self.maximum_velocity = maximum_velocity	
+Метод __init__, который автоматически вызывается при создании объектов называется конструктором объектов класса
+Переменная self представляет текущий объект класса.
+
+
+
 
 
 https://wiki.merionet.ru/articles/rukovodstvo-po-izucheniyu-python-s-nulya-s-primerami/
