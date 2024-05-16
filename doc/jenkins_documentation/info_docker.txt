@@ -181,7 +181,7 @@ docker images
 
 
 	IV. Clean UP
-Удаление всех образов неиспользуемых контейнеров 
+Удаление всех имеджей неиспользуемых контейнеров 
 docker image prune -a 
 
 Удаление всех остановленых контейнеров
@@ -237,10 +237,69 @@ docker rmi $(docker images -q -f danling=true)
 Просмотр файла в контейере
 docker exec container_name cat /etc/config.conf
 
-Сначала нужно узнать идентификатор контейнера, который вы хотите открыть. Для этого выполните команду "docker ps", которая выведет список запущенных контейнеров. 
-Затем, используя идентификатор контейнера, выполните команду "docker exec -it <идентификатор_контейнера> /bin/bash". Эта команда откроет интерактивную оболочку внутри контейнера, которую можно использовать для выполнения команд внутри контейнера.
-
+получение доступ через консоль в контейнере
 sudo docker exec -it 636e66119c76 /bin/bash
+
+
+показывает все тома докер конетнера 
+docker volume ls
+DRIVER    VOLUME NAME
+local     jenkins-data
+local     jenkins-docker-certs
+local     vscode
+
+удалать тома докер конетенера
+docker volume rm jenkins-data
+
+покажет докер сети
+docker network ls
+NETWORK ID     NAME      DRIVER    SCOPE
+3c0705233be6   bridge    bridge    local
+55cdc0bc4ebe   host      host      local
+6c9e306c2e8a   jenkins   bridge    local
+58ed3bc3ba80   none      null      loca
+ 
+удалит докер сеть
+docker network rm 3c0705233be6
+
+покажет только то что можно в качетве аргументов docker это ключить -
+$(docker network ls -q)
+
+Обновление контейнера
+docker update --cpu-shares 512 -m 300M infinite
+
+Подключение к существующему контейнеру(показывает инфо) при 2. SIGINT (2) - Сигнал прерывания от клавиатуры (Ctrl+C).  выходит из контенера
+docker attach c7c37560fd28
+2024-05-15 12:37:54.787+0000 [id=40]	INFO	jenkins.InitReactorRunner$1#onAttained: Completed initialization
+2024-05-15 12:37:54.809+0000 [id=24]	INFO	hudson.lifecycle.Lifecycle#onReady: Jenkins is fully up and running
+
+2024-05-15 12:37:55.317+0000 [id=67]	INFO	h.m.DownloadService$Downloadable#load: Obtained the updated data file for hudson.tasks.Maven.MavenInstaller
+2024-05-15 12:37:55.318+0000 [id=67]	INFO	hudson.util.Retrier#start: Performed the action check updates server successfully at the attempt #1
+
+информация о конетнере
+docker inspect c7c37560fd28
+
+покажет какие порты используются 
+ docker port 70c813ce045c
+8080/tcp -> 0.0.0.0:8880
+8080/tcp -> [::]:8880
+50000/tcp -> 0.0.0.0:50000
+50000/tcp -> [::]:50000
+
+
+покажет выполняющиеся процессы
+docker top 70c813ce045c
+UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
+g10                 68117               68097               0                   15:43               ?                   00:00:00            /usr/bin/tini -- /usr/local/bin/jenkins.sh
+g10                 68161               68117               72                  15:43               ?                   00:00:54            java -Duser.home=/var/jenkins_home -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.lifecycle=hudson.lifecycle.ExitLifecycle -jar /usr/share/jenkins/jenkins.war
+
+Использование ресурсов
+docker stats 70c813ce045c
+
+CONTAINER ID   NAME        CPU %     MEM USAGE / LIMIT     MEM %     NET I/O           BLOCK I/O         PIDS
+70c813ce045c   ntjenkins   0.61%     1.862GiB / 15.48GiB   12.03%    3.06MB / 87.3kB   1.09MB / 6.32MB   61
+
+
 
 =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -263,7 +322,7 @@ https://telegra.ph/O-rabote-kontejnerov-v-celom-04-18
 					  Container
 					/     |       \
 				Namespace     |  	      CGroup
-                               /      \	      |	     /     \
+                                /      \	      |	              /     \
 			     /  \    /  \      | 	   /  \   /  \
 		         Pid  Net  Mnt User     |	         CPU  Mem I/O Net
 		         		      |
