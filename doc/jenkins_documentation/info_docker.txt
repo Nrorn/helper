@@ -439,45 +439,13 @@ CONTAINER ID   IMAGE                                   COMMAND                  
 sudo systemctl restart docker
 sudo systemctl status docker
 
-Потом docker rm 07b37d7cfe4d
-Потом docker rmi на 18 образ
-Потом старт сервису
-
-sudo systemctl stop docker
-Warning: Stopping docker.service, but it can still be activated by:
-  docker.socket
-  Не докер, сервис метрик
-
-удаляет образ докера с диска  
-sudo docker rm 2c3f5aa5ede9
-
-удаляет принудительно 
-sudo docker rmi b7e82467bd83 -f 
- 
-g10@ns3-01.573.gprs.arkhangelsk.komi.pskov.mts:~$ docker images -a |  grep ubuntu1804 
-192.168.55.242:443/metrics/ubuntu1804   latest     b7e82467bd83   15 months ago   773MB
-
-docker rmi  192.168.55.242:443/metrics/ubuntu1804 
-так ?
-
-Можно хеш он в строке по docker images
-
-
-docker rmi  192.168.55.242:443/metrics/ubuntu1804 
-
-
-
-
-
-
 =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 запускаем докер 
 docker run -it --rm --shm-size=10g --privileged --cap-add=ALL 192.168.55.242:443/18.04_amd64_git /bin/bash
 
 
-так же есть скрипт запука ima
-run_docker_container.sh
+так же есть скрипт запука run_docker_container.sh
 
 
 =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -509,89 +477,14 @@ docker run --privileged --rm -it --shm-size=10g --cap-add=ALL -v /home/esermyagi
 при указании атрибута --name можно назначить имя докеру 
 --name=test_jen
 
-
-
 =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 посмотреть логи запущеного контейнера 
 
 sudo docker logs gifted_bouman
 
-
 где gifted_bouman имя контейнера 
 =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-можно перенаправить исполнение команды в докере с помощью exec 
-имя контейнера gifted_bouman
-
-sudo docker exec gifted_bouman cat /etc/nginx/conf.d/default.conf
-
-=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-как в дженкинсе посмотреть на каком docker запускается билд на примере ntlog
-
-переходим 
-http://192.168.55.242:8080/job/ntlog/
-
-далее слева в разделе build history выбираем build master
-
-откроется 
-http://192.168.55.242:8080/job/ntlog/263/
-далее выбираем console Output
-слева от времяни пишется в каком докере выпонялся тест 
-пример
-[ubuntu 20.04 amd64 generic]
-
- docker images
-REPOSITORY                           TAG       IMAGE ID       CREATED         SIZE
-192.168.55.242:443/18.04_arm64       latest    bde294ac3cb8   11 days ago     1.43GB
-192.168.55.242:443/20.04_arm64       latest    421dc6b21862   11 days ago     1.47GB
-192.168.55.242:443/18.04_amd64       latest    5597607ef0f0   11 days ago     1.6GB
-192.168.55.242:443/20.04_amd64_git   latest    040e74dacb1b   11 days ago     1.71GB
-192.168.55.242:443/20.04_amd64       latest    6cb02acee5c3   11 days ago     1.66GB = [ubuntu 20.04 amd64 generic]
-192.168.55.242:443/20.04_armhf       latest    f78847d6a322   6 weeks ago     1.19GB
-192.168.55.242:443/18.04_armhf       latest    b382a350b934   5 months ago    1.1GB
-hello-world                          latest    feb5d9fea6a5   18 months ago   13.3kB
-=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-
-скрипт ./pull_docker_images.sh выкачивает доступные докеры
-
-=> docker pull 192.168.55.242:443/20.04_amd64:latest
-latest: Pulling from 20.04_amd64
-df6635ed1257: Already exists 
-43d161606acf: Already exists 
-d68fb55daf36: Already exists 
-f389d5f4af9c: Already exists 
-6cf27705cbcd: Already exists 
-d46bf32ae2a7: Already exists 
-1d16e40c352d: Already exists 
-62901d4552d4: Already exists 
-f2fab8de63a7: Already exists 
-0aa1664a5e4d: Already exists 
-63fad9e2ee51: Already exists 
-4799d06aa649: Already exists 
-dae60ca4075c: Already exists 
-50522ab9f626: Already exists 
-5597946983a5: Already exists 
-dbcbf3ae6d93: Already exists 
-6397b24ebf3e: Already exists 
-debbd728568f: Already exists 
-b66433727cfa: Already exists 
-181c45b52e18: Already exists 
-71b6cf89f168: Already exists 
-Digest: sha256:d43db81f97880c4ff9144ba06db8f3049bc700939fa2866f1030c5cf98e01387
-Status: Downloaded newer image for 192.168.55.242:443/20.04_amd64:latest
-192.168.55.242:443/20.04_amd64:latest
-
-
-=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-
- ./exec_docker_container.sh
-показывает к каким докерам можно подключиться 
-Select a number container to exec to it
-1: 2e7ccefbce5e   192.168.55.242:443/20.04_amd64_git   "/bin/bash"   2 hours ago   Up 2 hours             cool_gates
-> 
-необходимо указать номер докера 
-
-=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 docker network create --subnet 172.17.1.0/24 --gateway=172.17.1.1 --ip-range 172.17.1.0/24 --driver=bridge --label=ntpipe_test ntpipe_test
 docker run --rm -it -v /home/g10/asolomina/test_nt-pipe/tests/writer_reader_shm:/writer_reader_shm --name node1_nt-pipe --network ntpipe_test --ip=172.17.1.2 -w /writer_reader_shm ubuntu1804_nt-pipe_new
