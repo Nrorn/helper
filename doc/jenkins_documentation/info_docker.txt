@@ -250,6 +250,10 @@ local     jenkins-data
 local     jenkins-docker-certs
 local     vscode
 
+Copy files from container to local path
+
+ docker cp CONTAINER:/var/logs/ /tmp/app_logs
+
 удалать тома докер конетенера
 docker volume rm jenkins-data
 
@@ -300,6 +304,23 @@ docker stats 70c813ce045c
 
 CONTAINER ID   NAME        CPU %     MEM USAGE / LIMIT     MEM %     NET I/O           BLOCK I/O         PIDS
 70c813ce045c   ntjenkins   0.61%     1.862GiB / 15.48GiB   12.03%    3.06MB / 87.3kB   1.09MB / 6.32MB   61
+
+
+
+Перезагрузка
+
+docker restart nginx
+
+
+для полного переноса докер контейнера необзодимо сокпировать volume докер том
+
+  --volume jenkins-data:/var/jenkins_home \
+  
+docker cp 8a9d5399c5d4:/var/jenkins_home ./
+и распоковать его в туже дерикторию в новом контейнере
+  --volume jenkins-data:/var/jenkins_home \
+   -v /home/esermyagin/Desktop/123/script2/script/Jenkins/Docker_iso_whit_Jenkins/jenkins_home:/home/g10 \
+
 
 
 
