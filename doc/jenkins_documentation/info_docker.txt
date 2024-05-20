@@ -408,6 +408,28 @@ Storage Driver: overlay2
 для Ubuntu рекомендуется использовать Storage driver- AUFS 
 
 =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+https://habr.com/ru/companies/skillfactory/articles/547116/
+Если внимательно посмотреть на полученные результаты, можно заметить, что они весьма похожи на те, что мы уже наблюдали после применения команды mount, не находите?
+
+LowerDir: это каталог, в котором слои образа, доступные только для чтения, разделены двоеточиями.
+
+MergedDir: объединённое представление всех слоев образа и контейнера.
+
+UpperDir: слой для чтения и записи, на котором записываются изменения.
+
+WorkDir: рабочий каталог, используемый Linux OverlayFS для подготовки объединённого представления.
+
+docker inspect 192.168.55.245:5000/ubuntu2004_amd64:240307_Mellanox |jq .[0].GraphDriver
+{
+  "Data": {
+    "LowerDir": "/var/lib/docker/overlay2/9c0dce41d545a950b363160c4ae93ced6a165a38cae524d1e0f6ed59fe496da4/diff:/var/lib/docker/overlay2/6fd55ae7afd10a66c8cb6d87d440eaa7407ade78b8e8685e4212c50ee1b16e73/diff:/var/lib/docker/overlay2/5c60011357a35bb950ac035cbe1e7ca802431bd257fd4af82cf9ffdf531621ce/diff:/var/lib/docker/overlay2/58c895ba67063eb056d4095f131dc12172bfab12d0b9ac6b2391c46671e7c195/diff:/var/lib/docker/overlay2/3d0da25d16a64b4999f2becbc5b7592acc157a88f4c8769e297ad7ad5ff18b66/diff:/var/lib/docker/overlay2/2bff7f554aa0cea51d0fc8df5d248a380b473372e3ea240fcc7d0441cf287687/diff:/var/lib/docker/overlay2/8610e8f23d8f4c7dbb9da286dbea38b865bcafd12f0d7d66e6955827f0af9eaf/diff:/var/lib/docker/overlay2/d1ac4540fd5160815625f554d2f40652a97d4c35f23629053c013bcaaa6caca8/diff:/var/lib/docker/overlay2/62a3eb8c04439c829b16d572ab2805924c16abe5543ba8bdfa89678a9948556e/diff:/var/lib/docker/overlay2/5ddaec0efb76b7945b65be4ba4095016958244e15daee3817d7e49ad03554d98/diff:/var/lib/docker/overlay2/f8a5141d89be37ad2908015ff72612bc0e5c9761fff0cd0f3f684371b8e8ce00/diff:/var/lib/docker/overlay2/8cffdd62da0526f7dc7493e052ec2ad934c5dc0a384e5d816838cc1cfd1f193c/diff:/var/lib/docker/overlay2/3f04441d7ce8b2284426cbc211f289681d290805b2e7a5ac0d01e760ccbb74ff/diff:/var/lib/docker/overlay2/6f11e608afe5ef634d8e46d6de1db6a6d03f793af3a064264d4e8fa79d9f49d6/diff:/var/lib/docker/overlay2/8d60d5096a28a135fe1ace513b2200ab0d46df8ac760c01df79a454b74bd26d8/diff:/var/lib/docker/overlay2/d7c4c07a294677c436cd320f76e971ed1dfb1646775afdd5c4125528473737d9/diff:/var/lib/docker/overlay2/33d57761ce4861400ce203cfd934407e0f8057b409d46aa9f04b71d6dc8f9c99/diff:/var/lib/docker/overlay2/57da55b378d9b21e0845e29fe81b37b4c549fc9fd4f4d9f5ccefb2807a7a6bfa/diff:/var/lib/docker/overlay2/7c2e96d661d310c1cd0fd747d3008938d3bb30747afe132d9e0f4f831cac5067/diff:/var/lib/docker/overlay2/d17db9bf0be393f259209dd68afd89f4804c37ff6e36518775fcb4d69bb8674e/diff:/var/lib/docker/overlay2/d10c9f97b5fefc05e08bfe2eac07d143511334cec55218794d2a8b95bea8c7f9/diff",
+    "MergedDir": "/var/lib/docker/overlay2/43afc685c2312f9d08016fe71de619b144996668c373dde6d6493ea6c0819346/merged",
+    "UpperDir": "/var/lib/docker/overlay2/43afc685c2312f9d08016fe71de619b144996668c373dde6d6493ea6c0819346/diff",
+    "WorkDir": "/var/lib/docker/overlay2/43afc685c2312f9d08016fe71de619b144996668c373dde6d6493ea6c0819346/work"
+  },
+  "Name": "overlay2"
+}
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 http://192.168.55.245/redmine/projects/support/wiki/Настройка_тестового_стенда_и_включение_в_Jenkins_при_необходимости
 ибо подключить полный список необходимых репо либо переключиться на наши зеркала следующей командой:
 wget -qO - http://192.168.55.245/nt-repo/nt-repo-switch-to-mirror.sh -e use_proxy=yes | sudo -E bash;
