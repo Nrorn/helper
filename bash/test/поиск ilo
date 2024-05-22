@@ -1,0 +1,9 @@
+
+
+#!/bin/bash
+for var in 12 13 21 22 23 24 25 26 27 29 30 31 32 33 34 35 36 37 38 43 44 45 50 51 55 56 57 58 86 87 88 89 94 95 127 133
+do
+ipmitool -I lanplus -H 192.168.150.$i -A NONE -C 0 chassis power status;echo $var
+done
+
+нужно сделать исполняемым

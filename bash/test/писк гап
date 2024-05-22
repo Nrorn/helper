@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# первое
+filename=./dump
+    rm -rf ./dump
+    ls  *.dir0 >> ./dump
+    rm -rf  md5sum.log
+    rm -rf md5out
+    rm -rf t1
+    rm -rf dumpname
+
+for var in $(cat $filename)
+    do
+        md5sum "$var" >> md5sum.log
+    done
+cut -d' ' -f1 < md5sum.log|sort -u|
+while read line
+    do echo "${line} $(grep -F $line < md5sum.log|wc -l)" >> md5out
+done
+    sort -n md5out
+    touch dumpname
+    rm -rf dumpname
+# второе
+
+    ls -1 *.pcap > dumpnames
+    while read line;
+        do
+                ffn=${line};
+                fn=$(echo "${line}"|rev|cut -d'.' -f2-|rev);
+                [ ! -f "${fn}.flows_list.txt" ] && tshark -r "${ffn}" -z conv,tcp -q|tail -n +6|head -n -1|cut -d' ' -f1|cut -d':' -f2 > "${fn}.flows_list.txt" || echo "файл списка потоков ${fn}.flows_list.txt уже готов";
+                while read port;
+                        do
+                        echo "${port} -> ${fn}.${port}.pcap";
+                        [ ! -f "${fn}.${port}.pcap" ] && tshark -r "${ffn}" -2 -R "tcp.port == ${port}" -w "${fn}.${port}.pcap" || echo "файл ${fn}.${port}.pcap уже готов";
+                        [ ! -f "${fn}.${port}_ec.pcap" ] && editcap -F libpcap "${fn}.${port}.pcap" "${fn}.${port}_ec.pcap" ||  echo "файл ${fn}.${port}_ec.pcap уже готов";
+                        [ ! -f "${fn}.${port}_ec.GAP" ] && ~/sort_tcp "${fn}.${port}_ec.pcap" > "${fn}.${port}_ec.GAP" || echo "файл ${fn}.${port}_ec.GAP уже готов";
+                        grep -F 'GAP' "${fn}.${port}_ec.GAP"
+                        # удалить временные файлы
+                        rm -f "${fn}.${port}.pcap" "${fn}.${port}_ec.pcap"
+
+                done < "${fn}.flows_list.txt"
+
+
+    done < dumpnames
+
+# компот
+
+
+exit 0
+
