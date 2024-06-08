@@ -1,0 +1,341 @@
+#!/bin/bash
+
+if [[ ${OS_NAME} != "ubuntu" || ${OS_VERSION} != "20.04" || ${ARCH} != "amd64" || ${OPTIMIZATION} != "generic" ]]
+then
+	echo "Skipped this type of test because we haven't physical environment"
+    cat > $WORKSPACE/envs.cfg <<EOF
+RED="\e[31m"
+GREEN="\e[32m"
+RESET="\e[0m"
+
+global_result=0
+EOF
+    exit 0
+fi
+
+OS_VERSION_ARCH=${OS_VERSION}_${ARCH}
+NTIO_TEST_IMAGE=ntio_${OS_VERSION_ARCH}
+
+####################################### определения переменных теста ###########################
+# названия карт {snf,dpdk,octeon}
+CARD_FROM=`echo $label_exp | awk -F"_" '{print $1}'`
+CARD_TO=`echo $label_exp | awk -F"_" '{print $3}'`
+
+TEST_LIST=("$CARD_FROM=>$CARD_TO" "$CARD_FROM=>eth" "eth=>$CARD_TO" "eth=>eth")
+
+#/lib/modules/`uname -r`/
+DRIVER_SNF_PATH="kernel/drivers/net/ethernet/myricom/myri10ge/myri_snf.ko"
+DRIVER_DPDK_PATH="extra/dpdk/igb_uio.ko"
+
+eval DRIVER_FROM_PATH="\$DRIVER_${CARD_FROM^^}_PATH"
+eval DRIVER_TO_PATH="\$DRIVER_${CARD_TO^^}_PATH"
+
+# названия интерфейсов net[0-7] в выводе ip a | grep UP (до настройки драйверов)
+eval INTERFACE_FROM="\$INTERFACE_TO_${CARD_TO^^}"
+eval INTERFACE_TO="\$PAIR_${CARD_TO^^}_INTERFACE"
+
+eval PAIR_PCI_PATHS="\$PAIR_${CARD_TO^^}_PCI_PATHS"
+IFS=' ' read -r -a PCI_ARRAY_FROM <<< "$PCI_PATHS"
+IFS=' ' read -r -a PCI_ARRAY_TO <<< "$PAIR_PCI_PATHS"
+eval PORT_NUMBER_FROM="\$PORT_NUMBER_TO_${CARD_TO^^}"
+eval PORT_NUMBER_TO="\$PAIR_${CARD_TO^^}_PORT_NUMBER"
+export PCI_PATH_FROM=${PCI_ARRAY_FROM[$PORT_NUMBER_FROM]}
+export PCI_PATH_TO=${PCI_ARRAY_TO[$PORT_NUMBER_TO]}
+
+eval SERVER_TO_NAME="\$PAIR_${CARD_TO^^}_NODE"
+SERVER_FROM=`echo $NODE_NAME | awk -F"_" '{ print $1 }'`
+SERVER_TO=`echo $SERVER_TO_NAME | awk -F"_" '{ print $1 }'`
+TEST_PCAP="$WORKSPACE/dumps/test.pcap"
+NTIO_PCAP="$WORKSPACE/ntio-run.0.pcap"
+DOCKER_DIR="ntio_test"
+
+####################################### определения переменных теста ###########################
+# если значение global_result не соответствует 0, тест будет помечен как провалившийся
+TEST_DEPENDS=`echo ${TEST_DEPENDS} | sed 's|"||g' | sed 's|, | |g'`
+
+cat > $WORKSPACE/envs.cfg <<EOF
+TEST_LIST=${TEST_LIST[@]}
+
+WORKSPACE=$WORKSPACE
+COMPONENT=$COMPONENT
+
+OS_VERSION=$OS_VERSION
+PREFIX=$PREFIX
+ARCH=$ARCH
+
+CARD_FROM=$CARD_FROM
+CARD_TO=$CARD_TO
+
+DRIVER_FROM_PATH=$DRIVER_FROM_PATH
+DRIVER_TO_PATH=$DRIVER_TO_PATH
+
+SERVER_FROM=$SERVER_FROM
+SERVER_TO=$SERVER_TO
+
+INTERFACE_FROM=$INTERFACE_FROM
+INTERFACE_TO=$INTERFACE_TO
+
+PCI_PATHS="$PCI_PATHS"
+PAIR_PCI_PATHS="$PAIR_PCI_PATHS"
+
+PORT_NUMBER_FROM=$PORT_NUMBER_FROM
+PORT_NUMBER_TO=$PORT_NUMBER_TO
+
+PCI_PATH_FROM=$PCI_PATH_FROM
+PCI_PATH_TO=$PCI_PATH_TO
+
+TEST_PCAP=$TEST_PCAP
+NTIO_PCAP=$NTIO_PCAP
+
+OS_VERSION_ARCH=${OS_VERSION_ARCH}
+NTIO_TEST_IMAGE=$NTIO_TEST_IMAGE
+
+TEST_DEPENDS="$TEST_DEPENDS"
+
+RED="\e[31m"
+GREEN="\e[32m"
+RESET="\e[0m"
+
+global_result=0
+EOF
+
+function remove_drivers(){
+  sudo mv /lib/modules/`uname -r`/$DRIVER_FROM_PATH $WORKSPACE; ssh g10@$SERVER_TO "sudo mv /lib/modules/`uname -r`/$DRIVER_TO_PATH $WORKSPACE"
+  sudo ldconfig; ssh g10@$SERVER_TO "sudo ldconfig"
+}
+
+function return_drivers(){
+  sudo mv $WORKSPACE/`basename $DRIVER_FROM_PATH` /lib/modules/`uname -r`/`dirname $DRIVER_FROM_PATH`; ssh g10@$SERVER_TO "sudo mv $WORKSPACE/`basename $DRIVER_TO_PATH` /lib/modules/`uname -r`/`dirname $DRIVER_TO_PATH`"
+  sudo ldconfig; ssh g10@$SERVER_TO "sudo ldconfig"
+}
+
+function prepare_workspace(){
+    # удаляем старые артефакты log stats pcap
+	rm ntio-run.0.log ntio-run.0.stats ntio-run.0.pcap 2> /dev/null
+    ssh g10@$SERVER_TO "cd $WORKSPACE; rm ntio-run.0.log ntio-run.0.stats ntio-run.0.pcap 2> /dev/null"
+    
+    # убиваем docker процессы
+    if [ `docker ps -a -q | wc -l` -ne 0 ]; then docker stop `docker ps -a -q`; fi
+    if [ `ssh g10@$SERVER_TO "docker ps -a -q" | wc -l` -ne 0 ]; 
+    then 
+      pair_procs=$(ssh g10@$SERVER_TO "docker ps -a -q")
+      for pair_proc in $pair_procs;do ssh g10@$SERVER_TO "docker stop $pair_proc >/dev/null";done
+    fi
+    
+    # убиваем docker network
+    if [ `docker network ls --filter type=custom -q | wc -l` -ne 0 ]; then docker network rm `docker network ls --filter type=custom -q`; fi 
+    if [ `ssh g10@$SERVER_TO "docker network ls --filter type=custom -q" | wc -l` -ne 0 ]; 
+    then 
+      pair_nets=$(ssh g10@$SERVER_TO "docker network ls --filter type=custom -q")
+      for pair_net in $pair_nets;do ssh g10@$SERVER_TO "docker network rm $pair_net 2>&1 >/dev/null";done
+    fi
+    
+    # очищаем hugepages на строне dpdk
+    test "${TO}" = "dpdk" && ssh g10@$SERVER_TO "sudo ntio-dpdk-setup.sh -r #>/dev/null"
+    test "${FROM}" = "dpdk" && sudo ntio-dpdk-setup.sh -r #>/dev/null
+}
+
+# ожидает в качестве переменных пару $1 = (send|get) $2 = ($FROM|$TO)
+# возвращает конфиг send_$FROM.conf get_$TO.conf
+function prepare_conf(){
+    case $1 in
+    "send"|"get") DIR=$1 ;;
+    *) echo 'Unexpected value dir $1'; exit 1;;
+    esac
+
+    case $2 in
+    "snf"|"dpdk"|"octeon")
+        SRC=$2
+        CARD=$2
+        case $DIR in
+        "send")
+            PORT_NUMBER=$PORT_NUMBER_FROM
+            PCI_PATH=$PCI_PATH_FROM
+            MODE='tx'
+        ;;
+        "get")
+            PORT_NUMBER=$PORT_NUMBER_TO
+            PCI_PATH=$PCI_PATH_TO
+            MODE='rx'
+        ;;
+         esac
+    ;;
+    "eth")
+        SRC=$2
+        case $DIR in
+        "send")
+            cat generator/generator_tmp.cfg | sed -e "s|interface: |interface: $INTERFACE_FROM|; s|gen_pcap: |gen_pcap: /$DOCKER_DIR/dumps/test\.pcap 1000|" > generator/${DIR}_${FROM}.conf
+            cp generator/${DIR}_${FROM}.conf ${DIR}_${FROM}.conf
+        ;;
+        "get")
+            cat > ${DIR}_${SRC}.conf  <<EOF
+    ntio:
+    {
+        interfaces:{ pcap: { eth0: { name = "$INTERFACE_TO"; }; }; };
+        lib:{ pcap: { port0: { rx_cores = "0"; }; }; };
+    };
+EOF
+        ;;
+         esac
+    ;;
+    *)
+        echo 'Unexpected value src $2'
+        exit 1
+    ;;
+    esac
+
+if [[ "$SRC" != "eth" ]]
+then
+CFG=${DIR}_${CARD}
+
+cat > ${CFG}.conf <<EOF
+ntio:
+{
+    logger:
+    {
+        default = "info"
+        outputs:
+        {
+            stdout:
+            {
+                 type = "stdout"
+                 format = "{time} {time_usec} {module}.{name}: {msg}\n"
+            }
+        }
+    };
+    boot:
+    {
+        user = "g10";
+EOF
+case ${CARD} in
+  "snf") 
+    cat >> ${CFG}.conf <<EOF
+        ${CARD}:{ board_list = "$PORT_NUMBER"; };
+EOF
+   ;;
+  "dpdk") 
+    cat >> ${CFG}.conf <<EOF
+        ${CARD}:{ pci_paths = "$PCI_PATH"; };
+EOF
+    ;;
+esac
+cat >> ${CFG}.conf <<EOF
+    };
+    interfaces:
+    {
+EOF
+
+if [[ "$DIR" == "send" ]]
+then
+cat >> ${CFG}.conf <<EOF
+        pcap: { file1:  { name = "/$DOCKER_DIR/dumps/test.pcap"; speed = -1; }; };
+EOF
+fi
+case ${CARD} in
+  "snf") 
+    cat >> ${CFG}.conf <<EOF
+        ${CARD}:{ dataring_size = 960; };
+EOF
+   ;;
+esac
+cat >> ${CFG}.conf <<EOF
+    };
+    lib:
+    {
+EOF
+if [[ "$DIR" == "send" ]]
+then
+cat >> ${CFG}.conf <<EOF
+        pcap: { port1:  { rx_cores = "0"; }; };
+EOF
+fi
+cat >> ${CFG}.conf <<EOF
+        ${CARD}:{ ${MODE}_ports = "0"; ${MODE}_cores = "0"; };
+    };
+};
+EOF
+fi
+}
+
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TEST_DESCRIPTION=">|< IP CARD INTERFACE PORT_NUMBER PCI_PATH\n"
+TEST_DESCRIPTION+="<<< $SERVER_FROM $CARD_FROM $INTERFACE_FROM $PORT_NUMBER_FROM $PCI_PATH_FROM\n"
+TEST_DESCRIPTION+=">>> $SERVER_TO $CARD_TO $INTERFACE_TO $PORT_NUMBER_TO $PCI_PATH_TO\n"
+echo -e "\e[1m$TEST_DESCRIPTION\e[0m" | column -t
+
+ssh g10@$SERVER_TO "if [ ! -d $WORKSPACE ]; then mkdir -p $WORKSPACE; else cd $WORKSPACE; rm -rf *; fi"
+scp -r * g10@$SERVER_TO:$WORKSPACE/
+
+# образы нужно собрать на парных машинах
+echo "--- ssh g10@$SERVER_TO 'cd $WORKSPACE; ./build_docker_image_from_deb.sh' & ./build_docker_image_from_deb.sh ---"
+ssh g10@$SERVER_TO "cd $WORKSPACE; ./build_docker_image_from_deb.sh" & ./build_docker_image_from_deb.sh
+
+flag=0
+start_waiting_time=$(date +%s)
+stop_waiting_time=$(($start_waiting_time+300))
+
+echo 'Проверка готовности тестового образа (максимальное время ожидания 5 минут)'
+while [ "$flag" == "0" ]
+do
+
+q_img_send=`docker images | grep $NTIO_TEST_IMAGE | wc -l`
+q_img_get=`ssh g10@$SERVER_TO "docker images | grep $NTIO_TEST_IMAGE | wc -l"`
+current_time=$(date +%s)
+
+if [ "$stop_waiting_time" -gt "$current_time" ]
+then
+    if ! [[ "$q_img_send" == "$q_img_get" && "$q_img_get" == "1" ]]
+    then 
+        echo "sleep 30"
+        sleep 30
+    else
+        echo "Образ $NTIO_TEST_IMAGE готов на обоих исполнителях"
+        flag=1	
+    fi
+else
+    echo "Время ожидания истекло. Образ не собрался. q_img_send=$q_img_send; q_img_get:$q_img_get"
+    exit 1
+fi
+done
+
+################### запуск тестов #######################
+
+for TEST_NAME in ${TEST_LIST[@]}; do
+    echo "===================> $TEST_NAME <==================="
+    FROM=`echo $TEST_NAME | awk -F"=>" '{print $1}'`
+    TO=`echo $TEST_NAME | awk -F"=>" '{print $2}'`
+    
+    # подготовка рабочей области(удаление старых фалов с логами, статистикой, pcap); 
+    # формируем конфиги; отправляем конфиг get_${TO} на парный исполнитель
+    prepare_workspace
+    prepare_conf send ${FROM}
+    prepare_conf get ${TO}
+    scp get_${TO}.conf g10@$SERVER_TO:$WORKSPACE/
+    
+    # сам процесс приема-отправки
+    echo "==> ssh g10@$SERVER_TO 'docker run --name pair_executor --rm -i --privileged --tmpfs /dev/shm:exec,nosuid,nodev,relatime,size=2g -v /dev:/dev --cap-add=ALL --network='host' -v $WORKSPACE:/$DOCKER_DIR -w /$DOCKER_DIR $NTIO_TEST_IMAGE ./get.sh get_$TO.conf' & docker run --rm -i --privileged --tmpfs /dev/shm:exec,nosuid,nodev,relatime,size=2g --cap-add=ALL --network="host" -v /dev:/dev -v $WORKSPACE:/$DOCKER_DIR -w /$DOCKER_DIR $NTIO_TEST_IMAGE ./send.sh send_$FROM.conf <=="
+    ssh g10@$SERVER_TO "docker run --name pair_executor \
+                        --rm -i --privileged --cap-add=ALL --network=host \
+                        --tmpfs /dev/shm:exec,nosuid,nodev,relatime,size=2g \
+                        -v /dev:/dev \
+                        -v $WORKSPACE:/$DOCKER_DIR -w /$DOCKER_DIR \
+                        $NTIO_TEST_IMAGE ./get.sh get_$TO.conf" & \
+                        docker run \
+                        --rm -i --privileged --cap-add=ALL --network=host \
+                        --tmpfs /dev/shm:exec,nosuid,nodev,relatime,size=2g \
+                        -v /dev:/dev \
+                        -v $WORKSPACE:/$DOCKER_DIR -w /$DOCKER_DIR \
+                        $NTIO_TEST_IMAGE ./send.sh send_$FROM.conf
+    
+    # останавливаем получателя
+    ntio_procs=$(ssh g10@$SERVER_TO "docker exec -i pair_executor pgrep ntio")
+    for pr in $ntio_procs;do ssh g10@$SERVER_TO "docker exec -i pair_executor kill -s INT $pr";done
+    
+    # проверяем результат, обновляем global_result
+    ./check_result.sh ${FROM} ${TO}   
+    
+done
+
+# проверка общего результата осуществляется на следующем шаге 
+# (поскольку перед выводом статуса сборки надо осводобить парного исполнителя для следующего теста)
+#exit `cat envs.cfg | grep global_result | sed 's/\(global_result=\)\(.*\)/\2/g'`

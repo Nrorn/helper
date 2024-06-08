@@ -90,7 +90,7 @@ function remove_snapshot_scandidat
 {
     for REPO in $REPOS; do 
         stable_snapshot=$(Do $APTLY snapshot list | grep $(date +%Y-%m-01) | grep ubuntu-$REPO-stable | cut -d "]" -f 1  | cut -d "[" -f 2  | awk 'FNR>1')
-#для вычищения нечести   stable_snapshot=$(Do $APTLY snapshot list |  grep ubuntu-$REPO-stable-2024-05-20 |  cut -d "]" -f 1  | cut -d "[" -f 2   ) 
+#для вычищения нечести  stable_snapshot=$(Do $APTLY snapshot list | grep -v "ubuntu-$REPO-stable-2024-05-01-1111"  | grep $REPO | cut -d "]" -f 1  | cut -d "[" -f 2 ) 
         scandidat_snapshot=$(Do $APTLY  snapshot list | cut -d ":" -f1 | grep ubuntu-$REPO-scandidat | cut -d "]" -f 1  | cut -d "[" -f 2)
         #удаляем stable_snapshot
         if [[ -n $stable_snapshot ]]; then
@@ -108,6 +108,14 @@ function remove_snapshot_scandidat
      done
 }
 
+function remove_old_version_packages
+{
+
+    source ./variables
+    echo $OLD_NUMBER_Z
+#    из баз ubuntu-$REPO-devel
+    #aptly repo remove <name> <package-query>
+}
 
 while [[ "$#" -gt 0 ]]; do
 #    OS=$2
@@ -119,9 +127,13 @@ while [[ "$#" -gt 0 ]]; do
             create_stable_snapshot
             exit 0 ;;
 
-         remove-snapshot-scandidat)
+        remove-snapshot-scandidat)
             remove_snapshot_scandidat
-            exit 0 ;;    
+            exit 0 ;;
+
+        remove-old-version-packages)
+            remove_old_version_packages
+            exit 0 ;;        
 
         add-devel-packets-in-stable)
             add_devel_packets_in_stable
