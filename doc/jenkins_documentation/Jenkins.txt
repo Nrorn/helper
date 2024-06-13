@@ -1,5 +1,6 @@
 запуск сборки через консоль
-curl "http://192.168.55.242:8880/job/ntdevel/buildWithParameters?token=build-123&ACTION=build&BRANCH=master"
+ curl "http://192.168.55.242:8880/job/ntdevel/buildWithParameters?tok
+en=build-123&ACTION=Релизная%20сборка" -o /dev/null
 
 
 =-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=

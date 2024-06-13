@@ -158,6 +158,7 @@ aptly snapshot create 20.04-stable-dev-2023-07-17 from repo 20.04-stable-dev
  20.04-stable-dev-2023-11-02 
  18.04-stable-dev-2023-11-02 
 
+18.04-stable-dev-2024-05-15.p4
 
 III.
 делаю пул 
