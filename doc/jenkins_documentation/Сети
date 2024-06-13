@@ -33,11 +33,22 @@ FCS (Frame Check Sequences) – 4 байтное значение CRC испол
 модель TCP/IP
 УРОВНИ				Протаколы				linux утилиты
 ___________________.________________________________________________.__________________________
+<<<<<<< HEAD
 ПРИКЛАДНОЙ        4|	dhcp,http,smtp,pop3,dns,ftp,sftp		| curl, wget,ssh, (nslookup,host,dig)
 ТРАНСПОРТНЫЙ	  3|	tcp,udp,sctp,tls,ssl		 		| ssh
 СЕТЕВОЙ		  2|	IPv4,IPv6,ICMP,NAT,TTL                  	| ping, traceroute
 КАНАЛЬНЫЙ	  1|	MAC,Ethernet,Wi-fi		         	| arp
 
+=======
+ПРИКЛАДНОЙ        4|	dhcp,http,smtp,pop3,dns,ftp,sftp		| curl, wget,ssh
+ТРАНСПОРТНЫЙ	  3|	tcp,udp,sctp,tls,ssl		 		      | ssh
+СЕТЕВОЙ		  2|	IPv4,IPv6,ICMP,NAT,TTL               	| ping, traceroute
+КАНАЛЬНЫЙ	  1|	MAC,Ethernet,Wi-fi		             	| arp
+ТРАНСПОРТНЫЙ	 3|	tcp,udp,sctp,tls,ssl		          	| ssh
+СЕТЕВОЙ		 2|	IPv4,IPv6,ICMP,NAT,TTL                	| ping, traceroute
+КАНАЛЬНЫЙ	 1|	MAC,Ethernet,Wi-fi			            | arp
+>>>>>>> 6407eedb5cb07131bb092500935e88cfa1ec922d
+>>>>>>> fdc5ab46c79463a433285890498daf42d9d4fd52
 
 
 https://netacad.sadlab.su/itn-dl/3.3.4

@@ -1,0 +1,141 @@
+VENDOR=nt
+ifdef vendor
+    VENDOR=${vendor}
+endif
+
+PREFIX=/opt/${VENDOR}
+ifdef prefix
+    PREFIX=${prefix}
+endif
+
+include ${PREFIX}/lib/cmake/nt.mk
+
+
+make — это утилита автоматизации сборки проектов, часто используемая для компиляции программ из исходного кода, управления зависимостями и выполнения других задач, связанных с построением и развертыванием программного обеспечения. Основным компонентом make является файл, именуемый Makefile, который содержит правила для выполнения различных задач.
+
+Вот основные шаги и примеры работы с make:
+
+### 1. Установка make
+make зачастую предустановлен на большинстве UNIX-подобных систем, таких как Linux и macOS. Для Windows вы можете установить make через программы вроде MSYS2 или Cygwin.
+
+### 2. Создание Makefile
+
+#### Пример простого Makefile:
+
+makefile
+
+# Переменные
+CC = gcc
+CFLAGS = -Wall -g
+
+# Цель по умолчанию
+all: main
+
+# Компиляция main из main.o
+main: main.o
+ $(CC) $(CFLAGS) -o main main.o
+
+# Компиляция main.o из main.c
+main.o: main.c
+ $(CC) $(CFLAGS) -c main.c
+
+# Очистка всех скомпилированных файлов
+clean:
+ rm -f main main.o
+
+### 3. Основные понятия Makefile
+
+1. Цели (Targets):
+   - В примере main, main.o и clean — это цели.
+
+2. Команды (Commands):
+   - Они должны начинаться с символа табуляции (\t). Пример: $(CC) $(CFLAGS) -o main main.o.
+
+3. Переменные:
+   - Переменные позволяют избежать жестко закодированных значений. Пример: CC = gcc, CFLAGS = -Wall -g.
+
+4. Зависимости (Dependencies):
+   - Указывают, от чего зависит цель. Например, цель main зависит от main.o.
+
+### 4. Использование make
+
+- Сборка проекта:
+
+  
+Shell
+
+  make
+  
+
+  Выполнит первую цель из Makefile, в данном случае это all, которая зависит от main.
+
+- Очистка:
+
+  
+Shell
+
+  make clean
+  
+
+  Удалит все скомпилированные файлы, если определена цель clean.
+
+### 5. Пошаговый пример
+
+1. Создайте файл main.c с простым кодом:
+
+   
+C
+
+   #include <stdio.h>
+
+   int main() {
+       printf("Hello, World!\n");
+       return 0;
+   }
+   
+
+2. Создайте Makefile:
+
+   
+makefile
+
+   CC = gcc
+   CFLAGS = -Wall -g
+
+   all: main
+
+   main: main.o
+       $(CC) $(CFLAGS) -o main main.o
+
+   main.o: main.c
+       $(CC) $(CFLAGS) -c main.c
+
+   clean:
+       rm -f main main.o
+   
+
+3. Скомпилируйте проект:
+
+   
+Shell
+
+   make
+   
+
+4. Запустите программу:
+
+   
+Shell
+
+   ./main
+   
+
+5. Очистите временные файлы:
+
+   
+Shell
+
+   make clean
+   
+
+Этот простейший пример демонстрирует основы работы с make. Makefile может быть значительно сложнее и функциональнее для более крупных проектов.

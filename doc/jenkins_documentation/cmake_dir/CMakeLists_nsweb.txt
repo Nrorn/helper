@@ -1,0 +1,207 @@
+project(nanoswitch-web)
+
+cmake_minimum_required(VERSION 3.16)
+
+set(CMAKE_MODULE_PATH ${NT_PREFIX}/lib/cmake)
+
+########### Костыль для исправления названия пакета и его частей (A. Bykov) #################
+# Не требуется при использовании ntdevel2.
+# set(NT_PACKAGE_NAME "nanoswitch-web")
+#############################################################################################
+
+include(nt)
+set(BUILD_DONE ${CMAKE_CURRENT_BINARY_DIR}/BUILD_DONE)    # служебные переменная и цель
+add_custom_target(custom_build ALL DEPENDS ${BUILD_DONE})
+
+######################################## сборка ############################################
+# Назначаю скрипт для сборки. Скрипт выполняет весь процесс сборки и расскаладывания по *локальным* директориям
+# результирующих файлов и бинарей. Инсталяция выполняется средствами cmake
+# set(BUILD_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/build.sh --install_prefix ${CMAKE_CURRENT_BINARY_DIR}")
+set(BUILD_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/build.sh --install_prefix ${CMAKE_CURRENT_BINARY_DIR}/release)
+
+set(REBUILD_IF_CHANGED *) # см. об использовани ниже
+
+add_custom_command(
+    COMMAND bash ${BUILD_SCRIPT}                        # команда для выполнения сборки
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"     # директория в которой будет запущен скприт. Относительные пути в скрипте прописывать относительн
+о это директории
+    DEPENDS ${REBUILD_IF_CHANGED}                       # тут указываю файлы обновление которых должно приводить к пересборке проекта (чтобы вызывался не
+ на каждый вызов make)
+    COMMAND ${CMAKE_COMMAND} -E touch ${BUILD_DONE}     # служебный файл, нужен для удовлетворения зависимостей
+    OUTPUT ${BUILD_DONE}                                # служебная строка
+)
+##############################################################################################
+
+################# Костыль для переименовывания результ-х пакетов (A. Bykov) ###################
+# Связан с результатами работы nt.tar_postprocess.cmake. Вероятно, не нужен.
+# Тем не менее, иллюстрирует пример вызова произвольного скрипта уже после выполнения цели ntpackage.
+# add_custom_command(
+#    COMMAND bash renamePackages.sh
+#    WORKING_DIRECTORY "${CPACK_PACKAGE_DIRECTORY}"
+#    TARGET ntpackage
+# )
+##############################################################################################
+
+install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/release/"
+        DESTINATION lib/nanoswitch-web
+        PATTERN cpack_root EXCLUDE)
+
+set(NTEXAMPLE_MAINTAINER "Andrey Bykov <a.bykov@norsi-trans.ru>")
+nt_setup_pkgs(MAINTAINER ${NTEXAMPLE_MAINTAINER})
+
+nt_add_pkg(
+    GROUP_NAME  DEFAULT
+    PACKAGE_NAME   "nanoswitch-web"
+    DESCRIPTION   "NanoSwitch Web Interface"
+    FOLDER_SUFFIX "nanoswitch-web"
+    DEPENDS     "mysql-client, mysql-server, apache2, apache2-utils, php7.2-cli, libapache2-mod-php7.2, php7.2-common, php7.2-json, php7.2-readline, php7
+.2-xml, php7.2-mbstring, php7.2-mysql, redis, ntmetrics-web1"
+    POSTINST    ${CMAKE_CURRENT_SOURCE_DIR}/scripts/postinst.sh
+    PRERM       ${CMAKE_CURRENT_SOURCE_DIR}/scripts/prerm.sh
+)
+nt_run_pack()
+
+CMake — это кросс-платформенная утилита для управления сборкой, предназначенная для автоматизации процесса компиляции, тестирования и установки программного обеспечения. В отличие от make, который использует Makefile, CMake использует файл CMakeLists.txt для конфигурации проектов. CMake может генерировать Makefile или проекты для различных систем сборки, таких как Ninja, Visual Studio и другие.
+
+### Установка CMake
+CMake доступен для Windows, macOS и Linux.
+
+- На Ubuntu/Linux:
+  
+Shell
+
+  sudo apt-get install cmake
+  
+
+- На macOS:
+  
+Shell
+
+  brew install cmake
+  
+
+- На Windows:
+  Скачайте и установите CMake с официального сайта: [CMake Download](https://cmake.org/download/).
+
+### Основные шаги работы с CMake
+
+1. Создание исходного файла.
+2. Создание файла CMakeLists.txt.
+3. Сборка проекта с помощью CMake.
+4. Запуск скомпилированной программы.
+
+### Пошаговый пример
+
+#### 1. Создание исходного файла
+
+Создайте файл main.cpp с простым кодом:
+
+C++
+
+#include <iostream>
+
+int main() {
+    std::cout << "Hello, World!" << std::endl;
+    return 0;
+}
+
+#### 2. Создание файла CMakeLists.txt
+
+Создайте файл CMakeLists.txt в директории с вашим исходным кодом:
+
+cmake
+
+cmake_minimum_required(VERSION 3.10)
+project(HelloWorld)
+
+# Указываем стандарт C++
+set(CMAKE_CXX_STANDARD 11)
+
+# Добавляем исполняемый файл
+add_executable(hello main.cpp)
+
+#### 3. Сборка проекта
+
+Создайте отдельную директорию для сборки (это поможет избежать загрязнения исходного кода скомпилированными файлами):
+
+Shell
+
+mkdir build
+cd build
+cmake ..
+make
+
+Что здесь происходит:
+- mkdir build: создание отдельной директории для сборки.
+- cd build: переход в директорию сборки.
+- cmake ..: вызов CMake для генерации Makefile в директории build на основе CMakeLists.txt, который находится в родительской директории.
+- make: запуск процесса сборки сгенерированного Makefile.
+
+#### 4. Запуск скомпилированной программы
+
+После того как сборка завершена, в директории build должен появиться исполняемый файл. Для вышеописанного примера это будет файл hello:
+
+Shell
+
+./hello
+
+### Дополнительные возможности CMake
+
+#### 1. Добавление нескольких исходных файлов
+
+Если у вас несколько исходных файлов, вы можете добавить их в CMakeLists.txt, например:
+
+cmake
+
+add_executable(hello main.cpp another.cpp)
+
+#### 2. Добавление библиотек
+
+Если ваше приложение использует библиотеки, вы можете указать это в CMakeLists.txt. Например, для использования библиотеки Boost:
+
+cmake
+
+find_package(Boost REQUIRED)
+
+if(Boost_FOUND)
+    include_directories(${Boost_INCLUDE_DIRS})
+    add_executable(hello main.cpp)
+    target_link_libraries(hello ${Boost_LIBRARIES})
+endif()
+
+#### 3. Установка скомпилированной программы
+
+Можно указать правила установки для вашей программы с помощью команды install:
+
+cmake
+
+install(TARGETS hello RUNTIME DESTINATION bin)
+
+Чтобы выполнить установку, используйте команду:
+
+Shell
+
+make install
+
+#### 4. Настройка конфигурации сборки (Debug/Release)
+
+Вы можете указать тип сборки, например Debug или Release:
+
+Shell
+
+cmake -DCMAKE_BUILD_TYPE=Release ..
+
+Этот подход позволяет вам управлять процессом сборки, тестирования и установки вашего программного обеспечения на различных платформах. CMake очень гибок и удобен для использования как в небольших, так и в больших проектах.
+
+
+
+
+
+
+
+
+
+
+
+
+

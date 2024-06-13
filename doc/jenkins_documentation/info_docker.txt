@@ -477,6 +477,8 @@ REPOSITORY                              TAG        IMAGE ID       CREATED       
 показывает что стартует
 docker ps
 sudo docker ps -a
+покажет id контейнера отфильтрованного по имени контенера
+docker ps -qf "name=ntjenkins"
 
 CONTAINER ID   IMAGE                                   COMMAND                  CREATED        STATUS                  PORTS                                                                                                                                                                                                   NAMES
 2c3f5aa5ede9   192.168.55.242:443/metrics/ubuntu1804   "/bin/bash -c 'sourc…"   6 months ago   Up Less than a second   0.0.0.0:2003->2003/tcp, :::2003->2003/tcp, 0.0.0.0:2023-2024->2023-2024/tcp, :::2023-2024->2023-2024/tcp, 127.0.0.1:8081->80/tcp, 0.0.0.0:29161->161/udp, :::29161->161/udp, 127.0.0.1:8082->3000/tcp   ntmetrics
