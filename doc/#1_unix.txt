@@ -599,8 +599,15 @@ rpm запросы
 	Лучше использовать ы
 		sudo gpasswd -a 
      	sudo gpasswd -a e.sermyagin ntdevel-rw
+     	usermod -G имя_группы  имя_пользователя 
      	
-     		usermod -G имя_группы  имя_пользователя 
+     	sudo groupadd docker
+		sudo usermod -aG docker $USER
+
+     	Или выполните команду для обновления текущей сессии:
+		newgrp docker
+
+
 		
  	sudo usermod -aG sudo (имя пользователя) проверка прав пользователя на sudo
   	sudo -l -U (имя пользователя) проверка прав пользователя через просмотр групп 
@@ -1526,6 +1533,12 @@ https://itproffi.ru/komanda-fdisk-upravleniya-razdelami-zhyostkogo-diska/
      ```
 
 Теперь у вас должен быть новый раздел, отформатированный и готовый к использованию на вашей системе Ubuntu. 
+
+
+
+  			=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Описание работы системы LVM - Logical Volume Management в Linux. 
+https://www.youtube.com/watch?v=m8Wzp_tETII
  
  
   			=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=

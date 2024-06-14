@@ -785,3 +785,19 @@ RUN groupadd --gid 1000 g10 && useradd --home-dir /home/g10 --create-home --uid 
 
 Таким образом, данная запись в Dockerfile создаёт группу с именем g10 и идентификатором 1000, а затем создаёт пользователя с именем g10, домашней директорией /home/g10, идентификатором 1000, принадлежащего к созданной группе и использующего оболочку /bin/bash
 
+
+
+
+
+=-=-=-=-=-=-=-=-=--=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+когда не пояаляется доп докер реджестри 
+Insecure Registries:
+  127.0.0.0/8
+
+
+sudo systemctl stop docker.socket 
+sudo systemctl stop docker
+sudo rm /var/run/docker.pid
+sudo systemctl start docker
+
+sudo dockerd --config-file /etc/docker/daemon.json
