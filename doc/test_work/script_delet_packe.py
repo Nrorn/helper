@@ -23,17 +23,16 @@ command = sys.argv[1]
 # check=True - если мы хотим обрабоать ошибки
 
 #Конструкция try-except отсутствует.
-try:
-    result = subprocess.run(command, shell=True, capture_output=True, text=True, check=True)
-except subprocess.CalledProcessError as e:
-    print(f"Ошибка команды {e.cmd}!")
+result = subprocess.run(command, shell=True, capture_output=True, text=True, check=True)
+
+    
 
 # Выводим результат выполнения команды
 #мы использовали переменную result для ссылки на объект CompletedProcess, возвращаемый функцией run
 #как альтернативу можно использовать- print(result.stdout)
-    print("Output:\n", result.stdout)
+print("Output:\n", result.stdout)
 #выведет ошибки если они появяться при выполнении скрипта
 #./script_delet_packe.py "ls -hl | grep 1231411.py |ышы"  #Error: /bin/sh: 1: ышы: not found
-#print("Error:\n", result.stderr)
+print("Error:\n", result.stderr)
 
 
