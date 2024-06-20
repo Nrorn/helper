@@ -77,6 +77,8 @@ tcpdump -i any port 9100 -nn    -  i(на каких интерфейсах я �
 nc -zv 192.168.55.99 22
 Connection to 192.168.55.99 22 port [tcp/ssh] succeeded!
 
+показывает настройки DNS
+sudo systemd-resolve --flush-caches
 
 nmap -v -sC -sV 192.168.55.98 -oN ./scan
 
